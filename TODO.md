@@ -15,7 +15,7 @@
 > **🚨 STRATEJİK KARAR VE YENİ SOHBET DEVİR-TESLİM NOTU (2026-11-09 — NerveDispatch):**
 > - **Hedef Konum:** `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/`
 > - **Master Mimari ve Geçiş Planı:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md) (ve [`docs/YENI-MIMARI-VE-BIRLESME-PLANI.md`](./docs/YENI-MIMARI-VE-BIRLESME-PLANI.md))
-> - **Evrim Hikayesi:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/CHIMERA-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/CHIMERA-THE-STORY.md)
+> - **Evrim Hikayesi:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md)
 > - **Sıradaki İlk Adım (FAZ 1):** Eski iki repoda (`whatsapp-bridge-mcp` ve `whatsapp-tetikleyici`) yeni özellik kodlanmayacak; doğrudan `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` içine birleştirme yapılacak (**Madde 22**).
 > - **FAZ 2:** `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` üzerinde **önce WhatsApp hattı ve tüm çekirdek yetenekler** (**Madde 7'den itibaren**) sırayla tamamlanacak.
 > - **FAZ 3:** Çekirdek tamamlandıktan sonra **Telegram (`975678139`), Discord ve Instagram** kanalları eklenecek.
@@ -230,13 +230,13 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
 ### 22. 🦁 NerveDispatch — Çok Kanallı Modüler Monorepo Birleşmesi [SIRADA #1 — İLK ADIM 🎯]
 > **Proje Adı & Hedef Konum:** `NerveDispatch` (`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/`)  
 > **Master Blueprint:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md) · [`docs/YENI-MIMARI-VE-BIRLESME-PLANI.md`](./docs/YENI-MIMARI-VE-BIRLESME-PLANI.md)  
-> **Mimari Hikaye:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/CHIMERA-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/CHIMERA-THE-STORY.md)  
+> **Mimari Hikaye:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md)  
 > **Vizyon:** `whatsapp-bridge-mcp` ve `whatsapp-tetikleyici` projelerini `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` çatısında birleştirmek; önce WhatsApp hattını ve tüm çekirdek özellikleri kusursuzlaştırmak (FAZ 1 & FAZ 2), ardından aynı sabit AI oturumları ve kural motoru üzerine **Telegram, Discord ve Instagram** kanallarını tak-çıkar adaptörler olarak eklemek (FAZ 3).
 
 - [ ] **1. Sıfır-Kırılmalı Dizin ve Paket Mimarisi (`go.work` + Çok Kanallı Çekirdek):**
   ```text
   /mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/
-  ├── CHIMERA-THE-STORY.md             # Chimera v1 • v2 • v3 Mimari Evrim Hikayesi
+  ├── NERVE-DISPATCH-THE-STORY.md             # Chimera v1 • v2 • v3 Mimari Evrim Hikayesi
   ├── YENI-MIMARI-VE-BIRLESME-PLANI.md # Master Blueprint & Geçiş Yol Haritası
   ├── bridge/                          # Go Modülü 1: Çok kanallı köprü (:31415 REST, SSE, WebUI, WhatsApp + channels/)
   ├── tetikleyici/                     # Go Modülü 2: Olay dağıtım motoru, Ajan Sürücüleri (drivers/), CLI ve cmd/*.py

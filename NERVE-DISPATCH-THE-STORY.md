@@ -1,11 +1,11 @@
-# CHIMERA: Çok Başlı Bir Fikrin Evrimi
-## Bir Yerel Yapay Zeka, Otonom Ajan ve Çok Kanallı Cihaz Ağ Geçidinin Yıllara Yayılan Mimari Hikayesi (v1 • v2 • v3)
+# Nerve Dispatch: Çok Başlı Bir Fikrin Evrimi
+## CHIMERA v1/v2 Köklerinden Nerve Dispatch'e: Bir Yerel Yapay Zeka, Otonom Ajan ve Çok Kanallı Cihaz Ağ Geçidinin Yıllara Yayılan Mimari Hikayesi
 
 > **Yazar:** Mehmet Akif Akkoç ([@Mefamex](https://github.com/Mefamex))  
 > **Tarih:** 2024 – 2026  
 > **Konsept:** Local-First AI, Otonom Ajan Mimarisi, Çok Dilli (Polyglot) Sistemler, Çok Kanallı Ağ Geçidi (Omnichannel Gateway)  
 > **Konum:** `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/`  
-> **Yeni İsim:** **Nerve Dispatch** (`NerveDispatch`)
+> **Resmi İsim:** **Nerve Dispatch** (`NerveDispatch`)
 
 ---
 

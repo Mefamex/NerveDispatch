@@ -15,7 +15,7 @@
 
 CHIMERA'nın 2024 yılından bu yana geçirdiği tüm evrim, mimari kırılma anları, geçmiş projelerle birleşme serüveni ve projenin **Nerve Dispatch** kimliğine kavuşma hikayesi için ana dokümanı inceleyin:
 
-👉 **[CHIMERA-THE-STORY.md](./CHIMERA-THE-STORY.md)**
+👉 **[NERVE-DISPATCH-THE-STORY.md](./NERVE-DISPATCH-THE-STORY.md)**
 
 ---
 

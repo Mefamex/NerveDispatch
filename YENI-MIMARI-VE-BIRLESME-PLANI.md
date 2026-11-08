@@ -2,7 +2,7 @@
 
 > **Proje Adı:** `NerveDispatch` (`chimera` — 3. Jenerasyon)  
 > **Hedef Konum:** `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/`  
-> **Tarihsel & Felsefi Arka Plan:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/CHIMERA-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/CHIMERA-THE-STORY.md)  
+> **Tarihsel & Felsefi Arka Plan:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md)  
 > **Birleştirilecek Kaynak Repolar:**
 > 1. `/mnt/DiskD/SOFTWARE/Github-repos/whatsapp-bridge-mcp`
 > 2. `/mnt/DiskD/SOFTWARE/Github-repos/whatsapp-tetikleyici`  
@@ -16,7 +16,7 @@
 Eğer yeni bir oturumda kullanıcı **"Nerve Dispatch birleşmesine başlayalım"** veya **"plana göre devam edelim"** derse:
 1. **Önce şu iki belgeyi oku:**
    - Bu belge (`YENI-MIMARI-VE-BIRLESME-PLANI.md`) — Teknik mimari ve adım adım geçiş/geliştirme planı.
-   - [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/CHIMERA-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/CHIMERA-THE-STORY.md) — Projenin v1 ve v2'den bugüne evrimi ve felsefesi.
+   - [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md) — Projenin v1 ve v2'den bugüne evrimi ve felsefesi.
 2. **Stratejik Sırayı Bozmamaya Dikkat Et:**
    - **Eski repolarda (`whatsapp-bridge-mcp` ve `whatsapp-tetikleyici`) artık yeni özellik kodlanmayacaktır.**
    - **İlk iş (FAZ 1):** İki kaynak repoyu `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` içine birleştirmek, canlı `tetikleyici.yaml`, `.tetikleyici/` durum dosyalarını taşımak, `~/.local/share/whatsapp-bridge/session.db` oturumunu (QR bozmadan) korumak, `make verify` ile 627+ testi yeşil geçirmek ve `systemd` + MCP ayarlarını `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` yoluna bağlamaktır.
@@ -177,7 +177,7 @@ Mevcut testlerin (`realkonfig_test.go`, `shipped_config_test.go`, `tests/test_*.
 
 ```text
 /mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/
-├── CHIMERA-THE-STORY.md            # [MEVCUT] Chimera v1 • v2 • v3 Mimari Evrim Hikayesi
+├── NERVE-DISPATCH-THE-STORY.md            # [MEVCUT] Chimera v1 • v2 • v3 Mimari Evrim Hikayesi
 ├── YENI-MIMARI-VE-BIRLESME-PLANI.md # [MEVCUT] Bu Master Blueprint belgesi
 │
 ├── bridge/                         # Go Modülü 1: Çok Kanallı Köprü & HTTP/SSE Sunucusu (:31415)
@@ -293,7 +293,7 @@ Hem `chimera` hem de `tetikleyici` komutu aynı ikiliyi çalıştırır (geriye 
 ### FAZ 1: Doğrudan `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` Monoreposuna Geçiş ve Ekosistem Onarımı [SIRADA #1 🎯]
 
 #### Adım 1.1: `NerveDispatch` Repo Çatısının Hazırlanması
-- [x] `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch` dizini, Git deposu (`origin: https://github.com/Mefamex/NerveDispatch.git`), `CHIMERA-THE-STORY.md`, `YENI-MIMARI-VE-BIRLESME-PLANI.md`, `TODO.md` ve `README.md` oluşturuldu.
+- [x] `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch` dizini, Git deposu (`origin: https://github.com/Mefamex/NerveDispatch.git`), `NERVE-DISPATCH-THE-STORY.md`, `YENI-MIMARI-VE-BIRLESME-PLANI.md`, `TODO.md` ve `README.md` oluşturuldu.
 - [ ] Kök dizinde `go.work` (`use ./bridge`, `use ./tetikleyici`) oluşturulur.
 - [ ] İki reponun `.gitignore` kuralları (`*.db*`, `.tetikleyici/`, `tetikleyici.yaml`, `pasif-kurallar.yaml`, `.venv/`, `bin/`, `sidecar/node_modules/`, `*.env*`, geçici medya dosyaları) birleştirilir.
 
