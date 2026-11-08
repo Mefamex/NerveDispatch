@@ -12,12 +12,12 @@
 
 ## 🚀 WhatsApp Yerel Özellikleri Sprinti (Sırayla Yapılacaklar)
 
-> **🚨 STRATEJİK KARAR VE YENİ SOHBET DEVİR-TESLİM NOTU (2026-11-09 — CHIMERAv3):**
-> - **Hedef Konum:** `/mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/`
-> - **Master Mimari ve Geçiş Planı:** [`/mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/YENI-MIMARI-VE-BIRLESME-PLANI.md`](file:///mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/YENI-MIMARI-VE-BIRLESME-PLANI.md) (ve [`docs/YENI-MIMARI-VE-BIRLESME-PLANI.md`](./docs/YENI-MIMARI-VE-BIRLESME-PLANI.md))
-> - **Evrim Hikayesi:** [`/mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/CHIMERA-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/CHIMERA-THE-STORY.md)
-> - **Sıradaki İlk Adım (FAZ 1):** Eski iki repoda (`whatsapp-bridge-mcp` ve `whatsapp-tetikleyici`) yeni özellik kodlanmayacak; doğrudan `/mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/` içine birleştirme yapılacak (**Madde 22**).
-> - **FAZ 2:** `/mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/` üzerinde **önce WhatsApp hattı ve tüm çekirdek yetenekler** (**Madde 7'den itibaren**) sırayla tamamlanacak.
+> **🚨 STRATEJİK KARAR VE YENİ SOHBET DEVİR-TESLİM NOTU (2026-11-09 — NerveDispatch):**
+> - **Hedef Konum:** `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/`
+> - **Master Mimari ve Geçiş Planı:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md) (ve [`docs/YENI-MIMARI-VE-BIRLESME-PLANI.md`](./docs/YENI-MIMARI-VE-BIRLESME-PLANI.md))
+> - **Evrim Hikayesi:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/CHIMERA-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/CHIMERA-THE-STORY.md)
+> - **Sıradaki İlk Adım (FAZ 1):** Eski iki repoda (`whatsapp-bridge-mcp` ve `whatsapp-tetikleyici`) yeni özellik kodlanmayacak; doğrudan `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` içine birleştirme yapılacak (**Madde 22**).
+> - **FAZ 2:** `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` üzerinde **önce WhatsApp hattı ve tüm çekirdek yetenekler** (**Madde 7'den itibaren**) sırayla tamamlanacak.
 > - **FAZ 3:** Çekirdek tamamlandıktan sonra **Telegram (`975678139`), Discord ve Instagram** kanalları eklenecek.
 
 ### 1. 🎭 Emoji Tepkileri (Reactions) [TAMAMLANDI ✅]
@@ -227,15 +227,15 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
   - Kullanıcı telefonunda WhatsApp ▸ Bağlı Cihazlar ▸ "Telefon Numarasıyla Bağla" adımına bu kodu girer.
   - Ekransız/headless sunucu kurulumlarında ve kamera netleme sorunlarında QR kodsuz hızlı eşleşme sağlar.
 
-### 22. 🦁 CHIMERAv3 — Çok Kanallı Modüler Monorepo Birleşmesi [SIRADA #1 — İLK ADIM 🎯]
-> **Proje Adı & Hedef Konum:** `CHIMERAv3` (`/mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/`)  
-> **Master Blueprint:** [`/mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/YENI-MIMARI-VE-BIRLESME-PLANI.md`](file:///mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/YENI-MIMARI-VE-BIRLESME-PLANI.md) · [`docs/YENI-MIMARI-VE-BIRLESME-PLANI.md`](./docs/YENI-MIMARI-VE-BIRLESME-PLANI.md)  
-> **Mimari Hikaye:** [`/mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/CHIMERA-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/CHIMERA-THE-STORY.md)  
-> **Vizyon:** `whatsapp-bridge-mcp` ve `whatsapp-tetikleyici` projelerini `/mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/` çatısında birleştirmek; önce WhatsApp hattını ve tüm çekirdek özellikleri kusursuzlaştırmak (FAZ 1 & FAZ 2), ardından aynı sabit AI oturumları ve kural motoru üzerine **Telegram, Discord ve Instagram** kanallarını tak-çıkar adaptörler olarak eklemek (FAZ 3).
+### 22. 🦁 NerveDispatch — Çok Kanallı Modüler Monorepo Birleşmesi [SIRADA #1 — İLK ADIM 🎯]
+> **Proje Adı & Hedef Konum:** `NerveDispatch` (`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/`)  
+> **Master Blueprint:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md) · [`docs/YENI-MIMARI-VE-BIRLESME-PLANI.md`](./docs/YENI-MIMARI-VE-BIRLESME-PLANI.md)  
+> **Mimari Hikaye:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/CHIMERA-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/CHIMERA-THE-STORY.md)  
+> **Vizyon:** `whatsapp-bridge-mcp` ve `whatsapp-tetikleyici` projelerini `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` çatısında birleştirmek; önce WhatsApp hattını ve tüm çekirdek özellikleri kusursuzlaştırmak (FAZ 1 & FAZ 2), ardından aynı sabit AI oturumları ve kural motoru üzerine **Telegram, Discord ve Instagram** kanallarını tak-çıkar adaptörler olarak eklemek (FAZ 3).
 
 - [ ] **1. Sıfır-Kırılmalı Dizin ve Paket Mimarisi (`go.work` + Çok Kanallı Çekirdek):**
   ```text
-  /mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/
+  /mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/
   ├── CHIMERA-THE-STORY.md             # Chimera v1 • v2 • v3 Mimari Evrim Hikayesi
   ├── YENI-MIMARI-VE-BIRLESME-PLANI.md # Master Blueprint & Geçiş Yol Haritası
   ├── bridge/                          # Go Modülü 1: Çok kanallı köprü (:31415 REST, SSE, WebUI, WhatsApp + channels/)
@@ -252,12 +252,12 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
   ├── Makefile                         # Tek komutla derleme, test, doğrulama ve servis yönetimi
   └── README.md & TODO.md              # Tekil dokümantasyon ve yalnızca açık işleri tutan sprint listesi
   ```
-- [ ] **2. FAZ 1 — Doğrudan `/mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/` Reposuna Geçiş ve Ekosistem Onarımı (Adım 1.1 – 1.7):**
-  - `/mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3/` içinde Git başlatılması, kodların ve testlerin birleştirilmesi.
+- [ ] **2. FAZ 1 — Doğrudan `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` Reposuna Geçiş ve Ekosistem Onarımı (Adım 1.1 – 1.7):**
+  - `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` içinde Git başlatılması, kodların ve testlerin birleştirilmesi.
   - Canlı `tetikleyici.yaml`, `pasif-kurallar.yaml` ve `.tetikleyici/` durum dizininin (iç içe `.tetikleyici/.tetikleyici` temizlenerek) aktarılması; `~/.local/share/whatsapp-bridge/session.db` ve `messages.jsonl` oturumunun QR bozulmadan korunması.
   - `docs/` PII taraması, `TODO.md` içindeki bitmiş maddelerin `TODO.DONE.md`'ye ve kalıcı kuralların `NOTES.md`'ye taşınması.
-  - `bridge/internal/appcfg/appcfg.go`, `systemd` servisleri, `~/bin/tetikleyici` (`~/bin/chimera`), Antigravity (`mcp_config.json`), OpenCode (`opencode.json` + 5 yeni MCP aracı), Claude (`~/.claude.json`), `SKILL.md` ve `INDEX.md` içindeki eski yolların `/mnt/DiskD/SOFTWARE/Projeler/CHIMERAv3` dizinine bağlanması.
-  - `make verify` ile 627+ Go ve Python testinin `CHIMERAv3` üzerinde %100 yeşil geçtiğinin kanıtlanması.
+  - `bridge/internal/appcfg/appcfg.go`, `systemd` servisleri, `~/bin/tetikleyici` (`~/bin/nerve`), Antigravity (`mcp_config.json`), OpenCode (`opencode.json` + 5 yeni MCP aracı), Claude (`~/.claude.json`), `SKILL.md` ve `INDEX.md` içindeki eski yolların `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch` dizinine bağlanması.
+  - `make verify` ile 627+ Go ve Python testinin `NerveDispatch` üzerinde %100 yeşil geçtiğinin kanıtlanması.
 - [ ] **3. FAZ 2 — Önce WhatsApp Hattını ve Çekirdek Yetenekleri Tamamlama (Geliştirme 2.1 – 2.11):**
   - `2.1` Sabit Session ID & Ajan Adaptörleri (#7) → `2.2` Birleşik `chimera` CLI (#13A) → `2.3` Gömülü Web Dashboard (#13B) → `2.4` 8 Haneli Eşleştirme Kodu (#21) → `2.5` Tepki Emojisi (#12) → `2.6` `/ekran` Komutu (#10) → `2.7` İnteraktif Anket Onayı (#9) → `2.8` Dosya Transferi `/get` (#14) → `2.9` `/root`, `/clip`, `/apps`, `/kill` (#15-#17) → `2.10` `/compact`, Akıllı `/zamanla`, Sistem Bekçisi (#11, #19, #20) → `2.11` Piper TTS Sesli Yanıt (#18) & 300 Satır / 15 Dosya Refactoring.
 - [ ] **4. FAZ 3 — Çok Kanallı Genişleme: Telegram, Discord, Instagram (Geliştirme 3.1 – 3.4):**

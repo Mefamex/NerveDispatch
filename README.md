@@ -1,19 +1,19 @@
-# CHIMERA3
+# Nerve Dispatch (NerveDispatch)
 
-> Çok kanallı (WhatsApp, Telegram) otonom yapay zeka ajan motoru ve cihaz ağ geçidi — Linux terminal tüneli, yerel multimodal boru hatları (Whisper/Qwen) ve CLI kodlama ajanları entegrasyonu.
+> Çok kanallı (WhatsApp, Telegram, Discord, Instagram) otonom yapay zeka ajan motoru ve cihaz ağ geçidi — Linux terminal tüneli, yerel multimodal boru hatları (Whisper/Qwen) ve CLI kodlama ajanları entegrasyonu.
 
 | | |
 | --- | --- |
 | **Author** | [Mehmet Akif Akkoç (Mefamex)](https://github.com/Mefamex) |
 | **Website** | [https://www.mefamex.com/](https://www.mefamex.com/) |
 | **License** | MIT |
-| **Status** | Active Development (v3 Monorepo Migration) |
+| **Status** | Active Development (NerveDispatch Monorepo Migration) |
 
 ---
 
 ## 📖 Proje Hikayesi ve Evrimi
 
-CHIMERA'nın 2024 yılından bu yana geçirdiği tüm evrim, mimari kırılma anları ve geçmiş projelerle birleşme hikayesi için ana dokümanı inceleyin:
+CHIMERA'nın 2024 yılından bu yana geçirdiği tüm evrim, mimari kırılma anları, geçmiş projelerle birleşme serüveni ve projenin **Nerve Dispatch** kimliğine kavuşma hikayesi için ana dokümanı inceleyin:
 
 👉 **[CHIMERA-THE-STORY.md](./CHIMERA-THE-STORY.md)**
 

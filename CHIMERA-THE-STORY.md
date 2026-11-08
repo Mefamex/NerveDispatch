@@ -4,7 +4,8 @@
 > **Yazar:** Mehmet Akif Akkoç ([@Mefamex](https://github.com/Mefamex))  
 > **Tarih:** 2024 – 2026  
 > **Konsept:** Local-First AI, Otonom Ajan Mimarisi, Çok Dilli (Polyglot) Sistemler, Çok Kanallı Ağ Geçidi (Omnichannel Gateway)  
-> **Konum:** `/mnt/DiskD/SOFTWARE/Projeler/CHIMERA3/`
+> **Konum:** `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/`  
+> **Yeni İsim:** **Nerve Dispatch** (`NerveDispatch`)
 
 ---
 
@@ -325,4 +326,4 @@ Fakat bu süreçte hiçbir emek kaybolmadı:
 Hepsi bir araya geldi ve mitolojideki o görkemli varlık nihayet ayağa kalktı.  
 Bugün inşa ettiğimiz sistem artık basit bir köprü değil; **cebimizdeki mesajlaşma penceresinden kendi bilgisayarımızın zekasına ve terminaline hükmettiğimiz evrensel bir ağ geçididir.**
 
-**CHIMERA v3, sadece bir başlangıçtır.**
+**Nerve Dispatch (NerveDispatch), CHIMERA vizyonunun ve mimarisinin yaşayan, çok kanallı nihai formudur.**
