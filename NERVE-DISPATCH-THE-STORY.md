@@ -19,7 +19,7 @@
   - [2.1 İlk Yerel Kodlama Ajanı: `ai-code-agent`](#21-ilk-yerel-kodlama-ajanı-ai-code-agent)
   - [2.2 Donanım ve Tarayıcı Kumandası: `deviceAssistant`](#22-donanım-ve-tarayıcı-kumandası-deviceassistant)
   - [2.3 Bulut Çıkmazı ve İlk WhatsApp Vizyonu: `assistant-bot-backend`](#23-bulut-çıkmazı-ve-ilk-whatsapp-vizyonu-assistant-bot-backend)
-- [Bölüm 3: CHIMERA v1 (Şubat 2026) — Büyük Düş, Büyük Mimari ve Büyük Tıkanma](#bölüm-3-chimera-v1-şubat-2026--büyük-düş-büyük-mimari-ve-büyük-tıkanma)
+- [Bölüm 3: CHIMERA v1 (Şubat 2026) - Büyük Düş, Büyük Mimari ve Büyük Tıkanma](#bölüm-3-chimera-v1-şubat-2026--büyük-düş-büyük-mimari-ve-büyük-tıkanma)
   - [3.1 Model Vekili: `ollama_bridge`](#31-model-vekili-ollama_bridge)
   - [3.2 Üç Parçalı (Polyglot) Mimari: Beyin, Eller ve Gözler](#32-üç-parçalı-polyglot-mimari-beyin-eller-ve-gözler)
   - [3.3 Kendi Kendini Denetleyen ReAct Döngüsü (`engine.go`)](#33-kendi-kendini-denetleyen-react-döngüsü-enginego)
@@ -30,11 +30,11 @@
   - [4.1 CHIMERA2 (v2): Minimalist Geri Çekilme](#41-chimera2-v2-minimalist-geri-çekilme)
   - [4.2 Ses Organı: `test_ASR` ve Türkçe Whisper Benchmarkları](#42-ses-organı-test_asr-ve-türkçe-whisper-benchmarkları)
   - [4.3 Komuta Organı: `whatsapp-cmd` ve Shell Tünelleme](#43-komuta-organı-whatsapp-cmd-ve-shell-tünelleme)
-- [Bölüm 5: Kırılma Anı (Ekim – Kasım 2026) — İki Parçalı Köprünün İnşası](#bölüm-5-kırılma-anı-ekim--kasım-2026--iki-parçalı-köprünün-inşası)
+- [Bölüm 5: Kırılma Anı (Ekim – Kasım 2026) - İki Parçalı Köprünün İnşası](#bölüm-5-kırılma-anı-ekim--kasım-2026--iki-parçalı-köprünün-inşası)
   - [5.1 Katman 1 & 2: `whatsapp-bridge-mcp` (Go & FastMCP)](#51-katman-1--2-whatsapp-bridge-mcp-go--fastmcp)
   - [5.2 Katman 3 & 4: `whatsapp-tetikleyici` (Dispatcher & Multimodal)](#52-katman-3--4-whatsapp-tetikleyici-dispatcher--multimodal)
   - [5.3 Aydınlanma Anı: "Beyni Sıfırdan Yazmak Zorunda Değilim!"](#53-aydınlanma-anı-beyni-sıfırdan-yazmak-zorunda-değilim)
-- [Bölüm 6: CHIMERA v3 (Kasım 2026) — Büyük Birleşme ve Çok Kanallı Gelecek](#bölüm-6-chimera-v3-kasım-2026--büyük-birleşme-ve-çok-kanallı-gelecek)
+- [Bölüm 6: CHIMERA v3 (Kasım 2026) - Büyük Birleşme ve Çok Kanallı Gelecek](#bölüm-6-chimera-v3-kasım-2026--büyük-birleşme-ve-çok-kanallı-gelecek)
   - [6.1 Monorepo Dönüşümü (`go.work` ve Ortak `.venv`)](#61-monorepo-dönüşümü-gowork-ve-ortak-venv)
   - [6.2 WhatsApp Bir Varış Noktası Değil, Sadece İlk Kapı](#62-whatsapp-bir-varış-noktası-değil-sadece-ilk-kapı)
   - [6.3 Evrensel Çok Kanallı Ağ Geçidi (Omnichannel Gateway) Mimarisi](#63-evrensel-çok-kanallı-ağ-geçidi-omnichannel-gateway-mimarisi)
@@ -111,7 +111,7 @@ Fakat bu yaklaşım iki büyük duvara tosladı:
 
 ---
 
-## Bölüm 3: CHIMERA v1 (Şubat 2026) — Büyük Düş, Büyük Mimari ve Büyük Tıkanma
+## Bölüm 3: CHIMERA v1 (Şubat 2026) - Büyük Düş, Büyük Mimari ve Büyük Tıkanma
 
 Şubat 2026'ya gelindiğinde tüm bu parçaları birleştirecek nihai projenin adı kondu: **CHIMERA**.
 
@@ -206,7 +206,7 @@ Bir asistan sesli notları dinleyemiyorsa eksiktir. Ekim 2026'da `test_ASR` proj
 
 ---
 
-## Bölüm 5: Kırılma Anı (Ekim – Kasım 2026) — İki Parçalı Köprünün İnşası
+## Bölüm 5: Kırılma Anı (Ekim – Kasım 2026) - İki Parçalı Köprünün İnşası
 
 Ekim ayı sonunda ve Kasım 2026 başında taşlar inanılmaz bir hızla yerine oturmaya başladı. Sistem iki bağımsız depoda hayata geçti:
 
@@ -233,7 +233,7 @@ CHIMERA'nın felç olan beyni, modern CLI ajanlarıyla bir anda süper zekaya ka
 
 ---
 
-## Bölüm 6: CHIMERA v3 (Kasım 2026) — Büyük Birleşme ve Çok Kanallı Gelecek
+## Bölüm 6: CHIMERA v3 (Kasım 2026) - Büyük Birleşme ve Çok Kanallı Gelecek
 
 Bugün geldiğimiz nokta, iki ayrı parçaya bölünmüş olan `whatsapp-bridge-mcp` ve `whatsapp-tetikleyici` depolarının tek bir devasa yapıda birleştiği andır: **CHIMERA v3**.
 

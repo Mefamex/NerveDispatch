@@ -1,12 +1,12 @@
-# Nerve Dispatch (NerveDispatch) — Çok Kanallı Mimari ve Birleşme Planı (Master Blueprint)
+# Nerve Dispatch (NerveDispatch) - Çok Kanallı Mimari ve Birleşme Planı (Master Blueprint)
 
-> **Proje Adı:** `NerveDispatch` (`chimera` — 3. Jenerasyon)  
+> **Proje Adı:** `NerveDispatch` (`chimera` - 3. Jenerasyon)  
 > **Hedef Konum:** `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/`  
 > **Tarihsel & Felsefi Arka Plan:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md)  
 > **Birleştirilecek Kaynak Repolar:**
 > 1. `/mnt/DiskD/SOFTWARE/Github-repos/whatsapp-bridge-mcp`
 > 2. `/mnt/DiskD/SOFTWARE/Github-repos/whatsapp-tetikleyici`  
-> **Durum:** Onaylandı — Sonraki Sohbette Doğrudan Uygulamaya Geçilecek (FAZ 1 → FAZ 2 → FAZ 3)  
+> **Durum:** Onaylandı - Sonraki Sohbette Doğrudan Uygulamaya Geçilecek (FAZ 1 → FAZ 2 → FAZ 3)  
 > **Son Güncelleme:** 2026-11-09
 
 ---
@@ -15,8 +15,8 @@
 
 Eğer yeni bir oturumda kullanıcı **"Nerve Dispatch birleşmesine başlayalım"** veya **"plana göre devam edelim"** derse:
 1. **Önce şu iki belgeyi oku:**
-   - Bu belge (`YENI-MIMARI-VE-BIRLESME-PLANI.md`) — Teknik mimari ve adım adım geçiş/geliştirme planı.
-   - [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md) — Projenin v1 ve v2'den bugüne evrimi ve felsefesi.
+   - Bu belge (`YENI-MIMARI-VE-BIRLESME-PLANI.md`) - Teknik mimari ve adım adım geçiş/geliştirme planı.
+   - [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md) - Projenin v1 ve v2'den bugüne evrimi ve felsefesi.
 2. **Stratejik Sırayı Bozmamaya Dikkat Et:**
    - **Eski repolarda (`whatsapp-bridge-mcp` ve `whatsapp-tetikleyici`) artık yeni özellik kodlanmayacaktır.**
    - **İlk iş (FAZ 1):** İki kaynak repoyu `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` içine birleştirmek, canlı `tetikleyici.yaml`, `.tetikleyici/` durum dosyalarını taşımak, `~/.local/share/whatsapp-bridge/session.db` oturumunu (QR bozmadan) korumak, `make verify` ile 627+ testi yeşil geçirmek ve `systemd` + MCP ayarlarını `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` yoluna bağlamaktır.
@@ -32,10 +32,10 @@ Eğer yeni bir oturumda kullanıcı **"Nerve Dispatch birleşmesine başlayalım
 ## 1. Chimera v3 Vizyonu: Çok Başlı, Çok Kanallı, Tek Zihinli Sistem
 
 1. **Çok Kanallı Duyu Organları (Omnichannel Gateway):**
-   - **WhatsApp** *(Birincil & Aktif Kanal — Whatsmeow Go soketi)*
-   - **Telegram** *(İkincil Kanal — Faz 3.2, Mefamex Telegram ID: `975678139`)*
-   - **Discord** *(Üçüncül Kanal — Faz 3.3, Gateway WebSocket & Slash Komutları)*
-   - **Instagram** *(Dördüncül Kanal — Faz 3.4, DM Otomasyonu)*
+   - **WhatsApp** *(Birincil & Aktif Kanal - Whatsmeow Go soketi)*
+   - **Telegram** *(İkincil Kanal - Faz 3.2, Mefamex Telegram ID: `975678139`)*
+   - **Discord** *(Üçüncül Kanal - Faz 3.3, Gateway WebSocket & Slash Komutları)*
+   - **Instagram** *(Dördüncül Kanal - Faz 3.4, DM Otomasyonu)*
 2. **Tek Ortak Beyin ve Olay Dağıtıcı (Unified Dispatcher & Persistent Memory):**
    - Mesaj hangi kanaldan gelirse gelsin (WhatsApp, Telegram, Discord, Instagram), tek bir **Ortak Olay Zarfına (`ChimeraEvent`)** dönüştürülür.
    - **Kanal-Arası Ortak Ajan Hafızası:** Kullanıcı dışarıdayken WhatsApp'tan başlattığı bir kodlama veya sistem görevine, masasına geçtiğinde Telegram veya Discord üzerinden **aynı sabit AI oturumu (`opencode`, `agy`, `claude`)** içinde kesintisiz devam edebilir.
@@ -76,7 +76,7 @@ Eski `~/Desktop/whatsapp-bridge-project` silindiğinde kırık kalan ve `NerveDi
 
 ---
 
-## 3. Chimera v3.0 — Çok Kanallı Hedef Mimari Şeması
+## 3. Chimera v3.0 - Çok Kanallı Hedef Mimari Şeması
 
 ```text
   ┌────────────────────┐  ┌────────────────────┐  ┌────────────────────┐  ┌────────────────────┐
@@ -88,18 +88,18 @@ Eski `~/Desktop/whatsapp-bridge-project` silindiğinde kırık kalan ve `NerveDi
                                                 │
                                                 ▼
 ┌──────────────────────────────────────────────────────────────────────────────────────────────┐
-│ 1. KATMAN: CHIMERA KÖPRÜ MOTORU — bridge/ (Go Headless Daemon :31415)                        │
+│ 1. KATMAN: CHIMERA KÖPRÜ MOTORU - bridge/ (Go Headless Daemon :31415)                        │
 │  - Kanal Adaptörleri (ChannelAdapter: WhatsApp [Aktif], Telegram, Discord, Instagram)        │
 │  - Ortak Olay Zarfı Üreticisi (Unified ChimeraEvent: channel, id, from, type, text, media)   │
 │  - Kalıcı Oturum & Mesaj Deposu (session.db + messages.jsonl, ~30 MB RAM)                    │
 │  - Gömülü Web Sunucusu (go:embed Web Dashboard: http://127.0.0.1:31415/dashboard)            │
 │  - Birleşik HTTP REST API (/send, /reaction, /poll...) & Gerçek Zamanlı SSE (/events)        │
-│  - FastMCP STDIO Sunucusu (mcp_server/ — AI Ajanları için Bildirim ve İletişim Araçları)     │
+│  - FastMCP STDIO Sunucusu (mcp_server/ - AI Ajanları için Bildirim ve İletişim Araçları)     │
 └───────────────────────────────┬──────────────────────────────────────────────┬───────────────┘
                                 │ Gerçek Zamanlı SSE Olay Akışı (/events)      │
                                 ▼                                              ▼
 ┌───────────────────────────────────────────────────────────────┐ ┌────────────────────────────┐
-│ 2. KATMAN: CHIMERA DAĞITICI — tetikleyici/ (systemd --user)   │ │  Yönetim & Gözlem Katmanı  │
+│ 2. KATMAN: CHIMERA DAĞITICI - tetikleyici/ (systemd --user)   │ │  Yönetim & Gözlem Katmanı  │
 │  - Çok Kanallı Kimlik & RBAC (WP LID/Tel, TG ID, DC ID)       │ │ - Birleşik `chimera` CLI   │
 │  - Catch-up Yaş Filtresi & Kanal-Arası Yedeklilik (Failover)  │ │   (status, qr, logs, pair) │
 │  - Tünel Durum Makinesi (/cmdhub Bash & /session Tüneli)      │ │ - Yerel Web Dashboard      │
@@ -171,7 +171,7 @@ users:
 
 ---
 
-## 5. `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` — Modüler Monorepo Dizin Hiyerarşisi
+## 5. `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` - Modüler Monorepo Dizin Hiyerarşisi
 
 Mevcut testlerin (`realkonfig_test.go`, `shipped_config_test.go`, `tests/test_*.py`) beklediği göreli dosya yollarını (`../tetikleyici.yaml`, `parent.parent.parent`) hiç bozmayan, aynı zamanda çok kanallı genişlemeye hazır dizin yapısı:
 
@@ -199,7 +199,7 @@ Mevcut testlerin (`realkonfig_test.go`, `shipped_config_test.go`, `tests/test_*.
 │   ├── main.go                     # Daemon ve CLI giriş noktası
 │   ├── engine.go                   # SSE dinleyici, catch-up ve paralel kural yürütücü
 │   ├── action.go                   # Eylem ve ajan çağrı orkestratörü
-│   ├── drivers/                    # [YENİ - Faz 2.1] Ajan Sürücüleri (opencode, agy, claude — Sabit Oturum)
+│   ├── drivers/                    # [YENİ - Faz 2.1] Ajan Sürücüleri (opencode, agy, claude - Sabit Oturum)
 │   ├── cli/                        # [YENİ - Faz 2.2] Birleşik CLI (status, qr, pair, logs, session, channel)
 │   ├── cmd/                        # Python: Sistem komutları (/cmd, /cmdhub, /camera, /ekran, /durum, /zamanla...)
 │   ├── go.mod & go.sum             # module tetikleyici

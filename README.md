@@ -1,6 +1,6 @@
 # Nerve Dispatch (NerveDispatch)
 
-> Çok kanallı (WhatsApp, Telegram, Discord, Instagram) otonom yapay zeka ajan motoru ve cihaz ağ geçidi — Linux terminal tüneli, yerel multimodal boru hatları (Whisper/Qwen) ve CLI kodlama ajanları entegrasyonu.
+> Çok kanallı (WhatsApp, Telegram, Discord, Instagram) otonom yapay zeka ajan motoru ve cihaz ağ geçidi - Linux terminal tüneli, yerel multimodal boru hatları (Whisper/Qwen) ve CLI kodlama ajanları entegrasyonu.
 
 | | |
 | --- | --- |

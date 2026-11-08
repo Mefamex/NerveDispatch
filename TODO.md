@@ -1,18 +1,18 @@
-# TODO — WhatsApp Bridge + Tetikleyici
+# TODO - WhatsApp Bridge + Tetikleyici
 
 > **Son güncelleme: 2026-11-08 04:23 +03**
 >
 > Not: bu dosya yalnız **açık işleri** listeler. Biten her şey
 > `TODO.DONE.md`'ye taşınır.
 > Köprü: `paired:true connected:true` (systemd) · Tetikleyici: PID **242809**
-> — restart yalnız `./tetikleyici.sh restart` · **1 kural** canlı ✅
+> - restart yalnız `./tetikleyici.sh restart` · **1 kural** canlı ✅
 > Test: **627+**, `go vet`/`gofmt` temiz
 
 ---
 
 ## 🚀 WhatsApp Yerel Özellikleri Sprinti (Sırayla Yapılacaklar)
 
-> **🚨 STRATEJİK KARAR VE YENİ SOHBET DEVİR-TESLİM NOTU (2026-11-09 — NerveDispatch):**
+> **🚨 STRATEJİK KARAR VE YENİ SOHBET DEVİR-TESLİM NOTU (2026-11-09 - NerveDispatch):**
 > - **Hedef Konum:** `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/`
 > - **Master Mimari ve Geçiş Planı:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md) (ve [`docs/YENI-MIMARI-VE-BIRLESME-PLANI.md`](./docs/YENI-MIMARI-VE-BIRLESME-PLANI.md))
 > - **Evrim Hikayesi:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md)
@@ -80,11 +80,11 @@
 - [ ] **Bağlam Şişmesi Koruması:** Tek oturum sonsuz uzamaması için token/tur eşiği aşıldığında otomatik arşivleme/özetleme veya `/session yeni` komutu.
 - [ ] **Prompt Temizliği:** Kalıcı oturumda geçmiş mesaj penceresi tekrar tekrar prompt'a gömülmeyecek; yalnız yeni gelen mesaj gönderilecek.
 
-### 8. 🧹 Eski Monorepo'dan Taşınan Dosyaların PII Taraması ve Pushlanması [BEKLİYOR — sonra]
+### 8. 🧹 Eski Monorepo'dan Taşınan Dosyaların PII Taraması ve Pushlanması [BEKLİYOR - sonra]
 Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemiş** duran tek nüsha dosyalar (orijinal silindi, bu kopyalar kaybolmamalı):
-- [ ] `whatsapp-tetikleyici/docs/` — eski tasarım/plan/sorun belgeleri (2026-10-04…06). **Gerçek telefon/LID numarası içerebilir**: `905551234567` / `12345678901234@lid` kuralına göre temizle, sonra commit.
-- [ ] `whatsapp-tetikleyici/tetikleyici.sh` — yönetim betiği. Artık systemd user servisi var; betik hâlâ gerekli mi karar ver (gerekiyorsa servisle uyumlu hâle getir, yoksa sil).
-- [ ] `whatsapp-bridge-mcp/sidecar/` (VoIP sidecar) — **içinde `node_modules/` var, commit'LEME**. `.gitignore`'a `sidecar/node_modules/` ekle; `rsrc-dump.txt` (322 KB) gereksiz olabilir, gözden geçir; `package-lock.json` kalsın. Sidecar ayrı repo mu olmalı, yoksa köprü reposunda mı kalmalı karar ver. Köprü şu an `WASM binary not found` uyarısı veriyor (arama özelliği kapalı).
+- [ ] `whatsapp-tetikleyici/docs/` - eski tasarım/plan/sorun belgeleri (2026-10-04…06). **Gerçek telefon/LID numarası içerebilir**: `905551234567` / `12345678901234@lid` kuralına göre temizle, sonra commit.
+- [ ] `whatsapp-tetikleyici/tetikleyici.sh` - yönetim betiği. Artık systemd user servisi var; betik hâlâ gerekli mi karar ver (gerekiyorsa servisle uyumlu hâle getir, yoksa sil).
+- [ ] `whatsapp-bridge-mcp/sidecar/` (VoIP sidecar) - **içinde `node_modules/` var, commit'LEME**. `.gitignore`'a `sidecar/node_modules/` ekle; `rsrc-dump.txt` (322 KB) gereksiz olabilir, gözden geçir; `package-lock.json` kalsın. Sidecar ayrı repo mu olmalı, yoksa köprü reposunda mı kalmalı karar ver. Köprü şu an `WASM binary not found` uyarısı veriyor (arama özelliği kapalı).
 - [ ] Taramadan sonra: `grep -rnE "9054|9053|1234563"` ile kalan gerçek kimlik kontrolü, `make test`, commit, push.
 
 ### 9. 🛡️ İnteraktif Onay ve İzin Sistemi (Interactive Approval / Permissions) [PLANLANDI]
@@ -227,7 +227,7 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
   - Kullanıcı telefonunda WhatsApp ▸ Bağlı Cihazlar ▸ "Telefon Numarasıyla Bağla" adımına bu kodu girer.
   - Ekransız/headless sunucu kurulumlarında ve kamera netleme sorunlarında QR kodsuz hızlı eşleşme sağlar.
 
-### 22. 🦁 NerveDispatch — Çok Kanallı Modüler Monorepo Birleşmesi [SIRADA #1 — İLK ADIM 🎯]
+### 22. 🦁 NerveDispatch - Çok Kanallı Modüler Monorepo Birleşmesi [SIRADA #1 - İLK ADIM 🎯]
 > **Proje Adı & Hedef Konum:** `NerveDispatch` (`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/`)  
 > **Master Blueprint:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md) · [`docs/YENI-MIMARI-VE-BIRLESME-PLANI.md`](./docs/YENI-MIMARI-VE-BIRLESME-PLANI.md)  
 > **Mimari Hikaye:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md)  
@@ -252,15 +252,15 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
   ├── Makefile                         # Tek komutla derleme, test, doğrulama ve servis yönetimi
   └── README.md & TODO.md              # Tekil dokümantasyon ve yalnızca açık işleri tutan sprint listesi
   ```
-- [ ] **2. FAZ 1 — Doğrudan `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` Reposuna Geçiş ve Ekosistem Onarımı (Adım 1.1 – 1.7):**
+- [ ] **2. FAZ 1 - Doğrudan `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` Reposuna Geçiş ve Ekosistem Onarımı (Adım 1.1 – 1.7):**
   - `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` içinde Git başlatılması, kodların ve testlerin birleştirilmesi.
   - Canlı `tetikleyici.yaml`, `pasif-kurallar.yaml` ve `.tetikleyici/` durum dizininin (iç içe `.tetikleyici/.tetikleyici` temizlenerek) aktarılması; `~/.local/share/whatsapp-bridge/session.db` ve `messages.jsonl` oturumunun QR bozulmadan korunması.
   - `docs/` PII taraması, `TODO.md` içindeki bitmiş maddelerin `TODO.DONE.md`'ye ve kalıcı kuralların `NOTES.md`'ye taşınması.
   - `bridge/internal/appcfg/appcfg.go`, `systemd` servisleri, `~/bin/tetikleyici` (`~/bin/nerve`), Antigravity (`mcp_config.json`), OpenCode (`opencode.json` + 5 yeni MCP aracı), Claude (`~/.claude.json`), `SKILL.md` ve `INDEX.md` içindeki eski yolların `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch` dizinine bağlanması.
   - `make verify` ile 627+ Go ve Python testinin `NerveDispatch` üzerinde %100 yeşil geçtiğinin kanıtlanması.
-- [ ] **3. FAZ 2 — Önce WhatsApp Hattını ve Çekirdek Yetenekleri Tamamlama (Geliştirme 2.1 – 2.11):**
+- [ ] **3. FAZ 2 - Önce WhatsApp Hattını ve Çekirdek Yetenekleri Tamamlama (Geliştirme 2.1 – 2.11):**
   - `2.1` Sabit Session ID & Ajan Adaptörleri (#7) → `2.2` Birleşik `chimera` CLI (#13A) → `2.3` Gömülü Web Dashboard (#13B) → `2.4` 8 Haneli Eşleştirme Kodu (#21) → `2.5` Tepki Emojisi (#12) → `2.6` `/ekran` Komutu (#10) → `2.7` İnteraktif Anket Onayı (#9) → `2.8` Dosya Transferi `/get` (#14) → `2.9` `/root`, `/clip`, `/apps`, `/kill` (#15-#17) → `2.10` `/compact`, Akıllı `/zamanla`, Sistem Bekçisi (#11, #19, #20) → `2.11` Piper TTS Sesli Yanıt (#18) & 300 Satır / 15 Dosya Refactoring.
-- [ ] **4. FAZ 3 — Çok Kanallı Genişleme: Telegram, Discord, Instagram (Geliştirme 3.1 – 3.4):**
+- [ ] **4. FAZ 3 - Çok Kanallı Genişleme: Telegram, Discord, Instagram (Geliştirme 3.1 – 3.4):**
   - `3.1` Ortak `ChannelAdapter` arayüzü ve `ChimeraEvent` (`channel: "whatsapp" | "telegram" | "discord" | "instagram"`) zarf standardı.
   - `3.2` **Telegram Kanalı (`channels/telegram`):** Mefamex Telegram ID (`975678139`) entegrasyonu, tüm `/cmd`, `/camera`, `/ekran`, `/agent` komutlarının ve sabit AI oturumunun Telegram'dan da çalışması + WhatsApp düştüğünde Telegram üzerinden otomatik yedek bildirim (**Cross-Channel Failover**).
   - `3.3` **Discord Kanalı (`channels/discord`):** WebSocket Gateway, DM/Sunucu komutları ve zengin Embed yanıtları.
@@ -274,7 +274,7 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
 Medya hatları (görsel / ses / `/camera`) 23:21-23:22'de **uçtan uca CANLI
 doğrulandı** (`EŞLEŞTİ: … mefamex` → ilgili hat → cevap sohbete düştü).
 **ping → restart → catch-up da TAMAM** (23:28 `ping` → sahip; 23:32 restart →
-23:32 sessiz temiz catch-up; 23:11'de uyarılı hali görülmüştü — iki yön de
+23:32 sessiz temiz catch-up; 23:11'de uyarılı hali görülmüştü - iki yön de
 canlı kanıtlı). Canlı sticker hatası (23:28) → düzeltildi + pipeline'la
 yeniden doğrulandı (kayıt: `TODO.DONE.md` → "00:05 canlı sticker" girişi).
 
@@ -292,20 +292,20 @@ yeniden doğrulandı (kayıt: `TODO.DONE.md` → "00:05 canlı sticker" girişi)
 - Bu projenin ana dizinindeki tüm notlar (md veya txt dosyaları) doğru yerde ve içerikleri doğru mu?
 
 
-## ✅ aynı kişi için çoklu config — TEK KİŞİ TEK KURAL (bitti)
+## ✅ aynı kişi için çoklu config - TEK KİŞİ TEK KURAL (bitti)
 
 > **Bitti (2026-10-06, commit `9ab63bc`).** 6 kural → 1 kural
 > (`mefamex-oturum`, 8 yetenek bayrağı `allow_*` + `*bool` global ezer).
 > Tam tasarım + kayıt: `TODO.DONE.md` → "Tek kişi tek kural" +
 > `config.readme.md` §2.1 (tek kural örneği, hat haritası, `--format json`).
 > Sahibin ek notu (YAPILMADI, bilinçli): oturum çıktısının **anında canlı
-> yayını** — **PARK** (canlı yayın için önce kuyruk şart; kayıt DONE'da).
+> yayını** - **PARK** (canlı yayın için önce kuyruk şart; kayıt DONE'da).
 
 
-## 🔴 KAYIP MESAJ — kalan: WhatsApp history-sync LID içeriği boş (kök neden whatsmeow'da)
+## 🔴 KAYIP MESAJ - kalan: WhatsApp history-sync LID içeriği boş (kök neden whatsmeow'da)
 
 > 03:10 vakası + uygulanan düzeltmeler (`probeWidth` 10→50, ⚠️ uyarısı):
-> `TODO.DONE.md` → "2026-10-06 03:33 +03 — catchUp probeWidth artırıldı".
+> `TODO.DONE.md` → "2026-10-06 03:33 +03 - catchUp probeWidth artırıldı".
 
 - **Açık kalan:** WhatsApp `RequestHistory`'ye LID sohbetleri için **0 mesaj**
   dönüyor (`HISTORY_SYNC_NOTIFICATION` geliyor, içerik yok). Çözüm köprü/
@@ -326,32 +326,32 @@ yeniden doğrulandı (kayıt: `TODO.DONE.md` → "00:05 canlı sticker" girişi)
 > Bitenler taşındı: `servis-yonet.sh` ✅, `/session list|choose` ✅, `debug_cikti` ✅
 > → kayıtlar `TODO.DONE.md`'de.
 
-## ✅ ÖNCELİK 1 — Komut yetkisi: `/cmd` (bitti)
+## ✅ ÖNCELİK 1 - Komut yetkisi: `/cmd` (bitti)
 
-> Tam kayıt: `TODO.DONE.md` → "2026-10-06 02:30 — `/cmd` komut yürütücü eklendi".
+> Tam kayıt: `TODO.DONE.md` → "2026-10-06 02:30 - `/cmd` komut yürütücü eklendi".
 > `tetikleyici/cmd/` (7 modül) + `mefamex-cmd` kuralı + `prefix`/`not_prefix` +
-> `debug_cikti` + `/camera` + `/durum` — hepsi DONE'da. `ping` kuralı da
+> `debug_cikti` + `/camera` + `/durum` - hepsi DONE'da. `ping` kuralı da
 > **SİLİNDİ** (kayıt DONE'da; sahip: *"pinge gerek yokkkkkkk zaten /help var ya"*).
 > **Son eklenen (2026-10-07):** `/session list` + `/session choose <n>` →
 > `cmd.py` + `yardim.py` (opencode API port 4096). Canlı test: **Connection
-> refused** — opencode API henüz başlatılmadı; API ayağa kalkınca çalışacak.
+> refused** - opencode API henüz başlatılmadı; API ayağa kalkınca çalışacak.
   
-## ⛔ KALICI KURAL — kapalı hat sessizdir
+## ⛔ KALICI KURAL - kapalı hat sessizdir
 
 Burak / Yusuf / Masha'nın tetikleyici kuralları **geçici olarak kapalı**
 (2026-10-06). Onlara **hiçbir otomatik cevap verilmez**:
 
 - ✗ "şu an kapalıyım" · ✗ "mevcut değil" · ✗ "mefamex'e yaz" · ✗ ping karşılığı
-- ✗ hiçbir sabit metin — kural yoksa sonuç da yoktur
+- ✗ hiçbir sabit metin - kural yoksa sonuç da yoktur
 
 > "kesinlikle böyle bişe yok. kapalıysa kapalı bunu kritik olarak not et."
 
-Bunu **önerdim ve reddedildi** — bir daha önerme. Kayıt:
+Bunu **önerdim ve reddedildi** - bir daha önerme. Kayıt:
 `NOTES.md` madde 31 · `tetikleyici.yaml` ⛔ bloğu.
 
 ---
 
-## ✅ Canlı testler (tamamlandı — kayıt DONE'da)
+## ✅ Canlı testler (tamamlandı - kayıt DONE'da)
 
 > Fotoğraf ✅ 23:22 · ses ✅ 23:22 · çift gönderim sayımı ✅ · `/camera` ✅ 23:21 ·
 > `/zamanla kapat` ✅ 23:22 · **ping → restart → catch-up ✅ 23:28-23:32** (sessiz
@@ -362,10 +362,10 @@ Bunu **önerdim ve reddedildi** — bir daha önerme. Kayıt:
 
 ## ⏳ Kullanıcıda (sudo gerekiyor)
 
-**Bekleyen sudo işi YOK** (anket deploy'u yapıldı ✅ — aşağıdaki şablon
+**Bekleyen sudo işi YOK** (anket deploy'u yapıldı ✅ - aşağıdaki şablon
 sonraki köprü değişiklikleri için duruyor).
 
-~~Bekleyen 1 sudo işi (anket deploy)~~ — yapıldı: sahip restart attı, `/send-poll`
+~~Bekleyen 1 sudo işi (anket deploy)~~ - yapıldı: sahip restart attı, `/send-poll`
 400 ✅ + `Pıttık mı?` anketi mefamex'e gönderildi (`ok:true`, store `out|poll`).
 Geçici betik `~/Desktop/whatsapp-bridge-restart.sh` duruyor, silinebilir.
 
@@ -383,7 +383,7 @@ sudo systemctl restart whatsapp-bridge
 
 ✅ 2026-10-04 19:17'de deploy edildi: SSE `WriteTimeout: 0` (30 sn'lik kopma
 gitti), heartbeat 15 sn, protokol gürültüsü depoya yazılmıyor. Çalışan
-binary'de doğrulandı — `strings whatsapp-bridge` → `15s` var, `30s` **yok**;
+binary'de doğrulandı - `strings whatsapp-bridge` → `15s` var, `30s` **yok**;
 son 10 dakikada 0 `unsupported`/`HISTORY_SYNC` satırı. Tetikleme gecikmesi
 0-33 sn aralığından **0 sn**'ye indi.
 
@@ -396,22 +396,22 @@ son 10 dakikada 0 `unsupported`/`HISTORY_SYNC` satırı. Tetikleme gecikmesi
 Açık kalanlar:
 
 > ✅ Video (`33da7bc`, ölçülü) + sticker (canlı düzeltme dahil, 00:05) +
-> document (`mefamex-belge` kuralı) bitti — kayıt: `TODO.DONE.md`.
+> document (`mefamex-belge` kuralı) bitti - kayıt: `TODO.DONE.md`.
 
-- [ ] **Bilinen model sınırı**: `b-gorme`'daki 4 yeşil daireyi tüm varyantlarda "dört yeşil nokta" diyor. Prompt ile düzeltilemiyor — bu modelin kalıcı sınırı, kabul edildi
-- [ ] **Sesli arama bildirimi**: WhatsApp'tan kullanıcıya arama (sadece çaldırma, sesli konuşma yok) ile ulaşma/uyarma — sadece çaldırma, belirli süre veya o kapatana/açana kadar
+- [ ] **Bilinen model sınırı**: `b-gorme`'daki 4 yeşil daireyi tüm varyantlarda "dört yeşil nokta" diyor. Prompt ile düzeltilemiyor - bu modelin kalıcı sınırı, kabul edildi
+- [ ] **Sesli arama bildirimi**: WhatsApp'tan kullanıcıya arama (sadece çaldırma, sesli konuşma yok) ile ulaşma/uyarma - sadece çaldırma, belirli süre veya o kapatana/açana kadar
       🧩 ALTYAPI HAZIR (2026-10-06, `111c43b`): gelen call event'leri köprüde
       SSE `call` event'ine yayınlanıyor (offer/accept/reject/terminate…).
       → UÇTAN UCA KURULDU (2026-10-07, detay: Köprü bölümü); gerçek çaldırma testi sahip uyanıkken.
 - [ ] **En son geliştirilecek özellik**: WhatsApp'tan sesli olarak kullanıcın asistanla konuşabilmesi ...
 
-> **Tüm medya hatları aynı tuzağa açık:** `code:` içinde `{mesajlar}` yazma —
+> **Tüm medya hatları aynı tuzağa açık:** `code:` içinde `{mesajlar}` yazma -
 > o metindir. Mesaj kimliği `$TRIGGER_ID`. Yanlışsa `404` alır, tetikleyici
 > "başarısız" diye loglar ve **sessizce** cevap göndermez.
 
-## Tetikleyici — mevcut hali ve kalan işler
+## Tetikleyici - mevcut hali ve kalan işler
 
-> 📄 **Son çalışma (2026-10-05):** `docs/TESLIM-SORUNU-2026-10-05.md` —
+> 📄 **Son çalışma (2026-10-05):** `docs/TESLIM-SORUNU-2026-10-05.md` -
 > "iş bitiyor ama WhatsApp'a gitmiyor" sorunu **çözüldü ve canlıda**.
 
 Mevcut yapı: `tetikleyici/` (bağımsız Go modülü) + `tetikleyici.yaml` +
@@ -422,26 +422,26 @@ altında yorumda hazır. Biten işler `TODO.DONE.md`'de.
 
 Açık kalanlar:
 
-- [x] **Komut yetki modeli yeniden kurulsun** (ask.md cevabı işlendi, 2026-10-07) —
+- [x] **Komut yetki modeli yeniden kurulsun** (ask.md cevabı işlendi, 2026-10-07) -
       **CANLI (commit `296a289`):** 3 aşama: 1) Config users listesi (mefamex:
       numara+LID, allow_slash/cmd/camera/durum/zamanla/reply) 2) yetki.py 3
       aşama kontrol 3) /help güncellendi. Test: 144 passed. `/cmd echo` ✅
-      Kayıt: `TODO.DONE.md` → "2026-10-07 01:25 — 3 aşamalı yetki modeli CANLI"
-- [x] **Mesajlar paralel çalışsın** (ask.md cevabı işlendi, 2026-10-07) —
+      Kayıt: `TODO.DONE.md` → "2026-10-07 01:25 - 3 aşamalı yetki modeli CANLI"
+- [x] **Mesajlar paralel çalışsın** (ask.md cevabı işlendi, 2026-10-07) -
       **CANLI (commit `d957f6b`):** `engine.dispatch` actions'lar `goroutine` +
       `sync.WaitGroup` ile paralel. Session kilidi (`oturumKilidiAl`) `runAction`
       içinde → aynı session sıralı, farklı session'lar paralel. Farklı sohbetler
       zaten per-chat worker ile paraleldi. Test: 144 passed. Sahip fikri
       ("/cmd -n sezon devamı") → kapsam netleştirilecek, ayrı karar bekliyor.
-- [ ] **Sesli arama bildirimi**: WhatsApp'tan kullanıcıya arama (sadece çaldırma) — belirli süre veya o kapatana/açana kadar
+- [ ] **Sesli arama bildirimi**: WhatsApp'tan kullanıcıya arama (sadece çaldırma) - belirli süre veya o kapatana/açana kadar
       ✅ UÇTAN UCA KURULDU (2026-10-07): köprü `POST /call` + tetikleyici
       `/call <jid> [süre]`; canlı `/call` → `ok:true`. Gerçek çaldırma testi
       sahip uyanıkken (detay: Köprü bölümü).
 
-### ✅ Canlı bildirim — Mefamex'e "çalışıyorum" mesajı (bitti; sözleşme kaldı)
+### ✅ Canlı bildirim - Mefamex'e "çalışıyorum" mesajı (bitti; sözleşme kaldı)
 
 > ✅ **TAMAMLANDI + CANLIYA KURULDU 2026-10-06** (`cc7fecc`). Dört olay canlı
-> ölçüldü (on_start 09:17 · on_config_change · on_stop · restart-throttle —
+> ölçüldü (on_start 09:17 · on_config_change · on_stop · restart-throttle -
 > "restart'ta da hatırlar" varsayılmadı, ölçüldü: bildirim.txt damgası).
 > **Neden:** tetikleyici sessizce ölürse / köprü düşerse bunu hiçbir kanaldan
 > öğrenemiyoruz. Tam kayıt: `TODO.DONE.md` → 09:20.
@@ -464,12 +464,12 @@ Açık kalanlar:
 > `chatText` Markdown→WhatsApp çevirdiği için `*kalın*` kullanılabilir.
 
 **Sınırlamalar (spam olmasın):** aynı tür bildirim **5 dk içinde bir daha
-gitmez** (`.tetikleyici/bildirim.txt` — restart'a dayanır) · köprü bağlı
+gitmez** (`.tetikleyici/bildirim.txt` - restart'a dayanır) · köprü bağlı
 değilse **en fazla 10 kez** 30 sn arayla dener, sonra günlüğe yazıp vazgeçer ·
-yalnız `notify.to`'daki kimliğe gönderir — **kendi hesabımıza asla** ·
+yalnız `notify.to`'daki kimliğe gönderir - **kendi hesabımıza asla** ·
 gönderim başarısızsa hata mesajı **gönderilmez**, sadece loglanır.
 
-**Yerleşim:** config'e ayrı `notify:` bloğu (kural değil — tetikleyicinin
+**Yerleşim:** config'e ayrı `notify:` bloğu (kural değil - tetikleyicinin
 kendi işi). Yeni dosya: `tetikleyici/notify.go` + `notify_test.go`:
 
 ```yaml
@@ -485,27 +485,27 @@ notify:
   max_retry: 10
 ```
 
-**Yan yana — `/durum` komutu:** ✅ YAPILDI (kayıt: TODO.DONE.md → 04:20).
+**Yan yana - `/durum` komutu:** ✅ YAPILDI (kayıt: TODO.DONE.md → 04:20).
 Ayrı kural YOK; `mefamex-cmd`'nin `prefix: /` koşusu `/durum`'u yakalar,
 `cmd.py` yönlendirir (düz `durum` yazılsa `mefamex-oturum` da tutar, ÇİFT
 ateşlenir; `/durum` `not_prefix` sayesinde yalnız cmd'ye düşer). Çıktı:
-tetikleyici PID/süre (`/proc` exe eşleşmesi — `pgrep -f` kendini vurur) ·
+tetikleyici PID/süre (`/proc` exe eşleşmesi - `pgrep -f` kendini vurur) ·
 köprü `/health` (bağlı/uptime/tampon) · kural adları · son 3 `EŞLEŞTİ`.
 
-**Yan yana — `/session list|choose` komutu:** ✅ YAPILDI (2026-10-07, commit `296a289`).
+**Yan yana - `/session list|choose` komutu:** ✅ YAPILDI (2026-10-07, commit `296a289`).
 `cmd.py` + `yardim.py` + `sozdizimi.py` (`session_list`, `session_choose`).
-opencode API port 4096 kullanır. **Canlı test: Connection refused** — opencode
+opencode API port 4096 kullanır. **Canlı test: Connection refused** - opencode
 API (port 4096) henüz başlatılmamış; `opencode serve` veya TUI ile API
 aktif edilince çalışacak. Kayıt: `TODO.DONE.md` → session komutları.
 
-**Zamanlayıcı (opencode-zamanlayici) — auto-restart loop:** ✅ AKTİF (2026-10-07).
+**Zamanlayıcı (opencode-zamanlayici) - auto-restart loop:** ✅ AKTİF (2026-10-07).
 `run_loop.sh` (while-true wrapper) → PID dosyası `/tmp/zamanlayici_loop.pid`
 → `kill $(cat /tmp/zamanlayici_loop.pid)` ile durdur. Watchdog 60sn,
 brifing 3600sn. Log: `/tmp/zamanlayici_loop.log`. Config:
 `/home/mfmx/Desktop/opencode-zamanlayici/config.yaml`. Kayıt:
 `NOTES.md` + `AUTO_RESTART.md`.
 
-## Köprü — yapılabilecek işler
+## Köprü - yapılabilecek işler
 
 > Anket endpoint'i `TODO.DONE.md` 04:55. Bitenler DONE'da: etkinlik 🚫
 > (API yetersiz, tulir/whatsmeow#1214 açık · 09:20) · restart persistence
@@ -515,23 +515,23 @@ brifing 3600sn. Log: `/tmp/zamanlayici_loop.log`. Config:
 
 Açık kalanlar:
 
-- [ ] **Tema/duvar kağıdı endpoint'i** (`POST /chat-theme`): Jon Snow/kış teması. whatsmeow'da `ChatThemeSettingView` **sadece okunuyor**, yazan metot yok — protobuf'u elle kurmak gerekir. API yetersiz
+- [ ] **Tema/duvar kağıdı endpoint'i** (`POST /chat-theme`): Jon Snow/kış teması. whatsmeow'da `ChatThemeSettingView` **sadece okunuyor**, yazan metot yok - protobuf'u elle kurmak gerekir. API yetersiz
 - [ ] LID `[unsupported]` sınırı: LID sohbetlerinde telefon numarası hiçbir payload alanında yok (`ContactInfo.RedactedPhone` maskeli). **Gönderimde** çözüyoruz (`resolveTarget`), **gelen** tarafta çözecek alan yok → `--isim` (push_name) veya LID'in kendisi gerekiyor.
       ✅ GELEN YÖNDE İYİLEŞTİRME (2026-10-07): `handleMessage` artık LID gönderen/sohbet
       için store'daki bilinen telefon karşılığını `TakmaAd`'a ekliyor (`lidTelefonu`,
-      2sn sorgu sınırı; `From` DEĞİŞMEZ — store/dedup/eşleşme etkilenmez; eşleşme
+      2sn sorgu sınırı; `From` DEĞİŞMEZ - store/dedup/eşleşme etkilenmez; eşleşme
       yoksa sessizce atlanır). Dış istemci telefonu ek kimlik olarak görür.
-- [ ] **WhatsApp'tan `/` komutlarını genişletme** — kısmen yapıldı: `/camera`, `/durum`, `/zamanla`, `/ping` eklendi (`prefix: /` + `mefamex-cmd`). Komut yetki modeliyle birlikte ele alınacak (yukarıdaki açık iş)
-- [ ] **Sesli arama bildirimi**: WhatsApp'tan kullanıcıya arama (sadece çaldırma, sesli konuşma yok) ile ulaşma/uyarma — sadece çaldırma, belirli süre veya kapatana kadar
+- [ ] **WhatsApp'tan `/` komutlarını genişletme** - kısmen yapıldı: `/camera`, `/durum`, `/zamanla`, `/ping` eklendi (`prefix: /` + `mefamex-cmd`). Komut yetki modeliyle birlikte ele alınacak (yukarıdaki açık iş)
+- [ ] **Sesli arama bildirimi**: WhatsApp'tan kullanıcıya arama (sadece çaldırma, sesli konuşma yok) ile ulaşma/uyarma - sadece çaldırma, belirli süre veya kapatana kadar
       🧩 ALTYAPI HAZIR (2026-10-06, `111c43b`): gelen call event'leri köprüde
       SSE `call` event'ine yayınlanıyor (offer/accept/reject/terminate…).
       ✅ UÇTAN UCA KURULDU (2026-10-07): köprü `POST /call` + tetikleyici
       `/call <jid> [süre]`; canlı `/call` → `ok:true`.
       ⚠️ GERÇEK ÇALDIRMA DOĞRULANMADI: stanza'da SDP placeholder. Canlı test
-      SAHİP UYANIKKEN — uyurken ek test YOK.
+      SAHİP UYANIKKEN - uyurken ek test YOK.
 - [ ] **Sesli sohbet**: WhatsApp'tan sesli olarak kullanıcı ile asistan konuşması (en son geliştirilecek özellik)
 
-## Ölçüm betikleri (`tools/`) — üretim değil, kanıt üretir
+## Ölçüm betikleri (`tools/`) - üretim değil, kanıt üretir
 
 Bu betikler üretim koduna **dokunmaz**; yalnız ölçer. Silinmez çünkü bir
 sonraki ölçüm aynı hatanın tekrarlanıp tekrarlanmadığını ancak onlar gösterir.
@@ -544,44 +544,44 @@ sonraki ölçüm aynı hatanın tekrarlanıp tekrarlanmadığını ancak onlar g
 - **`qwen2.5vl:3b` koşular arası ±20-40 puan salınıyor.** Tek koşuluk prompt
   sıralaması güvenilmez. İstem seçimi ancak **yayılım ölçülerek** yapılır
 - **Ayırt edici görsel şart.** İlk 3 görselin 2'si beş varyantta da birebir
-  aynı puanı aldı — hiçbir şey ölçmüyordu. `d-kucuk` eklendi
+  aynı puanı aldı - hiçbir şey ölçmüyordu. `d-kucuk` eklendi
 - **Puanlama ağırlığını koşular arası değiştirme.** 2. koşuda köprü cezası
   10→0 puana indi; mutlak puanlar artık karşılaştırılamaz. Değiştirdiysen
   not düş
 - **Mekanizma kanıtı puanı geçer.** "Model şunu yaptı" gözlemi, "varyant şu
   kadar iyi" tahmininden güçlüdür. İstem kararları mekanizmayla gerekçelendirildi
 
-## ✅ Desteklenmeyenler — araştırıldı, bitti
+## ✅ Desteklenmeyenler - araştırıldı, bitti
 
 > Global mesaj arama: WhatsApp'ın kendi arama mekanizması API'de YOK →
 > `/search?q=`'yi biz yazdık (`e86fca8`, kayıt: DONE 18:25). Sohbeti sessize
 > alma `/mute` ✅ + favori `/star` ✅ + kanıt ucu `/chat-state` ✅ (8h/7d/1y;
-> kalıcı=1y — WhatsApp'ta kalıcı susturma yok; `ok:true` sessiz başarısızlık
+> kalıcı=1y - WhatsApp'ta kalıcı susturma yok; `ok:true` sessiz başarısızlık
 > kanıtı dahil, tam kayıt: DONE 08:20).
 
 ## Skill / ajan tarafı
 
 > `~/.codex/skills/whatsapp-bridge/SKILL.md` yazıldı ✅ (kayıt: DONE 04:45).
 
-- [ ] `~/.config/opencode/config.toml`'a `agents["whatsapp-bridge"]` tanımı —
+- [ ] `~/.config/opencode/config.toml`'a `agents["whatsapp-bridge"]` tanımı -
   **PARK**: dosya yok, opencode JSON okuyor (`opencode.json`); ölü config yazılmaz
-- [ ] `wa-voip-sidecar` WASM binary'si — **ATLANDI**: boyut önden doğrulanamıyor,
+- [ ] `wa-voip-sidecar` WASM binary'si - **ATLANDI**: boyut önden doğrulanamıyor,
   `willInstall.md`'de (`npm run fetch-wasm` kullanıcıda)
 
-## Burak / Yusuf — sohbet tarafı bekleyenler
+## Burak / Yusuf - sohbet tarafı bekleyenler
 
 - [ ] 2. resim (denizli yer) netleştirme: Side / Phaselis / Olympos adayları verildi, tekrar atması istendi. Gelince `/media/{id}` → `identify` + `exiftool` + Tesseract → kaynaklı cevap
-- [ ] KPSS 2026 takibi: 25 Eki 2026 sınav, sonuç 19 Kas 2026. Giriş belgesi Ekim 2. haftası bekleniyordu — sorarsa güncel kontrol et
+- [ ] KPSS 2026 takibi: 25 Eki 2026 sınav, sonuç 19 Kas 2026. Giriş belgesi Ekim 2. haftası bekleniyordu - sorarsa güncel kontrol et
 - [ ] Opencode kurulum rehberi: işletim sistemini sor → adım adım kurulum mesajı
-- [ ] Yusuf otomasyonu **kapalı** — kullanıcı rızası olmadan otomatik cevap yazılmıyor. Dosyalar yerinde, yeniden açmak istenirse tek satır config yeterli
+- [ ] Yusuf otomasyonu **kapalı** - kullanıcı rızası olmadan otomatik cevap yazılmıyor. Dosyalar yerinde, yeniden açmak istenirse tek satır config yeterli
 
-## ⏱ Heartbeat / durağanlık kontrolü (Mefamex) — sahip onayı GÜNCELLENDİ
+## ⏱ Heartbeat / durağanlık kontrolü (Mefamex) - sahip onayı GÜNCELLENDİ
 
-### Kalp atışı — CANLI (2026-10-07)
+### Kalp atışı - CANLI (2026-10-07)
 
 **Durum:** `heartbeat:` bloğu yaml'da CANLI (idle 15m / every 1m, mesaj birebir).
 **BUG BULUNDU + DÜZELTİLDİ (2026-10-07 05:00):** nudge 4 tur üst üste
-`config'de "opencode" yolu tanımlı değil` diye düştü — `main.run`
+`config'de "opencode" yolu tanımlı değil` diye düştü - `main.run`
 `opts.opencode` doldurmuyor, heartbeat startup kopyasını kullanıyordu.
 Düzeltme: `tazeleOpts()` her turda yolu taze config'den alır + `main.go`
 ilk doldurma + 2 test. Binary derlendi, tetikleyici restart (PID 307670).
@@ -596,7 +596,7 @@ gerekiyorsa at"*.
 **Sahip (2026-10-07):** *"orada bir karışıklık oldu… bu gereksiz karmaşa
 olayını arşivden de silip gerekiyorsa heartbeat'ı uygula"* → **uygulanabilir.**
 ask.md "İki hesap" cevabı da işlendi (sahip): 4 → **yalnız hatırlatma**
-(kontrol mesajıdır, otomatik soru yok); 5 → **ayrı ajan YOK** —
+(kontrol mesajıdır, otomatik soru yok); 5 → **ayrı ajan YOK** -
 whatsapp-bridge her sohbetten gelen mesajı aynı sabit session'a iletir;
 1-3 (şahsi hesap cevabı, eşik, sıklık) bana bırakıldı →
 
@@ -604,13 +604,13 @@ whatsapp-bridge her sohbetten gelen mesajı aynı sabit session'a iletir;
 kural yok, sessiz kalır; isterse tek satır config) · 2) Eşik **15 dk**
 (sahibin verdiği değer) · 3) Sıklık **1 dk** kontrol (sahibin verdiği).
 
-**Çelişki çözümü:** "sürekli cevap" ≠ "durağan kontrol" — mefamex-oturum her
+**Çelişki çözümü:** "sürekli cevap" ≠ "durağan kontrol" - mefamex-oturum her
 GELEN mesaja cevap verir; heartbeat yalnız 15 dk HİÇ trafik yoksa tetiklenir
 (aktifken zaten tetiklenmez, döngü kendiliğinden kırılır).
 Karar tablosu + yaml taslağı: `docs/archive/2026-10-06-ask-heartbeat.md`
 (geri-alma karışıklığı kaydı sahip talimatıyla silindi).
 
-### 🔴 YENİ — mesajlar okunmuyor (düz metin, tek satır)
+### 🔴 YENİ - mesajlar okunmuyor (düz metin, tek satır)
 
 **Sahibi:** *"bana mesaj atarken niye dümdüz mesaj atıyon. hiç satır atlama veya
 numaralandirma yapmıyon. okunması zor oluyo."*
@@ -625,16 +625,16 @@ ekranda okunmuyor.
 | Uzun cevapta **ilk satır özet** olsun | ajan davranışı |
 
 > ⚠️ Bu ajanın **kendi** yazım kuralı; kod değişikliği gerektirmiyor. Dikkat:
-> `tetikleyici/cmd/chattext.go` Markdown'ı WhatsApp biçimine çeviriyor —
+> `tetikleyici/cmd/chattext.go` Markdown'ı WhatsApp biçimine çeviriyor -
 > `**kalın**` → `*kalın*`, satır başı `-` → `•`. Yani numaralı liste gönderilebilir.
 
-### ✅ Yapılanlar (04:05 oturumu) — taşındı
+### ✅ Yapılanlar (04:05 oturumu) - taşındı
 
 > chmod +x 126 · medya yetkisi kanıtı · kayıp mesaj bulgusu · log/grep dersi ·
 > yanlış bulgu düzeltmeleri → `TODO.DONE.md` 00:10 temizlik girişinde (hepsi
 > DONE'daki 04:30-04:45 kayıtlarında da var).
 
-## 📐 2026-10-06 05:10 — Kod kuralı: dosya 300 satırı geçmez
+## 📐 2026-10-06 05:10 - Kod kuralı: dosya 300 satırı geçmez
 
 Sahibi README'de böyle bir kural olup olmadığını sordu → **yoktu**, eklendi
 (`README.md` → *"Kod Kuralı: Modüler ve Profesyonel"*). Ölçümle desteklendi:
@@ -654,7 +654,7 @@ Sahibi README'de böyle bir kural olup olmadığını sordu → **yoktu**, eklen
 
 > Test dosyaları kural **dışı**: onlar üretim karmaşıklığı değildir.
 
-## 📁 2026-10-06 05:15 — Klasör kuralı: ≤ 15 dosya, ≤ 3 seviye
+## 📁 2026-10-06 05:15 - Klasör kuralı: ≤ 15 dosya, ≤ 3 seviye
 
 Sahibi istedi, README'ye eklendi (*"Klasör Kuralı: sığ değil, derin de değil"*).
 **Yalnız md değişti, kod yapısına dokunulmadı** (sahibi: *"sen şimdilik yapma,
@@ -675,15 +675,15 @@ sadece md dosyalarına bakıyoruz"*).
 - [ ] `tetikleyici/` test dosyalarını ayır (31 → ~20)
 - [ ] `wabridge/` send ve medya alt paketlerine böl (17 → ~10)
 
-## ✅ 🔐 MEVZU — "config'e yazılan şey atılacak mı?" (kademeli yetkilendirme, bitti)
+## ✅ 🔐 MEVZU - "config'e yazılan şey atılacak mı?" (kademeli yetkilendirme, bitti)
 
 **Karar: kademeli yetkilendirme.**
 
 | Aşama | Nerede | Değer | Anlamı |
 |---|---|---|---|
-| **1** | **Kod içi varsayılan** | `false` | Hiçbir yerde yazılmadıysa özellik **kapalıdır** — açık kapı yok |
+| **1** | **Kod içi varsayılan** | `false` | Hiçbir yerde yazılmadıysa özellik **kapalıdır** - açık kapı yok |
 | **2** | **Config başı** (yaml üst yorum bloğu) | yazılır/yazılmaz | Tek bakışta neyin açık olduğu; yazılmadıysa aşama 1 |
-| **3** | **Kullanıcı ayarı** (çalışma anı) | yazar | **Config başını ezer** — en yüksek öncelik |
+| **3** | **Kullanıcı ayarı** (çalışma anı) | yazar | **Config başını ezer** - en yüksek öncelik |
 
 > Öncelik: kullanıcı ayarı → config başı → kod (false). Kod `true` varsayılanla
 > yazılmak **YASAK**. *"Kullanıcı istemezse hiç olmaz"* felsefesinin kardeşi:
@@ -700,9 +700,9 @@ kapalıyken tur atmaz) · testler: yalnız-1 / 1+2 / 1+2+3(ezen) ✅ (`config_te
 "mavi tik" iddiası iki yeni testle + mutasyonla doğrulandı.
 
 Kayıt: TODO.DONE.md → MEVZU (18:25/21:40/21:46), /reply (18:25/21:40/23:05).
-## ✅ 📨 `/answer` — oturumlar arası yanıt yönlendirme (bitti)
+## ✅ 📨 `/answer` - oturumlar arası yanıt yönlendirme (bitti)
 
-**Nerede:** **tetikleyicide** (MCP'de değil — yönlendirme zaten onun elinde:
+**Nerede:** **tetikleyicide** (MCP'de değil - yönlendirme zaten onun elinde:
 `sendText(..., Trigger.From)`; MCP oturum bilmez). Sahibin tasarımı kabul:
 `/answer1` yerine **`/reply` + otomatik numara**. Sözdizimi: `/reply list` ·
 `/reply <n> <metin>` · `/reply <metin>` (yalnız 0 bekliyorsa) · numara **sohbete
@@ -711,23 +711,23 @@ değil soruya** bağlı, oturum kapanınca serbest.
 **Uygulandı (tamam):** dosya mekanizması `.tetikleyici/bekleyen_cevaplar.txt`
 (satır başına sayı; en küçük eksik pozitif atanır 1,2,4→3, boş→0) + zaman damgası
 `.zaman` (10 dk TTL; Go `soruNotu`/`reply.go` + Python `cmd/reply.py` ortak;
-süresi dolan numara serbest, uyarı **yalnız logda** — kullanıcıya mesaj yok, spam
+süresi dolan numara serbest, uyarı **yalnız logda** - kullanıcıya mesaj yok, spam
 önlemi). Kuyruk FIFO, çoklu soru destekli, numarasız /reply yalnız 0'a gider,
 atomik yazım + chmod 600. ADIM 1 (`e56bc2d`, 17 Python testi) + ADIM 2 ilk yarı
 (`6855313`): ajan cevabında "?" → numara atanır + "> cevaplamak için /reply veya
-/reply N" notu eklenir (hatalı pozitif zararsız — yalnız not gider). 6 Go + 7 Python test.
+/reply N" notu eklenir (hatalı pozitif zararsız - yalnız not gider). 6 Go + 7 Python test.
 
-**⏳ PARK EDİLDİ:** cevabın açık opencode oturumuna iletilmesi — sahip kararı
+**⏳ PARK EDİLDİ:** cevabın açık opencode oturumuna iletilmesi - sahip kararı
 + kota + `--agent` çift gönderim tuzağı; açılmadan önce dikkatli kurulum +
 canlı test gerekir.
 
 Kayıt: TODO.DONE.md → /reply (18:25/21:40/23:05).
 
 
-## ✅ 📝 `/reply` — otomatik numara atama (bitti; tasarım sahibin)
+## ✅ 📝 `/reply` - otomatik numara atama (bitti; tasarım sahibin)
 
 **Sahibin tasarımı (kelimesi kelimesine):** *"numarayı otomasyon otomatik atasın.
-baksın bekleyen cevap var mı diye. mesela o dosyanın içi: 1, 2, 4 — orada olmayan
+baksın bekleyen cevap var mı diye. mesela o dosyanın içi: 1, 2, 4 - orada olmayan
 sayı (3) otomatik atar. dosya boşsa 0 koyar ve numarasız /reply alır. cevap gelince
 0'ı siler. soru sorulacağı zaman da altına not düşer: > cevaplamak için mesaja şu
 şekilde başlayın: /reply veya /reply 3. ama answer yerine reply kullanalım ya"*
@@ -738,6 +738,6 @@ Akış: soru → en küçük eksik pozitif (boşsa 0) → metne not ekle; cevap 
 çakışma koruması atomik yazım. `/reply` **ayrı kural** (`sozdizimi.py` ayrıştırır,
 `cmd.py` minimal dispatch dalı). Altyapı kararı: env override `BEKLEYEN_CEVAP_DOSYA`.
 
-**Uygulama:** yukarıdaki `/answer` bölümünde — ADIM 1 + ADIM 2 ilk yarı canlıda;
+**Uygulama:** yukarıdaki `/answer` bölümünde - ADIM 1 + ADIM 2 ilk yarı canlıda;
 ikinci yarı (cevabın ajana iletilmesi) **park edildi** (sahip kararı + kota +
 `--agent` çift gönderim tuzağı). Kayıt: TODO.DONE.md → 18:25/21:40/23:05.
