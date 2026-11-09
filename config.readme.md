@@ -1,10 +1,10 @@
-# config.readme.md — `tetikleyici.yaml` kılavuzu
+# config.readme.md - `tetikleyici.yaml` kılavuzu
 
 > **Bu dosya, `tetikleyici.yaml`'ın açıklamasıdır.** Config kısa tutulur;
 > burada duran ayrıntılar oraya taşınır. Config'de değişiklik yaparken
 > burayı da güncelle.
 
-`tetikleyici.yaml` her mesajda yeniden okunur. Düzenle, kaydet, bitti —
+`tetikleyici.yaml` her mesajda yeniden okunur. Düzenle, kaydet, bitti -
 **restart yok, servis yeniden başlatma yok.**
 
 ```bash
@@ -13,7 +13,7 @@
 ./tetikleyici.sh log 50     # son 50 satır günlük
 ```
 
-## ⛔ Sessizlik kasıtlıdır — otomatik cevap konulmaz
+## ⛔ Sessizlik kasıtlıdır - otomatik cevap konulmaz
 
 2026-10-06'da tetikleyici yalnız mefamex'e yanıt verecek şekilde
 daraltıldı. Kapalı hatlara **hiçbir otomatik cevap verilmez**:
@@ -60,7 +60,7 @@ Sonuç: başka bir sistemle (WhatsApp Business API) konuşan biri bu alanları
 görünce neyi tuttuğunu tahmin edemiyor.
 
 `wp_number` ve `wp_name` aynı şeyi **okunur adıyla** söyler ve
-`number`/`name` ile birleştirilir — ikisinden birini yazmak yeterli:
+`number`/`name` ile birleştirilir - ikisinden birini yazmak yeterli:
 
 ```
 number  ∪ wp_number  →  "Numbers"
@@ -74,7 +74,7 @@ name    ∪ wp_name    →  "Names"
 
 **1) LID türetilemez.** Telefon `905551234567` → LID `12345678901234`
 **tamamen başka bir sayı**. LID'li sohbeti *sadece* `number` ile
-yakalayamazsın — ikisini birden yaz.
+yakalayamazsın - ikisini birden yaz.
 
 **2) Türkçe karakter.** `'müfredat'` yazarsan `'mufredat'` **TUTMAZ**.
 
@@ -84,12 +84,12 @@ yakalayamazsın — ikisini birden yaz.
 audio · image · video · document · text · sticker
 ```
 
-`'audio'` yaz — `'voice'`, `'ptt'`, `'sound'` **TUTMAZ**.
+`'audio'` yaz - `'voice'`, `'ptt'`, `'sound'` **TUTMAZ**.
 
 ### `number` / `name` öncelikli OR'dur
 
 Önce `number` denenir; tutmazsa `name`'e düşülür. Günlükte bu
-`name=Mefamex (fallback)` olarak görünür — normal, hata değil.
+`name=Mefamex (fallback)` olarak görünür - normal, hata değil.
 
 ---
 
@@ -109,14 +109,14 @@ Sırayla çalışır; biri çökse diğerleri de çalışır.
 | `reply` | `true` | çıktıyı sohbete gönder |
 | `reply` | `"sabit metin"` | çıktıyı yok say, bunu gönder |
 | `agent` | `wp-sahip` | ajan oturumu açılır. Verilmezse stdout **doğrudan** cevaptır |
-| `timeout` | `12m` | tek eylemin üst sınırı — **kural > bayrak > varsayılan (3m)** |
+| `timeout` | `12m` | tek eylemin üst sınırı - **kural > bayrak > varsayılan (3m)** |
 
 > `timeout` birimsiz sayı verilirse (`timeout: 15`) sıfıra düşmez,
 > günlüğe yazılır.
 
 ### `agent` vermek neyi değiştirir?
 
-Ajan **yorumlar, araştırır, araç çağırır** — stdout'u olduğu gibi
+Ajan **yorumlar, araştırır, araç çağırır** - stdout'u olduğu gibi
 göndermez. Bir de dosya/görsel **gönderebilir**; bu yetenek ajanın
 `whatsapp_send_media` aracındadır.
 
@@ -124,7 +124,7 @@ göndermez. Bir de dosya/görsel **gönderebilir**; bu yetenek ajanın
 
 ---
 
-## 2.1 `type: opencode` — tek kişi tek kural
+## 2.1 `type: opencode` - tek kişi tek kural
 
 Bir kişi için beş ayrı kural yazmak yerine **tek kural** yazıp
 yönlendirmeyi eylemin kendisine bırakır.
@@ -177,7 +177,7 @@ yarıyordu" sorusu her seferinde yeniden cevaplanıyordu.
 | `image`, `video`, `sticker` | `gorsel` | `allow_gorsel` |
 | `document` | `gorsel` | `allow_belge` |
 | `audio` | `ses` | `allow_ses` |
-| `protocol`, `poll_update`, `noPayload`, `unknown` | — (sessiz) | — |
+| `protocol`, `poll_update`, `noPayload`, `unknown` | - (sessiz) | - |
 
 > ⛔ **`/` ile başlayan metin AJANA GİTMEZ.** Komut hattına gider. İzni
 > kapalıysa da ajana düşmez: "kapalı" demek "sessiz" demektir.
@@ -188,12 +188,12 @@ yarıyordu" sorusu her seferinde yeniden cevaplanıyordu.
 
 ### İzin kuralının tam metni
 
-Yukarıdaki tabloların hepsini tek cümleye indiren kural — aranacaksa
+Yukarıdaki tabloların hepsini tek cümleye indiren kural - aranacaksa
 burada aranır:
 
 > **Bir yetenek `allow_*` ile kapalıysa, o yeteneğe düşen mesaj hiçbir
 > şeye dönüşmez: ne cevap gider, ne ajan çağrılır, ne hata yazılır, ne
-> "çıktı boş" bildirimi gider — ve mesaj OKUNDU da işaretlenmez.**
+> "çıktı boş" bildirimi gider - ve mesaj OKUNDU da işaretlenmez.**
 >
 > Doğrulandı (`action.go`, `yonlendir` → `if !varMi { return "", nil }`):
 > akış, hat seçilmeden **çıkıyor**. `sendSeenIfAsked` çağrısı ondan
@@ -213,7 +213,7 @@ Bu kural, dokümanın başındaki *"kapalı hat sessizdir"* ilkesinin **kardeşi
 | *kapalı yetenek sessizdir* (burada) | kural eşleşti, **hat kapalı** | cevap yok |
 
 İkisi de aynı felsefeden gelir: **kullanıcı istemediyse hiçbir şey olmaz.**
-Fark şudur — birincisi kuralın kendisini, ikincisi kuralın *içindeki* bir
+Fark şudur - birincisi kuralın kendisini, ikincisi kuralın *içindeki* bir
 yeteceği susturur. `send_seen` gibi `*bool` alanlar bu kuralın dışında:
 onlar susturmak değil, global ayarı geçersiz kılmaktır (bkz. § 2.1).
 
@@ -252,7 +252,7 @@ başlamadan önce hata verir. Böylece "yarım çalışan kural" olmaz:
 | `gorsel` | `<gorsel> "$TRIGGER_ID"` |
 | `ses` | `<ses> "$TRIGGER_ID"` |
 
-Betiğin **argüman listesini bilmesi gerekmez** — hata riski tamamen
+Betiğin **argüman listesini bilmesi gerekmez** - hata riski tamamen
 kalkar. (Eski hatlarda bu listeyi elle yazmak zorundaydı; birinde
 `{mesajlar}` ile kimlik karıştırılıp 404 alınmıştı.)
 
@@ -264,7 +264,7 @@ kalkar. (Eski hatlarda bu listeyi elle yazmak zorundaydı; birinde
 | `add_aitag` | `ai_eti_ekle` | "🤖 AI asistanı" etiketi |
 | `do_debug` | `debug_cikti` | ajan ara mesajlarını gönder |
 
-Bunlar **`*bool`**: üç durumları vardır —
+Bunlar **`*bool`**: üç durumları vardır -
 
 - **yazılmamış** → global ayar geçerli
 - **`true`/`false`** → o eylem için globali **geçersiz kılar**
@@ -275,13 +275,13 @@ imkânsız olurdu (global açıkken). Ayrım bu yüzden zorunlu.
 
 > `do_debug: true` ajanın **ara mesajlarını** (düşünce ve tool çıktısı
 > hariç) ayrı ayrı gönderir. `false` ise yalnız **son `text` parçasını**
-> gönderir. Tool çıktısı ve düşünme her zaman elenir — kullanıcıya
+> gönderir. Tool çıktısı ve düşünme her zaman elenir - kullanıcıya
 > gitmez.
 
 ### `--format json`: neden yalnız son cevap gidiyor
 
 `opencode run` **hep** `--format json` ile çağrılır (config'e yazılır
-değildir, tetikleyici ekler). Prompt'tan ÖNCE gelmek zorundur — opencode
+değildir, tetikleyici ekler). Prompt'tan ÖNCE gelmek zorundur - opencode
 mesajı sondan okur.
 
 JSON'ı açmak çıktıdaki iki şeyi ayırır: **metin** parçaları ve **tool
@@ -291,7 +291,7 @@ JSON'ı açmak çıktıdaki iki şeyi ayırır: **metin** parçaları ve **tool
 step_start → tool_use → step_finish → step_start → text → text
 ```
 
-- **tool çıktısı** ve **düşünce** her koşulda elenir — hiç gönderilmez.
+- **tool çıktısı** ve **düşünce** her koşulda elenir - hiç gönderilmez.
 - **metin** parçaları sırayla toplanır; **en sonuncusu** nihai cevaptır.
   Önce gelenler ajanın ara konuşmalarıdır ("bir saniye", "dosyayı
   okuyorum").
@@ -299,23 +299,23 @@ step_start → tool_use → step_finish → step_start → text → text
   düşer.
 
 > **JSON neden şart?** Alınmazsa stdout, ajanın metni ile tool çıktısının
-> **karışımı** olur — tek bir düz metin bloğu. O banttan yalnız ajanın
+> **karışımı** olur - tek bir düz metin bloğu. O banttan yalnız ajanın
 > cümlesini ayıklamak mümkün değildir, karışıklık doğrudan kullanıcıya
 > gider. Olayları (`type: "text"` alanına bakarak) tek tek ayıklayıp tool
 > çıktısını ve düşünmeyi atmak ancak JSON ile güvenilir yapılır.
 >
 > ⚠️ **JSON çözülemezse ham çıktı aynen döner.** Sessizce "boş cevap"
 > vermek yerine (eski opencode sürümü ya da farklı bir çıktı biçimi) eski
-> davranış korunur — ama bunun anlamı, ayrıştırılamayan hattan gelenin
+> davranış korunur - ama bunun anlamı, ayrıştırılamayan hattan gelenin
 > kullanıcıya gidebileceğidir.
 
 ---
 
-## 2.2 `notify` — tetikleyicinin kendi olay bildirimleri
+## 2.2 `notify` - tetikleyicinin kendi olay bildirimleri
 
 Kural DEĞİLDİR: mesaj eşleşmesiyle ilgisi yoktur. Tetikleyici açılınca,
 kapanınca, köprü durumu değişince ve config dosyası değişince yalnız
-`to` listesine kısa bir metin gider — "tetikleyici ayakta mı" sorusunun
+`to` listesine kısa bir metin gider - "tetikleyici ayakta mı" sorusunun
 cevabı sahibin cebine düşer.
 
 ```yaml
@@ -341,10 +341,10 @@ notify:
 | `on_bridge_down` | ⛔ Köprüye ulaşılamıyor | up → down GEÇİŞİ |
 | `on_config_change` | ⚙️ Config değişti | dosya damgası (boyut+mtime) değişti |
 
-### Spam koruması — 4 kural
+### Spam koruması - 4 kural
 
 1. **Aynı tür, `throttle` içinde bir daha gitmez.** Damgalar DOSYADA
-   tutulur (`.tetikleyici/bildirim.txt`) — tetikleyici yeniden başlasa da
+   tutulur (`.tetikleyici/bildirim.txt`) - tetikleyici yeniden başlasa da
    hatırlar. Yoksa her restart'ta `on_start` bir daha giderdi.
    **Canlı ölçüldü (2026-10-06):** restart sonrası ikinci `on_start`
    gitmedi.
@@ -359,7 +359,7 @@ notify:
    (2026-10-06):** `["905551234567", "12345678901234@lid"]` yazılıydı,
    sahibin şikâyeti "bana 2'şer kere mesaj geldi" oldu; köprü kaydında
    aynı zaman damgalı 2'şer kayıt vardı. Tek kimlik kullan (tercihen LID).
-4. **Başarısız gönderim damgalanmaz** — sonraki olay yeniden deneyebilir.
+4. **Başarısız gönderim damgalanmaz** - sonraki olay yeniden deneyebilir.
    Hata mesajı sahibe GİTMEZ (köprü düştü, cevap gönderecek hâlde
    değiliz), yalnız günlüğe yazılır.
 
@@ -367,7 +367,7 @@ notify:
 
 Config "mesaj başına yeniden okunur"; `engine.snapshot()` da yalnız MESAJ
 geldiğinde yenilenir. Bildirim olayları mesaj akışından BAĞIMSIZ çalıştığı
-için bu snapshot bayat kalabilir — config'i düzenleyip watcher'ın olay
+için bu snapshot bayat kalabilir - config'i düzenleyip watcher'ın olay
 üretmesi ile yeni ayarın görülmesi arasında boşluk vardı. **Canlı ölçülen
 tuzak:** `to` tek LID'e düşürüldükten sonra çalışan süreç bir sonraki
 config bildirimini ESKİ çift hedefle gönderdi (çift kanala gitti).
@@ -391,12 +391,12 @@ ve `on_start` için anlamlıdır.
 
 ---
 
-## 2.3 `tehlikeli_mesaj` — tanınmayan kaynaklardan şüpheli mesaj uyarısı
+## 2.3 `tehlikeli_mesaj` - tanınmayan kaynaklardan şüpheli mesaj uyarısı
 
 Kural DEĞİLDİR ve **YANIT DEĞİLDİR**: gelen numaraya hiçbir şey
 gönderilmez. Kurallarda **tanınmayan** bir numaradan link içeren metin ya
 da dosya/medya eki gelirse, kısa bir uyarı yalnız `to`'daki kimliğe gider
-— yabancı bir hesabın "şüpheli" davranışından admin'in haberi olur.
+- yabancı bir hesabın "şüpheli" davranışından admin'in haberi olur.
 
 ```yaml
 tehlikeli_mesaj:
@@ -414,27 +414,27 @@ tehlikeli_mesaj:
 
 ### ⛔ "Kapalı hat sessizdir" (2026-10-06 KALICI KURAL) nasıl korunur
 
-1. **Kimseye cevap verilmez** — uyarı admin'e gider, mesajı gönderene değil.
+1. **Kimseye cevap verilmez** - uyarı admin'e gider, mesajı gönderene değil.
 2. **Kurallarda tanınan kimlikler uyarıya girmez.** `number` (From/Sender)
    ya da `name` (PushName) eşleşmesi olan herkes "tanınan" sayılır.
    Burak/Yusuf/Masha kuralları kapalı olsa bile onlardan gelen NORMAL
    mesajlar admin'e "şüpheli" diye düşmez.
-3. **Yalnız eşleşmeyen mesajlar taranır** — normal akışı hiç etkilemez.
+3. **Yalnız eşleşmeyen mesajlar taranır** - normal akışı hiç etkilemez.
 4. **Aynı numara `aralik` içinde bir daha uyarılmaz** (spam koruması;
-   varsayılan 1 saat). Sayaç bellekte tutulur, restart'ta sıfırlanır —
+   varsayılan 1 saat). Sayaç bellekte tutulur, restart'ta sıfırlanır -
    uyarı yanıt olmadığı için bu zararsızdır.
 
 ### Neden "sahte pozitif zararsız, sahte negatif sessiz"
 
 Uyarı yalnız admin'e gider; yanlış bir uyarı kimseyi yanlış cevaplamaz.
-Kaçırılan bir sinyal ise sessizdir — özellik kapatılabilir, hat hiçbir
+Kaçırılan bir sinyal ise sessizdir - özellik kapatılabilir, hat hiçbir
 zaman bir kullanıcıya otomatik mesaj atamaz. Kimlik avı linkleri ve bulaşık
 dosyalar kötü niyetli trafiğin en sık taşıdığı iki yüktür; ilk sürüm onları
 tarar.
 
 ---
 
-## 3. Tüm opsiyonlar — tek örnek
+## 3. Tüm opsiyonlar - tek örnek
 
 ```yaml
   - name: ornek-kural
@@ -442,9 +442,9 @@ tarar.
       everyone: false              # koşulsuz her mesaj
       number: ["905551234567", "12345678901234@lid"]
       name: [Mefamex, Yusuf]       # öncelikli OR
-      text: müfredat               # AND — metin içermeli
-      not_text: ping               # AND — "ping" varsa kural TUTMAZ
-      type: [audio, image]         # AND — mesaj tipi
+      text: müfredat               # AND - metin içermeli
+      not_text: ping               # AND - "ping" varsa kural TUTMAZ
+      type: [audio, image]         # AND - mesaj tipi
       group: false                 # gruplarda çalışma
     do:
       - type: command              # 1) kabuk komutu / script
@@ -516,7 +516,7 @@ başarısız oldu ve **sessizce** cevap gitmedi.
 | `$TRIGGER_TEXT` | tetikleyen mesajın metni |
 
 > `code:` bir **dosya yoluna** işaret ediyorsa `{mesajlar}` dosyanın
-> *içinde* genişletilmez — `TRIGGER_*` değişkenlerini kullan.
+> *içinde* genişletilmez - `TRIGGER_*` değişkenlerini kullan.
 >
 > Kimlik tırnaklı yazılır: `"$TRIGGER_ID"`. Tırnaksız hâlde `sh -c`
 > içinde özel karakterlerde bozulur.
@@ -538,13 +538,13 @@ TRIGGER_CONFIG ..... bu config dosyasının yolu
 ### Çift gönderim
 
 `session`/`new_session` eyleminde ajan, tetikleyen sohbete **kendisi**
-`whatsapp_send` ile yazmamalı — çıktısı zaten cevap olarak gider.
+`whatsapp_send` ile yazmamalı - çıktısı zaten cevap olarak gider.
 İkisini de yaparsa karşı taraf her şeyi **iki kez** alır (canlıda oldu:
 Masha'ya cevap + "Yanıt gönderildi" raporu peş peşe).
 
 Artık güvence **prompt'ta değil, kodda**: tekrar eden metin
 `action.go → gonder()` katmanında bastırılır (2 dk pencere).
-Ajanın `whatsapp_send` izni **açık kalmalıdır** — kapatmak ajanı körleştirir.
+Ajanın `whatsapp_send` izni **açık kalmalıdır** - kapatmak ajanı körleştirir.
 
 ### PATH
 
@@ -557,7 +557,7 @@ yolla** çağır (`~/.opencode/bin/opencode`), yoksa `exit 127`.
 
 ### Bir mesaja kaç kural tutarsa HEPSİ çalışır
 
-İlki değil — sırayla hepsi. Bu yüzden `mefamex-ping` ile
+İlki değil - sırayla hepsi. Bu yüzden `mefamex-ping` ile
 `mefamex-oturum`'un `not_text: ping` ile birbirini dışlaması gerekir.
 
 ### Config bozulursa
@@ -570,30 +570,30 @@ loglanır.
 ## 6. Pasif kuralları geri açma
 
 Config'in altında yorumda, hazır bekleyen 6 kural var (Burak, Yusuf,
-Masha). **Bunların karşılığı cevap değil hiçbir şeydir** — bkz. en üstteki
+Masha). **Bunların karşılığı cevap değil hiçbir şeydir** - bkz. en üstteki
 ⛔ bölümü.
 
 Yerleşim tercihi: **kurallar en üstte, açıklamalar altta.** Bu yüzden
-pasif kurallar `rules:` listesinin dışında, dosyanın en sonunda duruyor —
+pasif kurallar `rules:` listesinin dışında, dosyanın en sonunda duruyor -
 `rules:` yalnız aktif kuralları okur.
 
 ### Adımlar
 
 **Tek işaretçi: `#   - name: burak-ping`.** O satırdan **dosya sonuna kadar**
-her şeyi kopyala. (Blokun en üstündeki 6 dekoratif satır yorumda kalır —
+her şeyi kopyala. (Blokun en üstündeki 6 dekoratif satır yorumda kalır -
 onları alma, orası kural değil.)
 
 1. `#   - name: burak-ping` satırından dosya sonuna kadar kopyala.
-2. Her satırın başındaki `# ` sil — 6 kuralın her birinde 7 satır var:
+2. Her satırın başındaki `# ` sil - 6 kuralın her birinde 7 satır var:
    `#   - name: burak-ping` → `  - name: burak-ping`  (3 boşluk → 2)
    `#     timeout: 12m`     → `    timeout: 12m`      (5 → 4)
    Satırın geri kalanı **aynen** kalır. İç yorumlar (`#   # ── MİSAFİR…`)
    yorum olarak kalır, YAML'ı bozmaz.
-3. Yapıştırma yeri = **`rules:` listesinin sonu** — `mefamex-gorsel`
+3. Yapıştırma yeri = **`rules:` listesinin sonu** - `mefamex-gorsel`
    kuralının `timeout: 12m` satırından sonra.
 4. Dosyanın altında artık boş kalan `⛔` ve `⏸` başlık yorumlarını sil
    (kurallar artık `rules:` içinde, orada bir şey kalmadı).
-5. **Doğrula** — 10 demeli:
+5. **Doğrula** - 10 demeli:
 
    ```bash
    python3 -c "import yaml;print(len(yaml.safe_load(open('tetikleyici.yaml'))['rules']))"
@@ -611,13 +611,13 @@ dokunmak gerekmez.
 
 ### Bu işten sonra
 
-Geri açmak, kuralları `rules:` listesine taşımaktır — **cevap kodu
+Geri açmak, kuralları `rules:` listesine taşımaktır - **cevap kodu
 yazılmaz.** Sessizlik kuralı (en üstteki ⛔ bölümü) bundan sonra da
 geçerlidir; kural açık olmak, karşısına otomatik cevap koymak
 demek değildir.
 ---
 
-## 🔐 Config'e yazılan özellik ATILIR MI? — 3 aşamalı yetki
+## 🔐 Config'e yazılan özellik ATILIR MI? - 3 aşamalı yetki
 
 > Sahibi 2026-10-06'da sordu: *"config içine yazılan … atılacak mı mevzusu"*
 > ve üç aşama verdi. Kural burada da geçerlidir.
@@ -626,7 +626,7 @@ demek değildir.
 |---|---|---|
 | **1** | **Kod varsayılanı = `false`** | Hiçbir yerde yazılmamışsa özellik **kapalıdır** |
 | **2** | **Config başındaki beyan** | Açıkça yazılırsa uygulanır |
-| **3** | **Kullanıcı ayarı** | **Config başını ezer** — en yüksek öncelik |
+| **3** | **Kullanıcı ayarı** | **Config başını ezer** - en yüksek öncelik |
 
 ```
 kullanıcı ayarı   ← en yüksek (config'i ezer)
@@ -638,9 +638,9 @@ kod varsayılanı  ← false, en düşük (temel güvenlik)
 
 | Config'de | Kullanıcı ayarı | Sonuç |
 |---|---|---|
-| yazılmamış | — | ❌ **ATILIR** — özellik çalışmaz |
-| `true` | — | ✅ uygulanır |
-| `true` | `false` | ❌ **ATILIR** — kullanıcı ayarı ezdi |
+| yazılmamış | - | ❌ **ATILIR** - özellik çalışmaz |
+| `true` | - | ✅ uygulanır |
+| `true` | `false` | ❌ **ATILIR** - kullanıcı ayarı ezdi |
 
 > **Neden kod `false`:** yeni bir özellik eklenirken `true` unutulursa
 > güvenli tarafta kalır. "Config'i unutma" hatası böyle kapanır.
