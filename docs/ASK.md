@@ -11,7 +11,7 @@
 
 1. **Varsayımla Kodlama Yasaktır:** İki farklı yol varsa ve tercih kritikse tahminle ilerleme; soruyu buraya net seçeneklerle yaz.
 2. **Kendi Kararım (İnisiyatif İlkesi):** Geliştirici otonomi vermişse ("kararı sen ver ve devam et"), kararı uygula ancak bu dosyaya Kendi Kararım başlığı altında **seçimini ve gerekçeni** tablo halinde kaydet.
-3. **Arşivleme Kuralı:** Yanıtlanan sorular bu dosyayı şişirmemeli; `docs/archive/YYYY-MM-DD-ask-[konu].md` dosyasına taşınarak temizlenmelidir.
+3. **Temiz Tutma ve Arşivleme Kuralı (Mefamex Direktifi):** Verilen cevaplara veya alınan kararlara göre sorulması gereken bir şey kalmamışsa, o konu hemen planlanıp ilgili markdown dosyalarına (`TODO.md`, `TODO.DONE.md`, `NOTES.md`, `README.md` vb.) kaydedilir ve `ASK.md` genellikle temiz tutulur. Yanıtlanan eski konular `docs/archive/` altına taşınır.
 
 ---
 
@@ -53,4 +53,3 @@
 
 - **Eski `aktif_motor.txt` / `tunel_durumu.json` değerleri:** 2026-11-08 02:24'te iç içe `.tetikleyici/.tetikleyici` altına düşmüş. Canlı ayarlar varsayılana dönmüş olabilir. Geri yüklensin mi? (Değerler kaynak repoda duruyor; karar kullanıcının.)
 - **`docs/` geçmişindeki kimlik öneki:** Eski plan satırı 427'deki PII tarama kalıbı gerçek kimliklerin ilk haneleri ve NerveDispatch'in push'lanmış 5 commit'inde var. Geçmiş yeniden yazılsın mı (force-push gerektirir) yoksa kabul mü?
-- **Faz 3 Çok Kanallı Genişleme:** Telegram, Discord ve Instagram bot entegrasyonları, WhatsApp çekirdek hattının birleşmesi tamamlandıktan sonra devreye alınacak.
