@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""calistir.py — Süreç başlatma, çıkış kodu, zaman aşımı.
+"""calistir.py - Süreç başlatma, çıkış kodu, zaman aşımı.
 
 Bu modül, shell komutlarını güvenli bir şekilde çalıştırır.
 """

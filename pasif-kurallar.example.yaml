@@ -20,7 +20,7 @@
 #  2) tetikleyici.yaml dosyasının EN SONUNA yapıştır (rules: listesinin
 #     içine, girintisi bozulmadan).
 #  3) Numara, LID ve session ID kısımlarını kendi değerlerinle güncelle.
-#  4) Kaydet. Restart YOK — tetikleyici her mesajda config'i yeniden okur.
+#  4) Kaydet. Restart YOK - tetikleyici her mesajda config'i yeniden okur.
 #  5) Doğrula:   ./tetikleyici.sh status   → kural sayısı artmalı.
 #
 # ───────────────────────────────────────────────────────────────────────

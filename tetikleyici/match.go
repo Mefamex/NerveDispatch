@@ -92,7 +92,7 @@ func (c condition) contentHolds(m message) bool {
 // Sticker, reaksiyon ve bazı boş payload'larda metin yoktur. `type` kısıtı
 // olmayan bir kural bunları da yakalayıp ajanı boş pencereyle tetikliyordu;
 // ajan da tetikleyen mesajı değil penceredeki başka bir mesajı işliyordu.
-// Ölçüm: export/1-mefamex — Mefamex "durum" yazdı, ajan "Sesli mesajı aldım,
+// Ölçüm: export/1-mefamex - Mefamex "durum" yazdı, ajan "Sesli mesajı aldım,
 // 'durum' dedin" diye cevap verdi.
 //
 // Kural metin bekliyorsa (text/not_text/prefix) boş metin elenir. `everyone` + komut
@@ -120,7 +120,7 @@ func (i identity) detailLine() string {
 	}
 }
 
-// describe, koşülü tek satırda gösterir — status çıktısı ve günlük için.
+// describe, koşülü tek satırda gösterir - status çıktısı ve günlük için.
 // Öncelik sırası `number → name` olarak gösterilir ki kullanıcı yazdığı
 // düzeni tanıyabilsin.
 func (c condition) describe() string {

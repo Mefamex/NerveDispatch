@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""cmd.py — /cmd ve /session giriş noktası.
+"""cmd.py - /cmd ve /session giriş noktası.
 
 tetikleyici.yaml'dan çağrılan ana betik. Mesajı ayrıştırır, yetki
 kontrolü yapar, komutu çalıştırır ve sonucu stdout'a basar.
@@ -78,7 +78,7 @@ def kamera_izni_acik() -> bool:
     """tetikleyici.yaml'da `kamera_izni: true` yazıyor mu?
 
     Bağımlılıksız okuma: yalnızca ilgili satıra bakılır (yorum satırları
-    atlanır). Dosya okunamazsa KAPALI sayılır (şüphede geç — madde 29).
+    atlanır). Dosya okunamazsa KAPALI sayılır (şüphede geç - madde 29).
     """
     import re
 
@@ -163,7 +163,7 @@ def ana(metin: str, gonderen_numara: str, gonderen_isim: str) -> str:
     # Komutu ayrıştır
     sonuc = parse_cmd(metin)
 
-    # /exit — her türlü tünelden (session veya cmdhub) hızlı çıkış
+    # /exit - her türlü tünelden (session veya cmdhub) hızlı çıkış
     if sonuc.komut_turu == "exit":
         kullanici_tunel_sifirla(gonderen_numara)
         return "🚪 Tünelden çıkıldı. Normal ana oturuma dönüldü."
@@ -177,11 +177,11 @@ def ana(metin: str, gonderen_numara: str, gonderen_isim: str) -> str:
     if sonuc.komut_turu == "help":
         return kisa_yardim()
 
-    # /ping — pong. Ajan turu bekletmez; tetikleyici sağlığını anında ölçer.
+    # /ping - pong. Ajan turu bekletmez; tetikleyici sağlığını anında ölçer.
     if sonuc.komut_turu == "ping":
         return "pong 🏓"
 
-    # /sil veya /revoke — alıntılanan mesajı herkesten sil
+    # /sil veya /revoke - alıntılanan mesajı herkesten sil
     if sonuc.komut_turu == "revoke":
         import json
         import urllib.request
@@ -212,7 +212,7 @@ def ana(metin: str, gonderen_numara: str, gonderen_isim: str) -> str:
         except Exception as e:
             return f"Mesaj silinemedi: {e}"
 
-    # /agent — aktif ajan motorunu göster / değiştir (agy, claude, opencode)
+    # /agent - aktif ajan motorunu göster / değiştir (agy, claude, opencode)
     if sonuc.komut_turu == "agent":
         return agent_yonet(sonuc.kod)
 
@@ -242,7 +242,7 @@ def ana(metin: str, gonderen_numara: str, gonderen_isim: str) -> str:
             sonuc.alt_komut, sonuc.hedef or sonuc.kod, gonderen_numara, debug_cikti
         )
 
-    # /call — giden arama (çaldırma)
+    # /call - giden arama (çaldırma)
     if sonuc.komut_turu == "call":
         import json
         import urllib.request
@@ -268,7 +268,7 @@ def ana(metin: str, gonderen_numara: str, gonderen_isim: str) -> str:
         except Exception as e:
             return f"❌ Köprü erişilemedi: {e}"
 
-    # /camera — çift kapılı: yetki (yukarıda) + kamera_izni (config)
+    # /camera - çift kapılı: yetki (yukarıda) + kamera_izni (config)
     if sonuc.komut_turu == "camera":
         if not kamera_izni_acik():
             return (
@@ -279,19 +279,19 @@ def ana(metin: str, gonderen_numara: str, gonderen_isim: str) -> str:
 
         return kamera_ana()
 
-    # /durum — salt okunur, izin gerekmez (yetki zaten yukarıda)
+    # /durum - salt okunur, izin gerekmez (yetki zaten yukarıda)
     if sonuc.komut_turu == "durum":
         from durum import ana as durum_ana
 
         return durum_ana()
 
-    # /zamanla — "şu zaman sonra şu mesajı gönder" (config kapısı içeride)
+    # /zamanla - "şu zaman sonra şu mesajı gönder" (config kapısı içeride)
     if sonuc.komut_turu == "zamanla":
         from zamanla import zamanla_komut
 
         return zamanla_komut(sonuc.zaman_metni, sonuc.metin, gonderen_numara)
 
-    # /reply — bekleyen soruya cevap (ADIM 1: komut + kayıt mekanizması)
+    # /reply - bekleyen soruya cevap (ADIM 1: komut + kayıt mekanizması)
     if sonuc.komut_turu == "reply":
         from reply import reply_komut
 

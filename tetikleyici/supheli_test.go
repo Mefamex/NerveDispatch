@@ -223,7 +223,7 @@ func TestSupheliFromMeGitmez(t *testing.T) {
 }
 
 // TestSupheliAralikIcindeTekrarGitmez: aynı numaradan iki şüpheli mesaj
-// aralık (burada 1m) içindeyse yalnız ilki uyarır — spam koruması.
+// aralık (burada 1m) içindeyse yalnız ilki uyarır - spam koruması.
 func TestSupheliAralikIcindeTekrarGitmez(t *testing.T) {
 	fake := &fakeBridge{}
 	client := fake.start(t)
@@ -242,7 +242,7 @@ func TestSupheliAralikIcindeTekrarGitmez(t *testing.T) {
 }
 
 // TestSupheliAralikDoluncaTekrarGider: süre geçince aynı numara yeniden
-// uyarabilir (doğrudan izleyici davranışı — saati taşımak yerine test
+// uyarabilir (doğrudan izleyici davranışı - saati taşımak yerine test
 // doğrudan izleyiciyi kurar).
 func TestSupheliAralikDoluncaTekrarGider(t *testing.T) {
 	izleyici := yeniSupheliIzleyici()

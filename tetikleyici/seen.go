@@ -16,7 +16,7 @@ import (
 // görülebilir; aynı komut iki kez çalışmamalıdır.
 //
 // Bellekte tutulur, dosyaya yazılır. Dosya tek satırda kimlikten oluşur;
-// okunamazsa uyarılır ve süreç yine çalışmaya devam eder — dedup kaybı
+// okunamazsa uyarılır ve süreç yine çalışmaya devam eder - dedup kaybı
 // çift tetiklemedir, tetikleyicinin durması değil.
 type seenStore struct {
 	path string

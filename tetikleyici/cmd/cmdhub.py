@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""cmdhub.py — /cmdhub komut merkezi ve doğrudan kabuk tüneli.
+"""cmdhub.py - /cmdhub komut merkezi ve doğrudan kabuk tüneli.
 
 - /cmdhub              → CMDHUB tünel modunu aç
 - /cmdhub exit         → CMDHUB modundan çık (veya /exit)

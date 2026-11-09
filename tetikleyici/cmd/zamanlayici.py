@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""zamanlayici.py — Saniyelik tekrar, 'kaldığı yerden devam'.
+"""zamanlayici.py - Saniyelik tekrar, 'kaldığı yerden devam'.
 
 Tekrarlayan /cmd komutlarını yönetir. Her turda çıktıyı dosyaya yazar
 ve WhatsApp'a gönderir. Durdurma sinyali ile güvenli kapanır.

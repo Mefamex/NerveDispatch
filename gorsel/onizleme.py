@@ -1,4 +1,4 @@
-"""onizleme — görseli modele vermeye uygun hâle getirir.
+"""onizleme - görseli modele vermeye uygun hâle getirir.
 
 Neden gerekli:
   • WhatsApp telefon kamerası 12 MP gönderir. qwen-vl 2000+ piksel
@@ -31,10 +31,10 @@ JPEG_KALITE = int(os.getenv("GORSEL_JPEG_KALITE", "88"))
 # Aynı değişken adı İKİ BİRBİRİYLE İLGİSİZ şeyleri kontrol ediyordu:
 # burada ffmpeg ALT SÜREÇ zaman aşımı (60 sn), video.py'de ise vision
 # modeline verilen SORU süresiydi (300 sn). Aynı ada iki farklı varsayılan
-# yazılmıştı — hangisinin geçerli olduğu dosyaya bakmadan anlaşılmıyordu.
+# yazılmıştı - hangisinin geçerli olduğu dosyaya bakmadan anlaşılmıyordu.
 # Daha kötüsü: kullanıcı vision'a süre vermek için bu değişkeni yükseltirse
 # ffmpeg'e de aynı süre veriyor, tersi de doğru: ffmpeg'i hızlandırmak için
-# 30 sn yazarsa vision çağrısı da 30 sn'ye düşer — ölçülen tek kare süresi
+# 30 sn yazarsa vision çağrısı da 30 sn'ye düşer - ölçülen tek kare süresi
 # 32 sn, yani model her seferinde zaman aşımına uğrar.
 # Artık ayrı: ffmpeg alt süreci = GORSEL_FFMPEG_SURESI (60),
 # vision sorusu = GORSEL_KARE_CAGRI_SURESI (120).

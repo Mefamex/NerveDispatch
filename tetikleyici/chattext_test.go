@@ -83,7 +83,7 @@ func TestChatTextHandlesTheObservedSessionReplies(t *testing.T) {
 	cases := map[string]string{
 		`Bu oturum artık **"Mefamex WhatsApp"** isminde.`:                 `Bu oturum artık *"Mefamex WhatsApp"* isminde.`,
 		"Oturum ID: `ses_ef8590662ffeRSLXLL2R8VhJfM`":                     "Oturum ID: ses_ef8590662ffeRSLXLL2R8VhJfM",
-		"Evet, biliyorum — bu bilgisayarın ve bu oturumun sahibi sensin.": "Evet, biliyorum — bu bilgisayarın ve bu oturumun sahibi sensin.",
+		"Evet, biliyorum - bu bilgisayarın ve bu oturumun sahibi sensin.": "Evet, biliyorum - bu bilgisayarın ve bu oturumun sahibi sensin.",
 	}
 
 	for in, want := range cases {

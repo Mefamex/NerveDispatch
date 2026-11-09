@@ -12,7 +12,7 @@ import (
 //	*kalın*  _italik_  ~üstü çizili~  ```satır içi kod```
 //
 // Bir dil modeli Markdown üretir ve Markdown'ın **iki** yıldızla yazılan
-// kalın vurgusunu WhatsApp anlamaz — mesajda `**metin**` yazısı görünür.
+// kalın vurgusunu WhatsApp anlamaz - mesajda `**metin**` yazısı görünür.
 // Dönüşüm burada yapılır: model her zaman Markdown'a kaçsa bile giden mesaj
 // düzgün görünür. Ters yönde bir işlem yapmıyoruz; bir komutun ham çıktısı
 // (log, JSON) `code:` üzerinden geldiğinde biçim bozulmamalı, o yüzden

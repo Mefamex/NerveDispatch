@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""yardim.py — /help metni."""
+"""yardim.py - /help metni."""
 
 from __future__ import annotations
 
 
-YARDIM_METNI = """/cmd — Komut yürütücü + Yardımcı komutlar
+YARDIM_METNI = """/cmd - Komut yürütücü + Yardımcı komutlar
 
 SÖZLEŞME
 ────────────────────
@@ -69,7 +69,7 @@ GÜVENLİK / YETKİ
   2. `/` ile gelen mesajlara yetkisi var mı?
   3. `/cmd` özel yetkisi var mı?
 • `allow_*` bayrakları 2-3. adımın kabuğu; `yetki.py` mefamex-dışını reddeder
-• `sudo` **WhatsApp'tan geçmez** — gerekirse onay akışı ayrı süreç
+• `sudo` **WhatsApp'tan geçmez** - gerekirse onay akışı ayrı süreç
 
 SINIRLAR
 ────────────────────
@@ -98,9 +98,9 @@ NOTLAR
 ────────────────────
 • "Kaldığı yerden devam" = aynı komut her turda baştan çalışır,
   ama çıktı dosyası **ekleme modunda** büyür (geçmiş birikir)
-• Durdurma: `/cmd stop` (tümü) veya `/cmd stop <id>` (tek) — child PID doğrudan öldürülür
+• Durdurma: `/cmd stop` (tümü) veya `/cmd stop <id>` (tek) - child PID doğrudan öldürülür
 • Liste: `/cmd list` → ID, komut, aralık, tur sayısı, dosya adı
-• Bu komut **agent kullanmaz** — stdout doğrudan cevaptır
+• Bu komut **agent kullanmaz** - stdout doğrudan cevaptır
 • Zamanlanmış mesajlar `zamanlanmis_mesaj.acik: true` iken çalışır (restart'a dayanır)
 • `/session` komutları opencode API'si kullanır (port 4096)
 """

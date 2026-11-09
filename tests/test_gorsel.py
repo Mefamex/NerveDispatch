@@ -65,7 +65,7 @@ class TestTurAlgilama(unittest.TestCase):
 
 # ── belge: BINARY REDDİ (canlıda olmuş hata) ─────────────────────────────────
 class TestBinaryReddi(unittest.TestCase):
-    """REGRESYON — canlıda PNG "düz metin" sanılıp binary çöpü metin
+    """REGRESYON - canlıda PNG "düz metin" sanılıp binary çöpü metin
     katmanı olarak döndü; OCR bu yüzden hiç çalışmadı ve kullanıcıya
     görselin yerine PNG başlıkları gitti.
 
@@ -90,7 +90,7 @@ class TestBinaryReddi(unittest.TestCase):
         self.assertTrue(belge._binary_mi(jpeg_yol.read_bytes()))
 
     def test_elif_binary_sayilir(self):
-        # \x7fELF — NUL oranı düşük, kontrol karakteri oranı yüksek
+        # \x7fELF - NUL oranı düşük, kontrol karakteri oranı yüksek
         self.assertTrue(belge._binary_mi(b"\x7fELF\x02\x01\x01" + bytes(range(32)) * 4))
 
     def test_metin_sayilmaz(self):
@@ -216,7 +216,7 @@ class TestOcrTemizleme(unittest.TestCase):
 
     def test_tek_harf_gurultusu_atilir(self):
         # OCR kenarlardan noktalama üretir; harf/rakam içermeyen satır gürültüdür
-        self.assertEqual(ocr.temizle("[]\n|\n—\nGerçek metin"), "Gerçek metin")
+        self.assertEqual(ocr.temizle("[]\n|\n-\nGerçek metin"), "Gerçek metin")
 
     def test_iki_harfli_kelimeler_kalir(self):
         # REGRESYON: len<=2 kuralı "OK" ve "Ad" kelimelerini siliyordu.
@@ -230,13 +230,13 @@ class TestOcrTemizleme(unittest.TestCase):
 
     def test_alfanum_siz_tanimi(self):
         self.assertTrue(ocr.alfanum_siz("[]"))
-        self.assertTrue(ocr.alfanum_siz("—"))
+        self.assertTrue(ocr.alfanum_siz("-"))
         self.assertFalse(ocr.alfanum_siz("OK"))
         self.assertFalse(ocr.alfanum_siz("1"))
         self.assertFalse(ocr.alfanum_siz("ş"))
 
     def test_sayilar_kalir(self):
-        # Tek haneli sayı gürültü DEĞİL — fiyat, adet olabilir
+        # Tek haneli sayı gürültü DEĞİL - fiyat, adet olabilir
         self.assertEqual(ocr.temizle("5"), "5")
 
     def test_tamamen_gurultu_reddedilir(self):
@@ -295,7 +295,7 @@ class TestSoruCikarimi(unittest.TestCase):
         self.assertEqual(kaynak, "onceki-mesaj")
 
     def test_onceki_soru_olmayan_metinde_durur(self):
-        # Son metin soru değilse o da kullanılmaz — bağlam yok
+        # Son metin soru değilse o da kullanılmaz - bağlam yok
         gecmis = [
             {"text": "günaydın", "type": "text"},
             {"text": "[image tipinde mesaj]", "type": "image"},
@@ -384,7 +384,7 @@ class TestModelSiniflandirma(unittest.TestCase):
                 self.assertTrue(gorme.metin_mi(m))
 
     def test_gorsel_model_metin_istemi_alabilir(self):
-        # Metin istemi görsel göndermeden yapılır — kısıt YOK
+        # Metin istemi görsel göndermeden yapılır - kısıt YOK
         # (gorme.sor görsel zorunlu tutar, sor_menet getirir)
         self.assertTrue(callable(gorme.sor_menet))
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""reply.py — /reply komutu: bekleyen soru cevapları.
+"""reply.py - /reply komutu: bekleyen soru cevapları.
 
 Sahibin tasarımı (TODO.md §/reply, 2026-10-06 05:40): cevaplar
 `.tetikleyici/bekleyen_cevaplar.txt` dosyasında, satır başına bir sayı
@@ -18,15 +18,15 @@ Sahibin tasarımı (TODO.md §/reply, 2026-10-06 05:40): cevaplar
     Zaman aşımı (2026-10-06): atanan numara 10 dk içinde kullanılmazsa
     serbest bırakılır. Damga dosyası <ana>.zaman (numara epoch) Go
     reply.go ile ORTAKTIR; süreyi aşan numara hem ana hem damga
-    dosyasından silinir. Uyarı yalnız günlüğe yazılır — kullanıcıya
+    dosyasından silinir. Uyarı yalnız günlüğe yazılır - kullanıcıya
     WhatsApp hatırlatması GİTMEZ. Damgası olmayan (eski format)
     numaralara dokunulmaz.
 
 YENİ (2026-10-14): Soru metinleri `.tetikleyici/bekleyen_sorular.json` dosyasında
-saklanır: {numara: {soru, zaman, jid}} — /reply list'te gösterilir.
+saklanır: {numara: {soru, zaman, jid}} - /reply list'te gösterilir.
 
 ADIM 1: komut + dosya yönetimi. Ajan entegrasyonu (soru anında numara
-atama + cevabın ajan oturumuna iletilmesi) ayrı adım — burada sadece
+atama + cevabın ajan oturumuna iletilmesi) ayrı adım - burada sadece
 kayıt mekanizması.
 """
 
@@ -38,7 +38,7 @@ import time
 from pathlib import Path
 
 # Zaman aşımı: bekleyen bir cevap numarası 10 dk içinde kullanılmazsa serbest
-# bırakılır (TODO §/reply). Uyarı yalnız günlüğe gider — unutan kullanıcıya
+# bırakılır (TODO §/reply). Uyarı yalnız günlüğe gider - unutan kullanıcıya
 # WhatsApp hatırlatması spam olur, /reply list zaten günceli gösterir.
 ZAMAN_ASIMI_SANIYE = 10 * 60
 
@@ -125,7 +125,7 @@ def _temizle() -> list[int]:
     """Süresi dolan bekleyen numaraları hem ana hem damga hem soru dosyasından siler.
 
     Dönüş: silinen numaralar (günlük için). Damgası olmayan numaralara
-    dokunulmaz — yaşı bilinmeyeni silmek yanlış pozitif olur.
+    dokunulmaz - yaşı bilinmeyeni silmek yanlış pozitif olur.
     """
     damgalar = _damgalari_oku()
     if not damgalar:
@@ -265,7 +265,7 @@ def reply_komut(metin: str, numara: str) -> str:
             if zaman:
                 zaman_str = _format_zaman(zaman)
                 if soru_metni:
-                    satirlar.append(f"{n}: {zaman_str} — {soru_metni}")
+                    satirlar.append(f"{n}: {zaman_str} - {soru_metni}")
                 else:
                     satirlar.append(f"{n}: {zaman_str}")
             else:

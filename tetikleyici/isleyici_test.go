@@ -94,7 +94,7 @@ func TestIsleyiciTumMesajlariIsler(t *testing.T) {
 }
 
 // Aynı sohbetten gelen mesajlar SIRAYLA işlenmeli. Aynı konuşmaya iki cevap
-// birbirine girerse kullanıcı hangisinin neye cevap olduğunu ayıramaz —
+// birbirine girerse kullanıcı hangisinin neye cevap olduğunu ayıramaz -
 // sıra, eşzamanlılıktan daha önemlidir.
 func TestIsleyiciAyniSohbetteSirayiKorur(t *testing.T) {
 	var mu sync.Mutex
@@ -179,7 +179,7 @@ func TestIsleyiciFarkliSohbetleriParalelIsler(t *testing.T) {
 	if !i.besle(context.Background(), mesaj("yavas@s.whatsapp.net", "y1", "uzun iş")) {
 		t.Fatal("yavaş mesaj kabul edilmedi")
 	}
-	// Yavaş işçinin GERÇEKTEN başladığını bekle — aksi hâlde test yalnız
+	// Yavaş işçinin GERÇEKTEN başladığını bekle - aksi hâlde test yalnız
 	// sırayı ölçer, eşzamanlılığı ölçmez.
 	bekle(t, "yavaş iş başlamadı", func() bool {
 		mu.Lock()
@@ -380,7 +380,7 @@ func TestOturumKilidiAyniOturumuSiralar(t *testing.T) {
 	}
 }
 
-// Farklı oturumlar birbirini bekleMEMELİ — yoksa işçi ayrımının anlamı kalmaz.
+// Farklı oturumlar birbirini bekleMEMELİ - yoksa işçi ayrımının anlamı kalmaz.
 func TestOturumKilidiFarkliOturumlariBekletmez(t *testing.T) {
 	oturumKilidiTest()
 
@@ -404,7 +404,7 @@ func TestOturumKilidiFarkliOturumlariBekletmez(t *testing.T) {
 	select {
 	case <-tamamlandi:
 	case <-time.After(500 * time.Millisecond):
-		t.Fatal("farklı oturum mesaj1'i bekledi — kilit oturum bazında olmalı")
+		t.Fatal("farklı oturum mesaj1'i bekledi - kilit oturum bazında olmalı")
 	}
 }
 

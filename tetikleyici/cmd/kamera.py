@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""kamera.py — Bilgisayar kamerasından tek kare çek, mefamex'e gönder.
+"""kamera.py - Bilgisayar kamerasından tek kare çek, mefamex'e gönder.
 
 Çift kapı kilidi:
-  1. `tetikleyici/cmd/yetki.py` — yalnız mefamex çalıştırabilir.
+  1. `tetikleyici/cmd/yetki.py` - yalnız mefamex çalıştırabilir.
   2. `tetikleyici.yaml` → `kamera_izni: true` olmalı (varsayılan false).
 
 Kamera mahremiyeti gereği varsayılan KAPALI. Açmak bilinçli tercihtir.
@@ -82,7 +82,7 @@ def gonder(
             "to": alici,
             "media_base64": base64.b64encode(ham).decode("ascii"),
             "mime_type": "image/jpeg",
-            "caption": f"📷 kamera — {datetime.now().strftime('%H:%M:%S')}",
+            "caption": f"📷 kamera - {datetime.now().strftime('%H:%M:%S')}",
             "file_name": f"kamera-{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg",
         }
     ).encode("utf-8")
@@ -96,7 +96,7 @@ def gonder(
     try:
         with urllib.request.urlopen(istek, timeout=30) as yanit:
             cevap = json.loads(yanit.read().decode("utf-8"))
-    except Exception as e:  # noqa: BLE001 — kullanıcıya düz metin gider
+    except Exception as e:  # noqa: BLE001 - kullanıcıya düz metin gider
         return False, f"köprüye ulaşılamadı: {e}"
 
     if not cevap.get("ok", False):

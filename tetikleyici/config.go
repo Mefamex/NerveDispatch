@@ -30,7 +30,7 @@ type ruleSet struct {
 	DebugCikti bool `yaml:"debug_cikti"`
 
 	// KameraIzni, bilgisayar kamerasından tek kare çekip mefamex'e
-	// göndermeye izin verir. Varsayılan: false (KAPALI — mahremiyet).
+	// göndermeye izin verir. Varsayılan: false (KAPALI - mahremiyet).
 	// true = `/camera` komutu çalışır.
 	KameraIzni bool `yaml:"kamera_izni"`
 
@@ -61,7 +61,7 @@ type ruleSet struct {
 	// Zamanlanmis, "şu zaman sonra şu mesajı gönder" özelliğidir
 	// (`/zamanla <süre> <mesaj>`). Kural değildir: gönderimler tetikleyicinin
 	// kendi sürecinde gerçekleşir. Yazılmazsa veya acik: false ise KAPALIDIR
-	// (MEVZU: kod varsayılanı false — açık kapı yok).
+	// (MEVZU: kod varsayılanı false - açık kapı yok).
 	Zamanlanmis zamanlanmisConfig `yaml:"zamanlanmis_mesaj"`
 
 	// Tehlikeli, TANINMAYAN numaralardan gelen şüpheli mesajları (link
@@ -110,7 +110,7 @@ type tehlikeliConfig struct {
 	Acik *bool `yaml:"acik"`
 
 	// To, uyarıların gideceği kimlik (ör. mefamex LID'i). Boşsa özellik
-	// kapalıdır — kime gideceği belli olmayan uyarı gönderilmez.
+	// kapalıdır - kime gideceği belli olmayan uyarı gönderilmez.
 	To string `yaml:"to"`
 
 	// Aralik, aynı numaradan uyarılar arası asgari süre. Yazılmazsa
@@ -190,7 +190,7 @@ func (h heartbeat) enabled() bool {
 
 // notifyConfig, tetikleyicinin olay bildirimlerini açıp yapılandırır.
 //
-// Her on_* bayrağı bir olayı açar. Gönderim yalnız `to` listesine gider —
+// Her on_* bayrağı bir olayı açar. Gönderim yalnız `to` listesine gider -
 // aşağıda "kendi hesabımıza asla" notuna bakın.
 type notifyConfig struct {
 	// To, bildirimlerin gideceği kimlik(ler). LID ya da telefon numarası.
@@ -223,7 +223,7 @@ type notifyConfig struct {
 }
 
 // enabled, bildirim mekanizması çalışıyor mu. Kimse yok ya da hiçbir olay
-// açık değilse hiçbir şey gönderilmez — config'e notify: bloğu koymak
+// açık değilse hiçbir şey gönderilmez - config'e notify: bloğu koymak
 // için yeterli değildir, en az bir olay da açılmalı.
 func (n notifyConfig) enabled() bool {
 	if len(n.To) == 0 {
@@ -375,7 +375,7 @@ type action struct {
 	// olanlar 15 dakikaya kadar çalışır.
 	Timeout string `yaml:"timeout"`
 
-	// ── type: opencode — tek kişi tek kural ────────────────────────────
+	// ── type: opencode - tek kişi tek kural ────────────────────────────
 	//
 	// Bu alanlar yalnız `type: opencode` eyleminde okunur. Amaç: bir kişi için
 	// beş ayrı kural (metin, sesli not, görsel, belge, komut) yazmak yerine
@@ -400,7 +400,7 @@ type action struct {
 
 	// SendSeen true ise bu eylemin tetiklediği mesaj okundu işaretlenir
 	// (mavi tik). Yazılmazsa global `okundu_isaretle` geçerlidir; yazılırsa
-	// o bayrağı geçersiz kılar — kişi bazlı izin mümkün olsun diye.
+	// o bayrağı geçersiz kılar - kişi bazlı izin mümkün olsun diye.
 	SendSeen *bool `yaml:"send_seen"`
 
 	// AddAITag, cevabın sonuna "🤖 AI asistanı" eklenip eklenmeyeceğini bu
@@ -412,7 +412,7 @@ type action struct {
 	// Yazılmazsa global `debug_cikti` geçerlidir.
 	DoDebug *bool `yaml:"do_debug"`
 
-	// ── type: opencode — izin bayrakları ──────────────────────────────
+	// ── type: opencode - izin bayrakları ──────────────────────────────
 	//
 	// Her bayrak bir yeteneği açar. Kapalı olan yetenek için mesaj
 	// SESSİZCE geçilir: ne cevap gider ne de ajan uyarılır. Bu, kapalı hat
@@ -515,7 +515,7 @@ var actionKinds = map[string]bool{
 	"opencode":    true,
 }
 
-// yetenek, izin bayraklarının okunabilir adıdır — log ve hata mesajı için.
+// yetenek, izin bayraklarının okunabilir adıdır - log ve hata mesajı için.
 type yetenek struct {
 	ad   string
 	acik bool
@@ -674,7 +674,7 @@ func loadConfig(path string) (ruleSet, error) {
 // parseConfig, parses and validates the config YAML.
 //
 // Parsing and validation are separate: a YAML-valid but unexecutable
-// rule is still broken config — the user must understand the error without
+// rule is still broken config - the user must understand the error without
 func parseConfig(raw []byte) (ruleSet, error) {
 	var set ruleSet
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""durum.py — Tetikleyici + köprü anlık durumu (WhatsApp'a uygun düz metin).
+"""durum.py - Tetikleyici + köprü anlık durumu (WhatsApp'a uygun düz metin).
 
-`/durum` yazınca çalışır (agent YOK — stdout doğrudan cevap).
+`/durum` yazınca çalışır (agent YOK - stdout doğrudan cevap).
 Salt okunur: hiçbir şeyi değiştirmez, hiçbir yere yazmaz.
 """
 
@@ -35,7 +35,7 @@ def tetikleyici_pid() -> tuple[int | None, float | None]:
             continue
         if Path(hedef).name != TETIKLEYICI_BIN_ADI:
             continue
-        # Kendimiz değiliz (python'uz, zaten eşleşmeyiz) — ilk eşleşme alınır.
+        # Kendimiz değiliz (python'uz, zaten eşleşmeyiz) - ilk eşleşme alınır.
         try:
             baslama = (pid_dizini / "stat").stat().st_mtime
         except OSError:
@@ -51,7 +51,7 @@ def kopru_sagligi(bridge: str = BRIDGE_BASE) -> dict:
             f"{bridge.rstrip('/')}/health", timeout=10
         ) as yanit:
             return json.loads(yanit.read().decode("utf-8"))
-    except Exception as e:  # noqa: BLE001 — kullanıcıya düz metin gider
+    except Exception as e:  # noqa: BLE001 - kullanıcıya düz metin gider
         return {"hata": str(e)}
 
 
@@ -127,7 +127,7 @@ def ana() -> str:
     if tetikler:
         satirlar.append("Son tetikler:")
         for t in tetikler:
-            # "03:59:12 EŞLEŞTİ: Mefamex (...) — 1 kural: mefamex-oturum" kısalt
+            # "03:59:12 EŞLEŞTİ: Mefamex (...) - 1 kural: mefamex-oturum" kısalt
             parca = t.strip()
             if len(parca) > 100:
                 parca = parca[:100] + "…"

@@ -15,7 +15,7 @@ import (
 // fakeBridge simulates the bridge's HTTP API for testing reply logic without
 // sending real WhatsApp messages.
 //
-// NOT — İKİ UÇ: /send yanında /messages da vardır. Çift gönderim
+// NOT - İKİ UÇ: /send yanında /messages da vardır. Çift gönderim
 // bastırması (action.go → gonder) her gönderimden önce geçmişi sorgular;
 // yalnız /send'i bilen bir sahte, bu sorguyu da "gönderilen mesaj" sayar ve
 // mesaj sayısı testleri yanlış çıkar. Gerçek köprü de iki ucu sunar.

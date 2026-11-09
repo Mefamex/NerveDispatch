@@ -1,11 +1,11 @@
-"""gorsel — WhatsApp görsel/belge/sesli video → Türkçe cevap.
+"""gorsel - WhatsApp görsel/belge/sesli video → Türkçe cevap.
 
 Ses hattının (voice_pipeline.py) görsel karşılığı. Aynı sözleşme:
     tetikleyici → bu paket → stdout'a tek cevap
 
-Tasarım kararı — SORU ZAMAN AŞIMI YOK:
+Tasarım kararı - SORU ZAMAN AŞIMI YOK:
     Her katman kendi hatasını yutar ve bir sonrakine düşer. Tümü
-    başarısız olursa stdout'a tek satır Türkçe açıklama yazılır —
+    başarısız olursa stdout'a tek satır Türkçe açıklama yazılır -
     asla boş çıktı. Boş çıktı, kullanıcının "cevap vermiyor" deyip
     nedenini bilemediği en pahalı hatadır (bkz. docs/KRITIK-SORUNLAR
     #6: 124 tetiklemenin 25'i sessizce düştü).

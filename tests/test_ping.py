@@ -2,7 +2,7 @@
 """/ping komutu testleri (sozdizimi + cmd.py).
 
 CANLI GÖZLEM (2026-10-06 23:28): sahip `/ping` yazdı, "Hata: Geçersiz
-/cmd biçimi" döndü — `/ping` hiç tanımlı değildi (config yorumu "/cmd, /ping"
+/cmd biçimi" döndü - `/ping` hiç tanımlı değildi (config yorumu "/cmd, /ping"
 diyordu ama handler yoktu). Küçük harfli "ping" ajana gidip 17 sn'de pong
 dönüyordu; slash'lı komut anında yanıt üretmeli.
 

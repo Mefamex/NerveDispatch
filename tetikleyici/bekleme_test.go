@@ -166,7 +166,7 @@ func TestBildirimBirKezSoylenir(t *testing.T) {
 	b.baslat("a@lid", 10*time.Minute)
 
 	if !b.bildir("a@lid") {
-		t.Fatal("ilk bildirim yapılmadı — kullanıcı sebebi hiç öğrenmeyecek")
+		t.Fatal("ilk bildirim yapılmadı - kullanıcı sebebi hiç öğrenmeyecek")
 	}
 	if b.bildir("a@lid") {
 		t.Error("aynı bekleme için ikinci kez bildirildi (spam)")
@@ -291,7 +291,7 @@ func TestTemizleSuresiDolmusKayitlariSiler(t *testing.T) {
 // ── nil güvenliği ─────────────────────────────────────────────────────────
 
 // Testler `&engine{}` ile kurulabiliyor; bekleme alanı boş olabilir.
-// Korumanın YOKLUĞU bir panik sebebi olmamalı — panik, korumadan çok daha
+// Korumanın YOKLUĞU bir panik sebebi olmamalı - panik, korumadan çok daha
 // kötü bir sonuç (süreç ölür, hiçbir koruma da çalışmaz).
 func TestNilBeklemePanikAtmaz(t *testing.T) {
 	var b *bekleme

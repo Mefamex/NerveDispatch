@@ -1,4 +1,4 @@
-"""cmd paketi — /cmd komut yürütücü."""
+"""cmd paketi - /cmd komut yürütücü."""
 
 from .sozdizimi import parse_cmd, CmdParseResult
 from .yetki import yetkili_mi, yetki_red_mesaji

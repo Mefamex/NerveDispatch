@@ -40,7 +40,7 @@ const rateLimitBekleme = 10 * time.Minute
 // rateLimitBekleme ispat işaretleri.
 //
 // opencode'nin hata metni sürüme göre değişebiliyor; birkaç biçim aranıyor.
-// DİKKAT: "limit" tek başına aranmıyor — "rate limit" bilmeden bir dosya
+// DİKKAT: "limit" tek başına aranmıyor - "rate limit" bilmeden bir dosya
 // yolundaki "limit" sözcüğü kullanıcıya yanlış sebep bildirir.
 var rateLimitIsaretleri = []string{
 	"rate limit",
@@ -200,7 +200,7 @@ func (b *bekleme) temizle() {
 // ⛔ SESSİZ GERİ ÇEKİLME YOK. Mesajı yutmak, sistemi "çökmüş" gösterir.
 //
 // Metin iki şeyi birden söyler: NE oldu ve NE ZAMAN tekrar deneyebilir.
-// Yalnız "biraz sonra" demek yetersizdir — kullanıcı bunu sıralı birkaç kez
+// Yalnız "biraz sonra" demek yetersizdir - kullanıcı bunu sıralı birkaç kez
 // deneyip sonunda vazgeçer.
 func beklemeyeYanit(kalan time.Duration) string {
 	if kalan <= 0 {
@@ -229,7 +229,7 @@ func beklemeyeYanit(kalan time.Duration) string {
 // `options{}` verilmişti ve uyarı sessizce kayboluyordu.
 //
 // Test kipi ve "ajanı çalıştır" kipinde köprü olmayabilir; o zaman uyarı
-// gönderilemez ve bu bir HATA DEĞİLDİR. Panik atmak yanlıştır — ama hata da
+// gönderilemez ve bu bir HATA DEĞİLDİR. Panik atmak yanlıştır - ama hata da
 // gizlenmemelidir, günlüğe yazılır.
 func beklemeUyarisi(ctx context.Context, opts options, client *bridgeClient, jid string, kalan time.Duration) {
 	metin := beklemeyeYanit(kalan)

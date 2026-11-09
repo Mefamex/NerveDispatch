@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""gorsel_pipeline.py — WhatsApp görsel/belge/video → Türkçe cevap.
+"""gorsel_pipeline.py - WhatsApp görsel/belge/video → Türkçe cevap.
 
     tetikleyici (görsel geldi)
       → bu betik
@@ -24,7 +24,7 @@ Ortam değişkenleri (hepsi isteğe bağlı):
     GORSEL_SORU_SURESI varsayılan 240 saniye
     GORSEL_KEEP_ALIVE  varsayılan 5m
 
-ÇIKIŞ SÖZLEŞMESİ — bu betiğin en önemli kuralı:
+ÇIKIŞ SÖZLEŞMESİ - bu betiğin en önemli kuralı:
     stdout DOLU olmak zorundadır. Tüm katmanlar başarısız olsa bile
     kullanıcıya Türkçe bir açıklama yazılır. Boş stdout, tetikleyicinin
     "çıktı boş" yoluna düşer; içerik kaybı olur. Sessizlikten kaçınmak
@@ -109,7 +109,7 @@ def isle(
     """Tüm katmanları çalıştırır, sonucu sözlük döndürür.
 
     Girdi ya mesaj KİMLİĞİDİR (köprüden indirilir) ya da yerel dosya
-    yoludur (test). İkisi de aynı hatttan geçer — kopya yol yok, çünkü
+    yoludur (test). İkisi de aynı hatttan geçer - kopya yol yok, çünkü
     kopya yol zamanla gerçek yoldan ayrılır.
 
     Dönüş: cevap · tur · model · ocr · yontem · soru · soru_kaynagi ·
@@ -271,7 +271,7 @@ def isle(
 
         # ── Kurtarma 2: cevap VAR ama içeriği taşımıyor ──────────────────────
         # Ölçülen ayrı bir arıza (tools/prompt_varyant.py, d-kucuk.png):
-        # model yanıt veriyor ama alan adlarını sayıp DEĞERLERİ atıyor —
+        # model yanıt veriyor ama alan adlarını sayıp DEĞERLERİ atıyor -
         #     «… MARUZ ATILMA KODU, SERİ NO, ODENEN tutar, IBAN… bilgileri var.»
         # Kullanıcı "toplam ne" sorduğunda alacağı cevap budur: işe yaramaz.
         # Boş cevap yakalayan yukarıdaki dal bunu GÖRMEZ; ayrı bir durum.
@@ -323,7 +323,7 @@ def isle(
             sure=time.time() - baslangic,
             tanik=tanik,
         )
-    except Exception as e:  # noqa: BLE001 — kullanıcıya tek satır gitsin
+    except Exception as e:  # noqa: BLE001 - kullanıcıya tek satır gitsin
         log("BEKLENMEYEN HATA:\n" + traceback.format_exc())
         return _sonuc(
             beklenmeyen(e),
@@ -343,7 +343,7 @@ def _sonuc(
     sure: float = 0.0,
     tanik: dict | None = None,
 ) -> dict:
-    """Tek noktadan dönüş sözlüğü — anahtar unutmamak için."""
+    """Tek noktadan dönüş sözlüğü - anahtar unutmamak için."""
     return {
         "cevap": cevap,
         "tur": "",
@@ -363,7 +363,7 @@ def _sonuc(
 def _ocr_gerekli(tur: str) -> bool:
     """Bu tür için OCR katmanı çalıştırılmalı mı?
 
-    ⛔ VİDEODA OCR ÇALIŞTIRILMAZ — bu bir ön karar, ölçümle gerekçelendirildi.
+    ⛔ VİDEODA OCR ÇALIŞTIRILMAZ - bu bir ön karar, ölçümle gerekçelendirildi.
 
     Belki beklenmedik: burada bir hata düzeltilirken iki aday çözüm ölçüldü ve
     KAYBEDEN biri seçildi.
@@ -382,7 +382,7 @@ def _ocr_gerekli(tur: str) -> bool:
 
     1. **OCR'siz en iyi sonuç.** Vision modeli zaten metni okuyor; OCR
        katmanı bilgi EKLEMİYOR, yalnız modelin "yazıyı aktar" moduna
-       kaydırıyor. Kaybedilen bir şey yok — OCR'siz cevapta yazılar da
+       kaydırıyor. Kaybedilen bir şey yok - OCR'siz cevapta yazılar da
        aktarıldı ("beyaz metinle "SAHNE 1" yazısı").
 
     2. **"Önce anlat, sonra aktar" talimatı modeli UYDURMAYA itiyor.**
@@ -397,7 +397,7 @@ def _ocr_gerekli(tur: str) -> bool:
     olabilir ve bu değişken o önceliğe açık kapı bırakır.
 
     Göz karşı olsun diye: OCR tamamen kaldırılmıyor. Fotoğraf, belge,
-    sticker ve ekran görüntüsü yolları değişmedi — yalnız video.
+    sticker ve ekran görüntüsü yolları değişmedi - yalnız video.
     """
     if tur != "video":
         return True

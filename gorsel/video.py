@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""gorsel/video.py — Video → ara kareler → vision betimleme.  [KLON]
+"""gorsel/video.py - Video → ara kareler → vision betimleme.  [KLON]
 
 ⛔⛔ BU DOSYA ÜRETİM YOLU DEĞİLDİR. 2026-10-06'da ölçüldü.
 
@@ -10,7 +10,7 @@ README'de geçmiyor. Yalnız elle çalıştırılabilir bir betik.
 
 Bunu bilerek yazıyorum çünkü BUGÜN tam olarak burada ölçüm yaptım:
 "video hattı çalışmıyor" sonucuna vardım, 224 saniyelik bir hatanın
-peşinden koştum ve düzelttim — düzelttiğim şey üretimde çalışmayan bir
+peşinden koştum ve düzelttim - düzelttiğim şey üretimde çalışmayan bir
 klonmuş. Asıl hata (`gorsel_pipeline.py` üç kareden yalnız birini
 anlatıyordu) bu düzeltmeden sonra da duruyordu.
 
@@ -22,7 +22,7 @@ Bu klonun üretimdeki karşılığı olan iki davranış, orada FARKLI çalış�
   · OCR: burada hiç çalıştırılmaz; üretimde video için de çalıştırılmıyor
     (bkz. gorsel_pipeline._ocr_gerekli)
   · kare betimleme: burada kare BAŞINA ayrı istek; üretimde ÜÇ KARE TEK
-    istekte — ölçüldü: tek istek üçünü de doğru görüyor, daha hızlı.
+    istekte - ölçüldü: tek istek üçünü de doğru görüyor, daha hızlı.
     Bu yüzden "kare kare ayrı istek" yöntemi burada doğru, üretimde
     gereksiz maliyet olurdu; kopyalamayın.
 
@@ -55,7 +55,7 @@ FFMPEG = shutil.which("ffmpeg")
 FFPROBE = shutil.which("ffprobe")
 
 # ⛔ BURADAN 3 SABİT SİLİNDİ: MAKS_KENAR, KARE_SURESI, MAKS_KARE.
-# Üçü de ÖLÜDÜ — bu dosyada hiç okunmuyorlardı:
+# Üçü de ÖLÜDÜ - bu dosyada hiç okunmuyorlardı:
 #   · MAKS_KENAR  → onizleme.py kendi MAKS_KENAR'ını kullanıyor
 #     (ölçü: grep "video.py:31" tek satır; başka kullanım yok)
 #   · KARE_SURESI → _kareleri_betimle kendi satırında yeniden okuyordu (300)
@@ -66,7 +66,7 @@ FFPROBE = shutil.which("ffprobe")
 # İkisi de YANLIŞ: küçültme onizleme.py'de 1600 (aynı sayı, tesadüfen), süre
 # 300. Karışık iki ayrı varsayılan (30 ve 300) aynı adda yan yana duruyordu;
 # hangisi geçerli, dosyayı okumadan anlaşılamıyordu. Ölü sabit, yaşayan
-# sabitten daha çok yanıltır — çünkü dokunulduğu izlenimi verir.
+# sabitten daha çok yanıltır - çünkü dokunulduğu izlenimi verir.
 #
 # Yerine tek sabit geldi. Adı "kare süresi" değil "kare ÇAĞRISI süresi":
 # ölçtüğümüz şey kare başına değil, modele yapılan her çağrının duvar
@@ -125,7 +125,7 @@ def _kareleri_betimle(kareler: list[Path]) -> list[str]:
 
     Süre `KARE_CAGRI_SURESI` (120 sn): ölçülen tek kare süresi 32 sn,
     bkz. sabitin tanımı. Süre burada sabit olarak verilir, `gorme.sor`
-    varsayılanını kullanılmaz — varsayılan (`SORU_SURESI` 240 sn) üç kare
+    varsayılanını kullanılmaz - varsayılan (`SORU_SURESI` 240 sn) üç kare
     için 12 dakika demek, oysa hata durumunda beklemek en pahalı şeydir.
     """
     model = gorme.gorsel_model_sec()  # ModelYok yukarı yayılır: OCR-only moda düşülür.
@@ -140,7 +140,7 @@ def _kareleri_betimle(kareler: list[Path]) -> list[str]:
             sonuclar.append(gorme.sor(model, [kare], kare_istemi, KARE_CAGRI_SURESI))
         except gorme.GormeHatasi as e:
             # Kare atlanır, kalan karelerle devam edilir. Kullanıcıya
-            # eksik kare bildirilir mi? Hayır — betimleme zaten kareye
+            # eksik kare bildirilir mi? Hayır - betimleme zaten kareye
             # özgü, kayıp kare diğerlerinin değerini düşürmez; gürültü
             # yaratır. Gövde çağıranın sorumluluğunda (video_betimle).
             log(f"kare {i} atlandı: {e}")
@@ -197,7 +197,7 @@ def _ozetsiz(sonuclar: list[str]) -> str:
     """Özetlenemediğinde kare betimlemelerini olduğu gibi kullanıcıya verir.
 
     Kullanıcıya eksik olduğunu SÖYLER. Sessizce daha kötü bir cevap
-    vermek, tam vermemekten iyi değildir — ama hiç vermemek de özet
+    vermek, tam vermemekten iyi değildir - ama hiç vermemek de özet
     yapamamaktan iyidir. İkisi arasında dürüst olan budur.
     """
     govde = "\n\n".join(f"{i}. {s}" for i, s in enumerate(sonuclar, 1))

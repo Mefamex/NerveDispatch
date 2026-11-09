@@ -218,7 +218,7 @@ class TestStickerIsle(unittest.TestCase):
         ist = self.vision_cagri["ist"]
         self.assertIn("MERHABA TEST", ist, "OCR metni vision istemine taşınmalı")
         # Modele ilk karenin PNG'si gider (animasyonlu webp statik modele
-        # belirsizdi — canlı 23 kareli sticker 0 bayt tuzağına çarpmıştı).
+        # belirsizdi - canlı 23 kareli sticker 0 bayt tuzağına çarpmıştı).
         self.assertTrue(self.vision_cagri["yollar"][0].suffix.lower() == ".png")
         self.assertEqual(self.vision_cagri["model"], "fake-model")
 

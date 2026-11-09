@@ -10,7 +10,7 @@ webp'i JPG/PNG'ye yazarken rc=0 ile 0 BAYTLIK dosya üretiyordu; bu "başarı"
 sayılıp modele boş dosya gidiyordu.
 
 İki düzeltme:
-    1. Girdiye `[0]` (ilk kare) — animasyonda ilk kare alınır.
+    1. Girdiye `[0]` (ilk kare) - animasyonda ilk kare alınır.
     2. 0 baytlık çıktı artık HATA sayılır ("üretilen dosya boş").
 """
 
@@ -99,7 +99,7 @@ class TestHazirlaAnimasyonluWebp(unittest.TestCase):
         """rc=0 ama çıktı dosyası YOK/BOŞ ise OnIslemeHatasi fırlatılmalı.
 
         Eski davranış bunu başarı sayıyordu (rc kontrolü + exists kontrolü
-        vardı ama boyut kontrolü YOKTU) — canlı sticker bununla düştü.
+        vardı ama boyut kontrolü YOKTU) - canlı sticker bununla düştü.
         """
         hedef = Path(tempfile.mktemp(suffix=".jpg"))
         self.addCleanup(hedef.unlink, missing_ok=True)

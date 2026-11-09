@@ -1,14 +1,14 @@
-"""gorme — ollama üzerinden vision modeline sor.
+"""gorme - ollama üzerinden vision modeline sor.
 
 Neden ollama: modeller yerelde (RTX 3070 Ti, 8 GB), bulut çağrısı
 gerekmez, görsel verisi dışarı çıkmaz. Kıyaslama
 (tools/gorsel-test/karsilastir.py) 4 modeli aynı 3 görselde ölçtü.
 
-Dayanıklılık — model yoksa hata değil, sıradakine geç:
+Dayanıklılık - model yoksa hata değil, sıradakine geç:
     Görsel modelleri elle kurulur; biri silinmiş/indirilmemiş olabilir.
     Bu yüzden `modeller()` ollama'ya sorar ve istenen model listede
     yoksa sıradaki görsel modeline düşer. Hiçbiri yoksa OCR-only moda
-    geçilir — kullanıcı yine bir şey alır, sessizce kaybolmaz.
+    geçilir - kullanıcı yine bir şey alır, sessizce kaybolmaz.
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ from pathlib import Path
 API = os.getenv("OLLAMA_URL", "http://127.0.0.1:11434")
 SORU_SURESI = int(os.getenv("GORSEL_SORU_SURESI", "240"))
 
-# Tercih sırası — ÖLÇÜM SONUCU, tahmin değil.
+# Tercih sırası - ÖLÇÜM SONUCU, tahmin değil.
 # Kaynak: tools/gorsel-test/karsilastir.py, 3 görsel (Türkçe belge / şekil
 #          tanıma / fatura), anahtar kelimeyle puanlama.
 #
@@ -59,7 +59,7 @@ def dusunen_mi(model_adi: str) -> bool:
 
 
 # Adı görsel yeteneği ima eden modeller. "3-vl" ya da ":vl" içermeyen
-# bir model listede olsa bile buraya girmiyorsa görsel gönderilmez —
+# bir model listede olsa bile buraya girmiyorsa görsel gönderilmez -
 # metin-only model görseli alınca boş döner.
 def gorsel_mi(model_adi: str) -> bool:
     kucuk = model_adi.lower()
@@ -99,7 +99,7 @@ class GormeHatasi(RuntimeError):
 
 
 class ModelYok(GormeHatasi):
-    """Kullanılabilir görsel modeli yok — OCR-only moda düşülmeli."""
+    """Kullanılabilir görsel modeli yok - OCR-only moda düşülmeli."""
 
 
 def modeller() -> list[str]:
@@ -127,7 +127,7 @@ def gorsel_model_sec(tercih: list[str] | None = None) -> str:
     """
     kurulu = modeller()
     if not kurulu:
-        raise ModelYok(f"ollama yanıt vermiyor ({API}) — servis kapalı olabilir")
+        raise ModelYok(f"ollama yanıt vermiyor ({API}) - servis kapalı olabilir")
 
     for ad in tercih or VARSAYILAN_MODELLER:
         if ad in kurulu:
@@ -156,7 +156,7 @@ def metin_model_sec(tercih: list[str] | None = None) -> str:
     Bu kural ölçümden çıktı, tahminden değil (2026-10-06, video hattı).
 
     Ölçülen olay: `qwen3:4b` bir belge özetine çağrıldı. Görev "üç kare
-    betimlemesini tek cümleye indir" — akıl yürütme değil, düzleştirme.
+    betimlemesini tek cümleye indir" - akıl yürütme değil, düzleştirme.
     Model 1600 jetonun tamamını düşünmeye harcadı, `done_reason: length`
     ile bitti, `response` alanı boş döndü. **224 saniye** sonra hata:
 
@@ -175,7 +175,7 @@ def metin_model_sec(tercih: list[str] | None = None) -> str:
     Bu bir hız tercihi değil, DOĞRULUK tercihi: düşünen model bu görevde
     ya boş döner ya da Türkçe olmayan bir saçma cevap verir.
 
-    Tümü düşünen modellerse ilk düşünen modele düşülür — hiç model
+    Tümü düşünen modellerse ilk düşünen modele düşülür - hiç model
     seçememekten iyidir.
     """
     kurulu = [m for m in modeller() if metin_mi(m)]
@@ -230,7 +230,7 @@ def sor(
 
 
 def sor_menet(model: str, istem: str, zaman_asimi: int | None = None) -> str:
-    """Görsel göndermeden soru — belge metnini özetletmek için."""
+    """Görsel göndermeden soru - belge metnini özetletmek için."""
     return _istek(model, [], istem, zaman_asimi)
 
 
@@ -289,7 +289,7 @@ def _bos_cevap_tanis(veri: dict) -> str:
     `qwen3:4b` bir belge özetine 1600 jeton harcadı, tamamını
     düşünmeye kullandı, `done_reason: length` ile bitti ve `response`
     alanı BOŞ döndü. Eski hata metni "model boş cevap döndü" idi:
-    ne oldu, neden oldu, ne yapılmalı — hiçbir şey söylemiyordu.
+    ne oldu, neden oldu, ne yapılmalı - hiçbir şey söylemiyordu.
     224 saniye sonra gelen bu mesaj, olayın kendisi kadar belirsizdi.
 
     Üç ayrı boşluk var ve her biri FARKLI sebep:
@@ -306,7 +306,7 @@ def _bos_cevap_tanis(veri: dict) -> str:
         return (
             f"model görünür metin üretmedi: {len(dusunme)} karakter düşünme "
             f"yazıp {veri.get('eval_count')} jetonluk pencereyi tüketti. "
-            "Bu görev için düşünen (reasoning) model seçilmiş — özetleme/ "
+            "Bu görev için düşünen (reasoning) model seçilmiş - özetleme/ "
             "betimleme akıl yürütme değil, düşünmeyen bir model gerekir"
         )
     if sebep == "length":

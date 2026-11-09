@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""deger_guvenligi.py — cevap, görseldeki değerleri gerçekten taşıyor mu?
+"""deger_guvenligi.py - cevap, görseldeki değerleri gerçekten taşıyor mu?
 
 ÖLÇÜLMÜŞ SORUN
 --------------
@@ -15,7 +15,7 @@ alan ADLARINI sayıp DEĞERLERİ atıyor.
 
 Neden: serbest anlatım istendiğinde model 10 alandan bir SEÇİM yapmak
 zorunda ve seçimi alan adlarını saymakla geçiriyor. Kullanıcı somut soru
-sorduğunda ("toplam ne") seçim yok — tek bir değer vermesi gerekiyor ve
+sorduğunda ("toplam ne") seçim yok - tek bir değer vermesi gerekiyor ve
 DOĞRU veriyor (ölçüldü: «Toplam 4.960,50 TL.»).
 
 YANİ SORUN MODELİN DEĞİL, İSTEK TÜRÜNÜN. Ama kökten çözmek yerine
@@ -44,7 +44,7 @@ _SAYI = re.compile(r"\d{1,3}(?:[.,]\d{3})+(?:,\d{2})?|\d{1,3}[./-]\d{1,3}[./-]\d
 # Önce "alan adını değerden ayıklayan" bir filtre (_ALAN_ADI) vardı ve
 # TÜM değerleri eliyordu. Sebebi şu: form düzeninde etiket değerden hemen
 # önce gelir ("ODENEN: 4.960,50 TL"), yani "öncesinde etiket var mı" diye
-# bakmak istediğimiz her şeyi dışlıyordu — d-kucuk.png'deki 9 başarısızlığın
+# bakmak istediğimiz her şeyi dışlıyordu - d-kucuk.png'deki 9 başarısızlığın
 # 0'ını yakalıyordu (ölçüldü, test kırmızıydı).
 #
 # Doğrusu basit: OCR metnindeki HER sayı ve kod bir değerdir. Etiket zaten
@@ -78,11 +78,11 @@ def _tasiyor_mu(cevap: str, deger: str) -> bool:
     """Cevap, verilen değeri (toleranslı) içeriyor mu?
 
     Tolerans neden: OCR '4.960,50' der, model '4.960 TL' diyebilir. Bu bir
-    HATA olabilir ama değer AKTARILMIŞTIR — bilgi kaybı değildir. Bu kuralın
+    HATA olabilir ama değer AKTARILMIŞTIR - bilgi kaybı değildir. Bu kuralın
     işi "içerik hiç geçti mi" diye bakmaktır, "kuruşu düştü mü" değil.
 
     O ayrım ölçüldü: kaba eşleşme reddedildiğinde (tam dizi araması) modelin
-    iyi cevabı ham OCR dökümüyle değiştirilirdi — kullanıcı daha kötü
+    iyi cevabı ham OCR dökümüyle değiştirilirdi - kullanıcı daha kötü
     dururdu. Test: test_kabaca_eslesme_kabul.
 
     Ölçüt: cevaptaki rakam dizisinde değerin en az 3 haneli bir kesiti
@@ -109,7 +109,7 @@ def _tasiyor_mu(cevap: str, deger: str) -> bool:
 def kayip_mi(cevap: str, ocr_metni: str) -> tuple[bool, str]:
     """Cevap OCR'daki değerleri taşımıyor mu?
 
-    Dönüş: (kayıp_mı, gerekçe). gerekçe loga yazılır — hangi kural
+    Dönüş: (kayıp_mı, gerekçe). gerekçe loga yazılır - hangi kural
     tetiklendiği görünür olmalı, yoksa "neden cevap değişti" sorusu
     cevapsız kalır.
 
@@ -122,10 +122,10 @@ def kayip_mi(cevap: str, ocr_metni: str) -> tuple[bool, str]:
 
     degerler = degerleri(ocr_metni)
     if len(degerler) < 2:
-        # OCR'da en az iki somut değer yok — bu kural burada geçerli değil.
+        # OCR'da en az iki somut değer yok - bu kural burada geçerli değil.
         return False, ""
 
-    # KURAL 1 — cevapta hiç rakam yok.
+    # KURAL 1 - cevapta hiç rakam yok.
     # 9/9 ölçülen başarısızlık tam olarak bu: alan adlarını sayıp
     # bırakmak. OCR'da rakam varken cevapta hiç yoksa bilgi taşınmamıştır.
     if not _rakamlar(cevap) and any(_rakamlar(d) for d in degerler):
@@ -134,7 +134,7 @@ def kayip_mi(cevap: str, ocr_metni: str) -> tuple[bool, str]:
             f"{len(degerler)} değer var → içerik taşınmamış"
         )
 
-    # KURAL 2 — cevapta rakam var ama OCR'ın HİÇBİR değeri yok.
+    # KURAL 2 - cevapta rakam var ama OCR'ın HİÇBİR değeri yok.
     # Kısmi aktarım kabul edilir; ama tek bir değer bile geçmiyorsa
     # cevap başka bir şeyden (alan adlarından) bahsediyor demektir.
     gecen = [d for d in degerler if _tasiyor_mu(cevap, d)]

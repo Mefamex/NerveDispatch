@@ -4,7 +4,7 @@
 //
 // Ölçülen olgu (docs/KRITIK-SORUNLAR-2026-10-04.md #6): 124 tetiklemenin
 // 25'i (%20) cevap üretmedi. runAction boş çıktıda hata döndürüyordu ve
-// engine yalnız günlüğe yazıyordu — sohbete HİÇBİR ŞEY gitmiyordu.
+// engine yalnız günlüğe yazıyordu - sohbete HİÇBİR ŞEY gitmiyordu.
 // Kullanıcı "cevap vermiyor musun" diye soruyordu, sebebi görünmüyordu.
 //
 // Buradaki testler sessizliğin her yolunu kapatır.
@@ -235,7 +235,7 @@ func TestBildirimGonderilemezseHataYutulmaz(t *testing.T) {
 }
 
 // Kısmi cevap gönderildiğinde kullanıcı kesildiğini ANLAMALI. Yarım kalmış
-// bir cevap tamamlanmış gibi görünürse kullanıcı yanlış bilgilenir —
+// bir cevap tamamlanmış gibi görünürse kullanıcı yanlış bilgilenir -
 // "hazır" dediği bir işin bitmediğini sanır.
 func TestKismiCevapKesildiginiBelliEder(t *testing.T) {
 	fake := &fakeBridge{}
@@ -307,7 +307,7 @@ func TestTimeoutYoksaBayrakKullanilir(t *testing.T) {
 	}
 }
 
-// Yazım hatası varsayılana düşmeli — sıfıra düşürüp her şeyi öldürmemeli.
+// Yazım hatası varsayılana düşmeli - sıfıra düşürüp her şeyi öldürmemeli.
 // "timeout: 15" (birim yok) en sık hata: saniye sanıldığı sanılır.
 func TestHataliTimeoutVarsayilanaDuser(t *testing.T) {
 	opts := teslimOpts()
@@ -327,7 +327,7 @@ func TestUzunKuralKisaIsiOldurmur(t *testing.T) {
 	fake := &fakeBridge{}
 	client := fake.start(t)
 
-	opts := teslimOpts() // 300 ms — bu süre işi öldürürdü
+	opts := teslimOpts() // 300 ms - bu süre işi öldürürdü
 	act := action{
 		Kind:    "command",
 		Code:    "printf 'ödev hazır, 6 sayfa'",

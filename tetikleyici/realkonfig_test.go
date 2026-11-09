@@ -1,6 +1,6 @@
 package main
 
-// DİZİN DENETİMİ — tetikleyici.yaml gerçekten yükleniyor mu, yönlendirme
+// DİZİN DENETİMİ - tetikleyici.yaml gerçekten yükleniyor mu, yönlendirme
 // beklenen hatta gidiyor mu, betik yolları dosya sisteminde var mı?
 //
 // Bu test config dosyasının kendisine bakar (test içinde uydurma YAML değil).
@@ -61,7 +61,7 @@ func TestGercekConfigKimlikDogruEslesiyor(t *testing.T) {
 		}
 	}
 	if !telefon || !lid {
-		t.Errorf("numaralar = %v — telefon ve LID ikisi de gerekir", kural.Match.Numbers)
+		t.Errorf("numaralar = %v - telefon ve LID ikisi de gerekir", kural.Match.Numbers)
 	}
 	if len(kural.Match.Names) != 1 || kural.Match.Names[0] != "Mefamex" {
 		t.Errorf("isimler = %v", kural.Match.Names)
@@ -89,7 +89,7 @@ func TestGercekConfigOpencodeEylemiTamYetenekli(t *testing.T) {
 		t.Error("session boş")
 	}
 	if act.Agent != "wp-sahip" {
-		t.Errorf("agent = %q — sahibin oturumu olmalı (çift gönderim)", act.Agent)
+		t.Errorf("agent = %q - sahibin oturumu olmalı (çift gönderim)", act.Agent)
 	}
 
 	// Kapalı kalmaması gereken yetenekler.
@@ -182,7 +182,7 @@ func TestGercekConfigOpencodeYoluVar(t *testing.T) {
 	_ = set
 }
 
-// `ping` kuralı SİLİNMİŞ olmalı — sahibi "/help zaten aynı işlevi görüyor" dedi.
+// `ping` kuralı SİLİNMİŞ olmalı - sahibi "/help zaten aynı işlevi görüyor" dedi.
 func TestGercekConfigPingKuraliSilinmis(t *testing.T) {
 	set := yukleGercekConfig(t)
 	for _, r := range set.Rules {

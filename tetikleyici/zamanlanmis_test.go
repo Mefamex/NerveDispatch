@@ -77,7 +77,7 @@ func TestZamanlanmisDenemeVeIptal(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// Denemeler arası nefes 1 dakika — her tur arasında SonDeneme'yi geriye
+	// Denemeler arası nefes 1 dakika - her tur arasında SonDeneme'yi geriye
 	// çekerek nefes kuralını aşarız (test, gerçek zamanı beklemez).
 	zamanlanmisTur(context.Background(), client, dizin)
 	if kalan := zamanlanmisOku(dizin); len(kalan) != 1 || kalan[0].Deneme != 1 {

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""cikti.py — Zaman damgalı .txt yazımı, biriktirme.
+"""cikti.py - Zaman damgalı .txt yazımı, biriktirme.
 
 Her /cmd çalıştırması için yeni bir zaman damgalı dosya oluşturur.
 Çıktılar `/home/mfmx/Masaüstü/whatsapp-cmd/` altına yazılır.

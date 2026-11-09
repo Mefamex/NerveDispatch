@@ -8,7 +8,7 @@
 // Numara kuralı (sahip tasarımı, TODO.md §/reply): en küçük eksik pozitif
 // (1,2,4 → 3); dosya boşsa 0. Kullanıcı /reply N ile cevap verince Python
 // tarafı numarayı dosyadan siler ve cevap ajan oturumuna taşınır (ilk ileti
-// ADIM 2'nin ikinci yarısı olarak ayrı commit'e bırakıldı — bu dosya yalnız
+// ADIM 2'nin ikinci yarısı olarak ayrı commit'e bırakıldı - bu dosya yalnız
 // KAYIT yapar).
 package main
 
@@ -23,7 +23,7 @@ import (
 
 // soruNotu, cevapta "?" varsa bir bekleyen cevap numarası atar ve metnin
 // sonuna cevaplama yönergesi ekler. Soru yoksa ya da numara atanamazsa metin
-// değişmeden döner — sistem "?" yüzünden cevap göndermeyi ASLA engellemez.
+// değişmeden döner - sistem "?" yüzünden cevap göndermeyi ASLA engellemez.
 func soruNotu(configPath, reply string) (string, error) {
 	metin := strings.TrimSpace(reply)
 	if metin == "" || !strings.Contains(metin, "?") {
@@ -50,14 +50,14 @@ func bekleyenCevapYolu(configPath string) string {
 
 // bekleyenZamanAsimi, bekleyen cevap numarasının yaşam süresi. Bu süre
 // içinde `/reply N` gelmezse numara serbest bırakılır (TODO §/reply: öneri
-// 10 dk). Süre sabittir; uyarı yalnız günlüğe yazılır — kullanıcıya WhatsApp
+// 10 dk). Süre sabittir; uyarı yalnız günlüğe yazılır - kullanıcıya WhatsApp
 // mesajı GİTMEZ, çünkü cevabı unutan kullanıcıyı hatırlatmak spam olur ve
 // `/reply list` zaten günceli gösterir.
 const bekleyenZamanAsimi = 10 * time.Minute
 
 // bekleyenZamanYolu, bekleyen cevap numaralarının damga dosyasının yerini
 // söyler: ana dosyanın yanında, ".zaman" eki ile. Biçim: satır başına
-// "numara <epoch-sanіye>" (ASCII, LF) — Go ve Python ortak okur/yazar.
+// "numara <epoch-sanіye>" (ASCII, LF) - Go ve Python ortak okur/yazar.
 func bekleyenZamanYolu(configPath string) string {
 	return bekleyenCevapYolu(configPath) + ".zaman"
 }
@@ -262,7 +262,7 @@ func bekleyenNumaraAta(configPath string) (int, error) {
 
 	// Zaman damgası: numaranın bekleyişi şimdi başlar. Damga yazılamazsa
 	// numara yine de atanmış sayılır (yönerge kullanıcıya gider); yalnız
-	// zaman aşımına uğramaz — eski davranışa geri düşer.
+	// zaman aşımına uğramaz - eski davranışa geri düşer.
 	damgalar := bekleyenDamgalar(configPath)
 	damgalar[num] = time.Now().Unix()
 	if err := bekleyenDamgaYaz(configPath, damgalar); err != nil {

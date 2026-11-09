@@ -3,7 +3,7 @@
 // STDERR'i HATAYA TAŞIMA.
 //
 // SORUN (ölçülmüş, 2026-10-06): `cmd.Stderr = os.Stderr` idi. Bu, stderr'i
-// hataya KAÇIRIRDI — hatada yalnız "exit status 1" görünüyordu. Oysa gerçek
+// hataya KAÇIRIRDI - hatada yalnız "exit status 1" görünüyordu. Oysa gerçek
 // sebep stderr'de yazılır:
 //
 //	$ opencode run ...
@@ -21,7 +21,7 @@
 // "çalışıyor" görünüyordu. Kullanıcı hiçbir sebep öğrenemez, yalnız "cevap
 // gelmiyor" der.
 //
-// ÇÖZÜM: stderr iki yere birden yazılır — ekrana (davranış değişmez) ve son
+// ÇÖZÜM: stderr iki yere birden yazılır - ekrana (davranış değişmez) ve son
 // N baytını tutan bir tampona. Hata dönerken bu kuyruk eklenir; hem kullanıcıya
 // doğru sebep gider hem de tanıma işlevleri görebilir.
 
@@ -37,7 +37,7 @@ import (
 // hataCiktisiMaksBayt, hataya eklenecek stderr'in üst sınırı.
 //
 // Son N bayt tutulur, tümü değil. Sınırsız tutulsaydı uzun süreli bir komut
-// belleği doldurabilirdi — hata ayıklamak için açılan yol, süreci çökertmemeli.
+// belleği doldurabilirdi - hata ayıklamak için açılan yol, süreci çökertmemeli.
 const hataCiktisiMaksBayt = 2048
 
 // hataCiktisi, stderr'i ekrana yazarken son baytlarını da tutar.
@@ -88,7 +88,7 @@ func (h *hataCiktisi) cikti() io.Writer {
 	return io.MultiWriter(os.Stderr, h)
 }
 
-// sonek, hataya eklenecek okunur parçayı döner. Boşsa "" — hata metnine
+// sonek, hataya eklenecek okunur parçayı döner. Boşsa "" - hata metnine
 // boş ayraç bile eklenmez.
 func (h *hataCiktisi) sonek() string {
 	if h == nil {
@@ -128,7 +128,7 @@ func tekCumlelik(s string) string {
 // cikisHatasi, sürecin hata çıkışını stderr kuyruğuyla zenginleştirir.
 //
 // Sarma `%w` ile yapılır: errors.Is(err, context.DeadlineExceeded) ve
-// errors.As(err, &exitErr) ÇALIŞMAYA DEVAM EDER. Bu şart — zaman aşımı
+// errors.As(err, &exitErr) ÇALIŞMAYA DEVAM EDER. Bu şart - zaman aşımı
 // davranışı bu kontrole dayanıyor, kırılırsa kullanıcıya "zaman aşımı"
 // yerine "çıkış hatası" gider.
 func cikisHatasi(hata error, cikti *hataCiktisi) error {

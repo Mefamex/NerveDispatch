@@ -31,7 +31,7 @@ func TestHataCiktisiBosKuyrukBosSonekYok(t *testing.T) {
 	}
 }
 
-// ⛔ YAZILAN HER ŞEY HATAYA GİRMELİ — tanıma buna bağlı.
+// ⛔ YAZILAN HER ŞEY HATAYA GİRMELİ - tanıma buna bağlı.
 func TestHataCiktisiYazilaniHatayaTasiyor(t *testing.T) {
 	h := &hataCiktisi{}
 	h.Write([]byte("API error: Rate limit exceeded"))
@@ -88,7 +88,7 @@ func TestHataCiktisiUzunCiktiKirpilir(t *testing.T) {
 	}
 
 	if len(h.son) > hataCiktisiMaksBayt {
-		t.Errorf("kuyruk %d bayt, sınır %d aşıldı — bellek sınırsız büyüyebilir",
+		t.Errorf("kuyruk %d bayt, sınır %d aşıldı - bellek sınırsız büyüyebilir",
 			len(h.son), hataCiktisiMaksBayt)
 	}
 }
@@ -96,7 +96,7 @@ func TestHataCiktisiUzunCiktiKirpilir(t *testing.T) {
 // ⛔ Kirpma BAŞTAN atar, son N baytı KORUR.
 //
 // Hata mesajı genelde stderr'in sonunda biter (yığın izi, sağlayıcı mesajı).
-// Başı koruyup sondan atarsak en değerli bilgi kaybolur ve tanıma bozulur —
+// Başı koruyup sondan atarsak en değerli bilgi kaybolur ve tanıma bozulur -
 // koruma yerine zarar verir.
 //
 // Beklenen değer tam olarak tanımlıdır: yazılan HER şeyin son N baytı.
@@ -165,7 +165,7 @@ func TestCikisHatasiSarmaZamanAsiminiBozmuyor(t *testing.T) {
 	// Asıl kontrol: sarılan hata errors.Is ile BULUNMALI.
 	ana := errors.New("çıkış hatası: exit status 1")
 	if !errors.Is(cikisHatasi(ana, h), ana) {
-		t.Error("sarma sarılan hatayı kaybetti — errors.Is çalışmıyor")
+		t.Error("sarma sarılan hatayı kaybetti - errors.Is çalışmıyor")
 	}
 }
 

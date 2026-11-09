@@ -4,8 +4,8 @@
 //
 // SORUN
 // Tetikleyici tek bir işçiyle çalışıyordu. "1 numaralı ödevi yap" gibi 12
-// dakikalık bir iş başlayınca o süre boyunca gelen TÜM mesajlar — başka
-// sohbetlerden gelenler dâhil — kuyrukta bekliyordu. Kullanıcının gördüğü
+// dakikalık bir iş başlayınca o süre boyunca gelen TÜM mesajlar - başka
+// sohbetlerden gelenler dâhil - kuyrukta bekliyordu. Kullanıcının gördüğü
 // tek şey sessizlikti.
 //
 // NEDEN AYRI İŞÇİ, NEDEN AYRI KİLİT
@@ -37,7 +37,7 @@ import (
 // isleyici, mesajları sohbet başına işçilere dağıtır.
 //
 // Garanti edilen şey mesajın SOHBET İÇİNDEKİ sırasıdır. Hangi sohbetin önce
-// biteceği belirsizdir — bu bir hata değil, beklenen davranıştır.
+// biteceği belirsizdir - bu bir hata değil, beklenen davranıştır.
 type isleyici struct {
 	calistir func(ctx context.Context, m message)
 	derinlik int
@@ -74,7 +74,7 @@ type isleyiciAyarlari struct {
 // varsayilanIsleyiciAyarlari, tek kullanıcılı kurulum için makul değerler.
 //
 // Kanal derinliği 64: eski tek işçili kuyruğun derinliğiydi, daraltmadık ki
-// davranış sessizce değişmesin. Boş işçi 5 dakika sonra kapanır — yeterince
+// davranış sessizce değişmesin. Boş işçi 5 dakika sonra kapanır - yeterince
 // uzun ki bir sohbetin aralıkları (gün içinde birkaç mesaj) yeni işçi
 // açtırmasın, yeterince kısa ki kullanılmayan sohbetler birikmesin.
 func varsayilanIsleyiciAyarlari() isleyiciAyarlari {
@@ -113,7 +113,7 @@ func yeniIsleyici(calistir func(ctx context.Context, m message), ayar isleyiciAy
 //
 // Dönüş: false ise mesaj ALINMADI (düzen kapanmış veya akış kesildi).
 // Çağıran bunu hata saymamalı; mesajın köprü tamponunda kalması doğru
-// davranıştır — sessizce düşürmek kullanıcının mesajını kaybettirir.
+// davranıştır - sessizce düşürmek kullanıcının mesajını kaybettirir.
 func (i *isleyici) besle(ctx context.Context, m message) bool {
 	i.mu.Lock()
 	if i.kapandi {
@@ -241,7 +241,7 @@ func (i *isleyici) kapat(sure time.Duration) int {
 	i.mu.Unlock()
 
 	// Kanal kapanınca işçiler kuyruğu boşaltıp çıkar. bekleme (mesaj sayısı)
-	// sıfır olabilir ama son mesaj HÂLÂ çalışıyor olabilir — sayaç iş
+	// sıfır olabilir ama son mesaj HÂLÂ çalışıyor olabilir - sayaç iş
 	// BAŞLAMADAN düşürüldüğü için. Doğru ölçüt işçi sayısıdır.
 	if isciSayisi == 0 {
 		return 0
@@ -308,7 +308,7 @@ func (i *isleyici) ozet() string {
 // sondan kısaltmak hepsini aynı gösterirdi ("…48@lid"). Ayırt eden kısım
 // baştır: "12345678901234@lid" → "123456…@lid".
 //
-// Kısaltma YALNIZCA günlük içindir — karşılaştırma, eşleştirme veya gönderimde
+// Kısaltma YALNIZCA günlük içindir - karşılaştırma, eşleştirme veya gönderimde
 // asla kullanılmaz; orada tam kimlik gerekir (LID tuzağı).
 func kisaJID(sohbet string) string {
 	const gorunecek = 6
@@ -324,7 +324,7 @@ func kisaJID(sohbet string) string {
 //
 // Anahtar oturum kimliğidir. Kilit bir kanal (kapasite 1) olarak modellenir,
 // mutex değil: beklemek isteyen iş, bağlam iptal olunca beklemekten çıkabilmelidir
-// — "kapat" komutu geldiğinde kilitte sıkışan bir iş sonsuza dek bekleyemez.
+// - "kapat" komutu geldiğinde kilitte sıkışan bir iş sonsuza dek bekleyemez.
 //
 // Kapasitesi 1 olan kanal aynı zamanda mutex'tir, ama seçmeli (select) alınabilir.
 // Bu yüzden kilitKazan gibi bir yardımcıya gerek yoktur.

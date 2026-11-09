@@ -1,6 +1,6 @@
 // whatsapp-bridge-project/tetikleyici/cift_gonderim_test.go
 //
-// ÇİFT GÖNDERİM BASTIRMASI — regresyon testleri.
+// ÇİFT GÖNDERİM BASTIRMASI - regresyon testleri.
 //
 // BAĞLAM: wp-sahip ajanına gönderim araçları (whatsapp_send,
 // whatsapp_send_media) önce yasaklanmıştı, "çift gönderim olur" diye. Bu
@@ -10,7 +10,7 @@
 // Bu dosyadaki testlerin kanıtladığı: ajan hem kendi whatsapp_send'ini
 // çağırıp hem stdout üretirse kullanıcı TEK mesaj alır.
 //
-// Sahte köprü, iki ucu birden taklit eder — /messages (bastırma sorgusu)
+// Sahte köprü, iki ucu birden taklit eder - /messages (bastırma sorgusu)
 // ve /send (gönderim). /send'e düşen mesajlar geçmişe de yazılır, çünkü
 // GERÇEK köprüde de öyledir: bastırma kararı "son giden mesajlara bak"
 // mantığına dayanır.
@@ -73,7 +73,7 @@ func (s *sahteKopru) baslat(t *testing.T) *bridgeClient {
 			_ = json.NewDecoder(r.Body).Decode(&msg)
 			s.gonderil = append(s.gonderil, msg)
 			// Gerçek köprüde de giden mesaj geçmişe düşer. Bastırma
-			// sorgusu BUNU görür — test edilen asıl davranış budur.
+			// sorgusu BUNU görür - test edilen asıl davranış budur.
 			s.gecmis = append(s.gecmis, message{
 				Direction: "out", IsFromMe: true,
 				From: msg.To, Text: msg.Text,
@@ -133,7 +133,7 @@ func TestTeklastirMetinBicimFarkiniSiler(t *testing.T) {
 		{"turkiye karakteri ayni", "şey", "sey", false}, // farklı: aşırı normalleştirme
 
 		// FARKLI cevaplar AYNI sayılmamalı. Yanlışsa kullanıcının
-		// cevabı yutulur — bastırmanın en kötü hatası.
+		// cevabı yutulur - bastırmanın en kötü hatası.
 		{"farkli kelime", "selam", "hosca kal", false},
 		{"farkli sayi", "toplam 23.050", "toplam 23.500", false},
 		{"biri digerinin uzantisi degil", "evet", "evet mi", false},
@@ -182,7 +182,7 @@ func TestAynenGonderilmisYakindaGidenAyniMetniBulur(t *testing.T) {
 		t.Fatal("20 saniye once giden ayni metin bastirilmaliydi")
 	}
 	if sebep == "" {
-		t.Error("gerekce bos olmamali — gunlukte ne oldugu gorunmeli")
+		t.Error("gerekce bos olmamali - gunlukte ne oldugu gorunmeli")
 	}
 }
 
@@ -193,7 +193,7 @@ func TestAynenGonderilmisFarkliMetniBastirmaz(t *testing.T) {
 	aynen, _ := zatenGonderilmis(t.Context(), k.baslat(t), "test@lid", "ikinci cevap farkli")
 
 	if aynen {
-		t.Fatal("FARKLI metin bastirilmamali — kullanici ikinci cevabi hak ediyor")
+		t.Fatal("FARKLI metin bastirilmamali - kullanici ikinci cevabi hak ediyor")
 	}
 }
 
@@ -226,7 +226,7 @@ func TestAynenGonderilmisGelenMesajiBastirmaz(t *testing.T) {
 func TestAynenGonderilmisGecmisAlinamazsaBastirmaz(t *testing.T) {
 	// Kopru yeniden baglandiginda gecmis bos doner. Bu HATA DEGIL:
 	// bastirilamaz, gonderim yapilmalidir. Yanlis bastirma, kullaniciya
-	// hic mesaj gitmemesi demektir — aciklanamaz.
+	// hic mesaj gitmemesi demektir - aciklanamaz.
 	k := &sahteKopru{hata: "messages"}
 
 	aynen, sebep := zatenGonderilmis(t.Context(), k.baslat(t), "test@lid", "selam")
@@ -235,7 +235,7 @@ func TestAynenGonderilmisGecmisAlinamazsaBastirmaz(t *testing.T) {
 		t.Fatal("gecmis alinamadiysa bastirilmamali, gonderilmeli")
 	}
 	if sebep == "" {
-		t.Error("gerekce yazilmali — neden gonderildigi gunlukten anlasilmali")
+		t.Error("gerekce yazilmali - neden gonderildigi gunlukten anlasilmali")
 	}
 }
 
@@ -331,7 +331,7 @@ func TestAjanHemGonderirHemCevapYazarsaTekMesajGider(t *testing.T) {
 
 func TestFarkliCevaplarIkiMesajGider(t *testing.T) {
 	// Bastirma YALNIZ ayni metni etmeli. Ajan gercekten iki farkli sey
-	// yazdiysa ikisi de gitmeli — yoksa kullanici bilgi kaybeder.
+	// yazdiysa ikisi de gitmeli - yoksa kullanici bilgi kaybeder.
 	k := &sahteKopru{}
 	istemci := k.baslat(t)
 	opts := replyOptions()
@@ -371,7 +371,7 @@ func TestBastirmaKendiGonderiminiSaymaz(t *testing.T) {
 func TestBastirmaIkiFarkliTurArasindaGecerli(t *testing.T) {
 	// Cift gonderim cogu zaman SU sekilde olur: ajan once "Tamam" der,
 	// sonra detayi ayri mesajda yollar. Iki mesaj da FARKLI metindir.
-	// Bu durumda bastirma devreye girmemeli — kullanici ikisini de istedi.
+	// Bu durumda bastirma devreye girmemeli - kullanici ikisini de istedi.
 	k := &sahteKopru{}
 	istemci := k.baslat(t)
 	opts := replyOptions()
@@ -401,7 +401,7 @@ func TestBastirmaIkiFarkliTurArasindaGecerli(t *testing.T) {
 func TestKurulmusYapilandirmadaWpSahipGonderimYasagiYok(t *testing.T) {
 	// Canlı hatırdır: wp-sahip'e gönderim araçları "deny" idi. Bu, ajanın
 	// dosya/görsel gönderme yeteneğini kaldırıyordu ve çift gönderimi
-	// çözmedi — çift gönderim tetikleyici/gonder() içinde bastırılır.
+	// çözmedi - çift gönderim tetikleyici/gonder() içinde bastırılır.
 	// Yapılandırma yeniden yazılırsa bu test yakalar.
 	//
 	// opencode.json kullanıcıevinde; test ortamında yoksa atlanır.
@@ -411,7 +411,7 @@ func TestKurulmusYapilandirmadaWpSahipGonderimYasagiYok(t *testing.T) {
 		os.Getenv("HOME"), ".config", "opencode", "opencode.json",
 	))
 	if err != nil {
-		t.Skipf("opencode.json okunamadı (%v) — test atlandı", err)
+		t.Skipf("opencode.json okunamadı (%v) - test atlandı", err)
 	}
 
 	var yapilandirma struct {
@@ -432,7 +432,7 @@ func TestKurulmusYapilandirmadaWpSahipGonderimYasagiYok(t *testing.T) {
 	// false olursa çift gönderim bastırması çalışmaz (ajan gönderemez demez).
 	// send_media ayrı yetenek, görsel hattı için gerekli ama çift gönderimle ilgisi yok.
 	if deger, varMi := ajan.Tools["whatsapp-bridge_whatsapp_send"]; !varMi || deger == false {
-		t.Errorf("wp-sahip.whatsapp_send = %v — ajan metin gönderemiyor. "+
+		t.Errorf("wp-sahip.whatsapp_send = %v - ajan metin gönderemiyor. "+
 			"Çift gönderim tetikleyici/gonder() içinde bastırılır, yetki açık (true) kalmalı.", deger)
 	}
 
@@ -440,7 +440,7 @@ func TestKurulmusYapilandirmadaWpSahipGonderimYasagiYok(t *testing.T) {
 	// açılmamalı (false). wp-sahip'e verilen yetki buraya sızmamalı.
 	if misafir, varMi := yapilandirma.Agent["wp-misafir"]; varMi {
 		if deger, varMi := misafir.Tools["whatsapp-bridge_whatsapp_send"]; varMi && deger == true {
-			t.Errorf("wp-misafir.whatsapp_send = %v — misafire gönderim açılmamalı (false olmalı)", deger)
+			t.Errorf("wp-misafir.whatsapp_send = %v - misafire gönderim açılmamalı (false olmalı)", deger)
 		}
 	}
 }

@@ -193,9 +193,9 @@ func TestBuildPromptIncludesConversation(t *testing.T) {
 // kotaliOpencode, çağrı sayacına göre davranan sahte opencode üretir.
 //
 // İlk ilkKotali çağrı hataMetni'ni stderr'e basıp exit 1 döner (model
-// hatasını simüle eder — varsayılan olarak "Rate limit exceeded (429)").
+// hatasını simüle eder - varsayılan olarak "Rate limit exceeded (429)").
 // Sonraki çağrılar cevapJSON'u stdout'a basıp exit 0 döner. Her çağrı bir
-// sonraki son-çağrının argümanlarını ARGS dosyasına (NUL ayraçlı) yazar —
+// sonraki son-çağrının argümanlarını ARGS dosyasına (NUL ayraçlı) yazar -
 // devam prompt'unun geçtiğini kanıtlamak için.
 //
 // ⛔ SAYAÇ AYRI DOSYADA (bekleme_akis_test.go'da öğrenilen tuzak): sayaç
@@ -295,7 +295,7 @@ func devamOptions() options {
 
 // ⛔ ANAHTAR TEST: ilk çağrı kota verir, otomatik devam oturumu sürdürür ve
 // cevabı KULLANICIYA devam cevabı olarak ulaştırır. "Kota doldu" bildirimi
-// GİTMEMELİ — sahibin şikâyeti tam buydu: iş yarım kalıyordu.
+// GİTMEMELİ - sahibin şikâyeti tam buydu: iş yarım kalıyordu.
 func TestKotaSonrasiOtomatikDevamOturumuSurdurur(t *testing.T) {
 	betik, sayac, argsDosya := kotaliOpencode(t, 1,
 		`{"type":"text","part":{"type":"text","text":"Devam sonucu"}}`)
@@ -350,7 +350,7 @@ func TestOtomatikDevamImleciKullaniciyaGitmez(t *testing.T) {
 }
 
 // Kota HİÇ toparlanmazsa: 2 sessiz devam denemesinden sonra hazır yolda
-// yalnız TEK bildirim gider ("kota doldu") ve hata döner — bekleme koruması
+// yalnız TEK bildirim gider ("kota doldu") ve hata döner - bekleme koruması
 // (engine) devreye girebilsin. Başarısız turların çıktısı sohbete düşmez.
 func TestKotaHicToparlanmazsaTekBildirimVeHata(t *testing.T) {
 	betik, sayac, _ := kotaliOpencode(t, 99,
@@ -411,7 +411,7 @@ func TestKotaliOlmayanHataDevamTetiklemez(t *testing.T) {
 	if kez := sayacOkuSayi(t, sayac); kez != 1 {
 		t.Errorf("opencode %d kez çalıştı, want 1 (devam kotalı olmayan hatada GİTMEMELİ)", kez)
 	}
-	// Devam imleci hiçbir çağrıya prompt olarak verilmemeli — tek çağrı
+	// Devam imleci hiçbir çağrıya prompt olarak verilmemeli - tek çağrı
 	// zaten açık promptla gitti.
 	args := sonArgumanlar(t, argsDosya)
 	if args[len(args)-1] == devamPrompt {

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# tetikleyici.sh — tetikleyici'yi elle çalıştırmak için ince sarmalayıcı.
+# tetikleyici.sh - tetikleyici'yi elle çalıştırmak için ince sarmalayıcı.
 #
 # Servis yok; süreç arka planda nohup ile yaşar. PID dosyada tutulur.
 #
@@ -63,14 +63,14 @@ calisiyor() {
 	#
 	# Hata (2026-10-05 reboot sonrası): hiç süreç bulunamayınca döngüdeki son
 	# komut `|| continue` olduğu için 0 dönüyordu. `status` bunu "PID var"
-	# sanıp "PID — PID dosyası eski" yazıyordu; oysa tetikleyici hiç
+	# sanıp "PID - PID dosyası eski" yazıyordu; oysa tetikleyici hiç
 	# çalışmıyordu. Bulunan vardır/yoktur açıkça söylenmeli.
 	[ -n "$bulundu" ] || return 1
 	return 0
 }
 
 # ilk_pid, çalışan örnekler arasındaki EN ESKİ PID'yi döndürür.
-# Birden fazla örnek varsa bu tek bir tanesini seçer — pid_al bunu tek
+# Birden fazla örnek varsa bu tek bir tanesini seçer - pid_al bunu tek
 # PID bekleyecek şekilde yazdığı için çok satırlı değer yazılamaz.
 ilk_pid() {
 	local pidler="$1" p en=""
@@ -108,7 +108,7 @@ baslat() {
 	if [ -n "$pidler" ]; then
 		pid="$(ilk_pid "$pidler")"
 		echo "$pid" >"$PIDFILE"
-		echo "zaten çalışıyor (PID $pid) — PID dosyası onarıldı"
+		echo "zaten çalışıyor (PID $pid) - PID dosyası onarıldı"
 		return 0
 	fi
 
@@ -183,7 +183,7 @@ durum() {
 	echo
 
 	# Çok satırlı $pid'yi olduğu gibi yazmak çıktıyı bozduğu için ilk_pid kullanılır
-	# ve kaç örnek olduğu AYRICA bildirilir — çift motor sessizce normal görünürdü.
+	# ve kaç örnek olduğu AYRICA bildirilir - çift motor sessizce normal görünürdü.
 	local pid pids adet
 	pids="$(calisiyor || true)"
 	adet=0
@@ -193,14 +193,14 @@ durum() {
 		echo "durum  : ÇALIŞIYOR (PID $pid, başlangıç $(ps -o lstart= -p "$pid" 2>/dev/null | xargs))"
 	elif [ -n "$pids" ]; then
 		pid="$(ilk_pid "$pids")"
-		echo "durum  : ÇALIŞIYOR (PID $pid — PID dosyası bozuk, süreç /proc'tan bulundu)"
+		echo "durum  : ÇALIŞIYOR (PID $pid - PID dosyası bozuk, süreç /proc'tan bulundu)"
 	else
 		echo "durum  : DURMUŞ"
 		return 1
 	fi
 
 	if [ "$adet" -gt 1 ]; then
-		echo "⛔ UYARI: $adet tetikleyici örneği çalışıyor — çift cevap riski:"
+		echo "⛔ UYARI: $adet tetikleyici örneği çalışıyor - çift cevap riski:"
 		printf '%s\n' "$pids" | sed 's/^/  PID /'
 		echo "  düzelt: ./tetikleyici.sh restart"
 	fi

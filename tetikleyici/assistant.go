@@ -31,7 +31,7 @@ var sessizTurler = map[string]bool{
 //
 // `poll` bilerek listeye girdi: köprü anketi okunabilir metne çevirir
 // ("Anket: Pıttık mı? • A • B"), bu da ajana gitmesi gereken bir bilgidir.
-// `poll_update` (kullanıcı oy kullandı) iç durum değişimidir, gürültü olurdu —
+// `poll_update` (kullanıcı oy kullandı) iç durum değişimidir, gürültü olurdu -
 // o yüzden sessizTurler'de.
 var metinTurleri = map[string]bool{
 	"text":          true,
@@ -86,7 +86,7 @@ func (a action) script(hat yol) string {
 
 // yonlendir, mesajın gideceği hattı seçer.
 //
-// Dönüş: (yol, bulundu). Bulunmadıysa mesaj SESSİZCE geçilir — ne cevap
+// Dönüş: (yol, bulundu). Bulunmadıysa mesaj SESSİZCE geçilir - ne cevap
 // gönderilir ne de ajan uyarılır. Bu, kapalı hat kuralının değişmez ilkesidir.
 func (a action) yonlendir(m message) (yol, bool) {
 	if sessizTurler[m.Type] {
@@ -103,7 +103,7 @@ func (a action) yonlendir(m message) (yol, bool) {
 
 	switch {
 	case tipYazi:
-		// "/" ile başlayan metin AJANIN İŞİ DEĞİL — komut hattına aittir.
+		// "/" ile başlayan metin AJANIN İŞİ DEĞİL - komut hattına aittir.
 		//
 		// Kapalı bir komutun oturuma düşmemesi şart: `/camera` izni kapalıyken
 		// bu metin ajana soru olarak gider ve ajan "bu komut yok" diye
@@ -202,7 +202,7 @@ func ilkKelime(metin string) string {
 	return metin
 }
 
-// aciklama, eylemin tek satırlık özetini döndürür — durum çıktısı ve günlük için.
+// aciklama, eylemin tek satırlık özetini döndürür - durum çıktısı ve günlük için.
 func (a action) aciklama() string {
 	var acik, kapali []string
 	for _, y := range a.yetenekler() {

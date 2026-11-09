@@ -298,7 +298,7 @@ func TestConditionNotTextExcludesMatchingMessages(t *testing.T) {
 }
 
 // Sticker, reaksiyon ve boş payload'da metin yoktur. Metin bekleyen kural
-// bunları TUTMAMALI — yoksa ajan boş pencereyle tetiklenip penceredeki
+// bunları TUTMAMALI - yoksa ajan boş pencereyle tetiklenip penceredeki
 // başka mesajı işliyor. Ölçüm: export/1-mefamex 20:05.
 func TestBosMetinMetinBekleyenKuraliTutmaz(t *testing.T) {
 	alan := func() condition {
@@ -350,7 +350,7 @@ func TestBosMetinNotTextKuraliniEler(t *testing.T) {
 
 // type kısıtı "metin bekliyor" sayılmaz: sesli notun metni YOKTUR ve
 // `type: audio` kuralı onu yakalamak için vardır. İlk yazımda koruma
-// tip koşulunu da sayıyordu, sesli not hattını sessizce öldürüyordu —
+// tip koşulunu da sayıyordu, sesli not hattını sessizce öldürüyordu -
 // type_test.go'daki 3 test ve shipped_config_test kırıldı.
 func TestTipKisitliKuralMetinsizMesajiYakalar(t *testing.T) {
 	ses := message{Type: "audio", Text: ""}

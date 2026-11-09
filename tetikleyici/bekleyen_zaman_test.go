@@ -103,7 +103,7 @@ func TestBekleyenTemizle_GenclereDokunulmaz(t *testing.T) {
 }
 
 // TestBekleyenTemizle_DamgasizNumarayaDokunulmaz: damgası olmayan (eski
-// format / elle eklenmiş) numara asla silinmez — yaşı bilinmiyor.
+// format / elle eklenmiş) numara asla silinmez - yaşı bilinmiyor.
 func TestBekleyenTemizle_DamgasizNumarayaDokunulmaz(t *testing.T) {
 	cfg := bekleyenHazir(t)
 
@@ -111,7 +111,7 @@ func TestBekleyenTemizle_DamgasizNumarayaDokunulmaz(t *testing.T) {
 	if err := os.WriteFile(txt, []byte("7\n"), 0o600); err != nil {
 		t.Fatal(err)
 	}
-	// Damga dosyası yok — 7'nin yaşı bilinmiyor.
+	// Damga dosyası yok - 7'nin yaşı bilinmiyor.
 
 	if got := bekleyenTemizle(cfg, time.Now()); got != nil {
 		t.Errorf("damgasız numara silinmemeli: %v", got)
@@ -143,7 +143,7 @@ func TestBekleyenNumaraAta_DamgaYazar(t *testing.T) {
 
 // TestSoruNotu_BayatiSerbestBirakir: süresi dolan numara bir sonraki soruda
 // temizlenir ve yenisi, kalan en küçük boşluğa atanır. (Bayat 0 temizlenir;
-// 1 duruyorken boşluk 2'dir — enKucukEksik kuralı.)
+// 1 duruyorken boşluk 2'dir - enKucukEksik kuralı.)
 func TestSoruNotu_BayatiSerbestBirakir(t *testing.T) {
 	cfg := bekleyenHazir(t)
 	simdi := time.Now()

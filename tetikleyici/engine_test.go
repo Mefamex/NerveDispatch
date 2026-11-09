@@ -392,7 +392,7 @@ rules:
 }
 
 // MEVZU Aşama 3 (ADIM 3, 2026-10-06): tarayıcı goroutine'i bayrağı kapı
-// getter'ından okur — rules() tazelediği için /zamanla aç|kapat restart'sız
+// getter'ından okur - rules() tazelediği için /zamanla aç|kapat restart'sız
 // yansımalı.
 func TestEngineZamanlanmisAcikDurumGetter(t *testing.T) {
 	path := writeRules(t, `zamanlanmis_mesaj: { acik: false }
@@ -415,7 +415,7 @@ rules:
 		t.Fatal("/zamanla aç sonrası getter true dönmeli (restart'sız)")
 	}
 
-	// Eş zamanlı erişim: getter rules() yazarken okur — kilitli, race olmaz.
+	// Eş zamanlı erişim: getter rules() yazarken okur - kilitli, race olmaz.
 	var wg sync.WaitGroup
 	wg.Add(2)
 	go func() {

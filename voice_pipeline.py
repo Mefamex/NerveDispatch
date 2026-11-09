@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-voice_pipeline.py — WhatsApp sesli not → Türkçe transkript.
+voice_pipeline.py - WhatsApp sesli not → Türkçe transkript.
 
 Akış:
     tetikleyici (sesli not geldi)
@@ -21,12 +21,12 @@ Ortam değişkenleri:
     DEVICE          varsayılan cuda   (cpu yazılırsa GPU'suz çalışır)
     COMPUTE_TYPE    varsayılan int8_float16  (cpu için int8)
 
-Not — GPU doluysa CPU'ya düşer:
+Not - GPU doluysa CPU'ya düşer:
     DEVICE=cuda iken model yüklenemezse (ör. `CUDA failed with error out of
     memory`) transkript bir kez de cpu/int8 ile denenir. Sesli not, GPU'nun
     boşalmasını beklemek yerine yavaş da olsa tamamlanır.
 
-Not — LD_LIBRARY_PATH neden ayarlanıyor:
+Not - LD_LIBRARY_PATH neden ayarlanıyor:
     faster-whisper CTranslate2'yi kullanır ve CTranslate2 CUDA 12'ye
     bağlıdır (libcublas.so.12). Sistemde CUDA 13 kurulu
     (libcublas.so.13), ama pip ile kurulan nvidia-* paketleri venv
@@ -119,7 +119,7 @@ def transcribe(wav: str) -> list[dict]:
 
     Sonuç: sesli not tamamen düşüyordu (kullanıcıya "İş tamamlanamadı" gidiyor).
     GPU'nun boşalmasını beklemek yerine CPU'da int8 ile yeniden denemek sesli
-    notu kurtarır — yavaş ama çalışır. Birincil cihaz zaten "cpu" ise (DEVICE
+    notu kurtarır - yavaş ama çalışır. Birincil cihaz zaten "cpu" ise (DEVICE
     ortam değişkeni) ikinci deneme yapılmaz; hata olduğu gibi yukarı çıkar.
     """
     try:
@@ -200,7 +200,7 @@ def model_dir() -> Path:
         return Path(WHISPER_MODEL)
     raise RuntimeError(
         f"model bulunamadı: {models / WHISPER_MODEL} "
-        f"(ya da whisper-{WHISPER_MODEL}) — WHISPER_MODEL ayarla"
+        f"(ya da whisper-{WHISPER_MODEL}) - WHISPER_MODEL ayarla"
     )
 
 
@@ -278,7 +278,7 @@ def main() -> int:
             print(as_text(segments))
         return 0
 
-    except Exception as err:  # noqa: BLE001 — tetikleyiciye tek satır gitsin
+    except Exception as err:  # noqa: BLE001 - tetikleyiciye tek satır gitsin
         print(f"sesli not çözülemedi: {err}", file=sys.stderr)
         return 1
     finally:

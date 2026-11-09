@@ -52,7 +52,7 @@ func TestAkisKopuncaYarimKalanIsOldurulmez(t *testing.T) {
 		t.Errorf("iş tamamlanmadı: %q", reply)
 	}
 	if len(fake.sent) != 1 {
-		t.Fatalf("yanıt gönderilmedi — kullanıcının şikâyeti tam olarak bu")
+		t.Fatalf("yanıt gönderilmedi - kullanıcının şikâyeti tam olarak bu")
 	}
 	if !strings.Contains(fake.sent[0].Text, "iş bitti") {
 		t.Errorf("gönderilen yanlış: %q", fake.sent[0].Text)

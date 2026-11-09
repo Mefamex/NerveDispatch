@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""sozdizimi.py — /cmd ve /session sözdizimi ayrıştırma.
+"""sozdizimi.py - /cmd ve /session sözdizimi ayrıştırma.
 
 Desteklenen biçimler:
     /cmd <kod>                    → bir kez çalıştır
@@ -86,11 +86,11 @@ def parse_cmd(metin: str) -> CmdParseResult:
     if DURUM_PATTERN.match(metin):
         return CmdParseResult(komut_turu="durum")
 
-    # /ping — bağlantı/tetikleme sağlığı (ajan turuna gerek yok)
+    # /ping - bağlantı/tetikleme sağlığı (ajan turuna gerek yok)
     if PING_PATTERN.match(metin):
         return CmdParseResult(komut_turu="ping")
 
-    # /sil veya /revoke — alıntılanan mesajı herkesten sil
+    # /sil veya /revoke - alıntılanan mesajı herkesten sil
     if REVOKE_PATTERN.match(metin):
         parcalar = metin.split(None, 1)
         hedef_id = parcalar[1].strip() if len(parcalar) > 1 else ""
@@ -110,7 +110,7 @@ def parse_cmd(metin: str) -> CmdParseResult:
             hata="Geçersiz ajan motoru. Kullanım: /agent [agy|claude|opencode|durum]",
         )
 
-    # /call <jid> [süre] — giden arama (çaldırma)
+    # /call <jid> [süre] - giden arama (çaldırma)
     call_match = CALL_PATTERN.match(metin)
     if call_match:
         arg = call_match.group("arg").strip()
@@ -129,7 +129,7 @@ def parse_cmd(metin: str) -> CmdParseResult:
         arg = zamanla_match.group("arg").strip()
         if arg.lower() in ("list", "liste"):
             return CmdParseResult(komut_turu="zamanla", zaman_metni="list")
-        # Aşama 3 (2026-10-06): /zamanla aç|kapat — çalışma anı ayar kanalı.
+        # Aşama 3 (2026-10-06): /zamanla aç|kapat - çalışma anı ayar kanalı.
         # Kullanıcı config düzenlemeden özelliği açıp kapatabilir.
         if arg.lower() in ("aç", "ac", "kapat"):
             return CmdParseResult(komut_turu="zamanla", zaman_metni=arg.lower())
@@ -148,7 +148,7 @@ def parse_cmd(metin: str) -> CmdParseResult:
             hata="/zamanla <süre> <mesaj> | list | iptal <id>",
         )
 
-    # /exit — aktif tünelden (session veya cmdhub) hızlı çıkış
+    # /exit - aktif tünelden (session veya cmdhub) hızlı çıkış
     if EXIT_PATTERN.match(metin):
         return CmdParseResult(komut_turu="exit")
 

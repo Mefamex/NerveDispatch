@@ -51,7 +51,7 @@ func TestShippedConfigPointsAtItsDocumentation(t *testing.T) {
 	raw := readShippedConfig(t)
 
 	// Config kısa tutulduğu için ayrıntı başka bir dosyada. Bağlantı koparsa
-	// o ayrıntı kimseye ulaşamaz — o yüzden burada doğrulanır.
+	// o ayrıntı kimseye ulaşamaz - o yüzden burada doğrulanır.
 	if !strings.Contains(raw, "config.readme.md") {
 		t.Error("config must point at config.readme.md")
 	}
@@ -156,7 +156,7 @@ func TestShippedConfigKeepsAudioOutOfTheAgentSession(t *testing.T) {
 	}
 }
 
-// ruleAdlari, eşleşen kuralların adlarını listeler — hata mesajlarında okunur.
+// ruleAdlari, eşleşen kuralların adlarını listeler - hata mesajlarında okunur.
 func ruleAdlari(rules []rule) []string {
 	var adlar []string
 	for _, r := range rules {
@@ -306,7 +306,7 @@ func TestShippedConfigDocumentsTheEnvironmentVariables(t *testing.T) {
 }
 
 // yamlOrnegiCikar, docs'taki ```yaml ... ``` bloklarından aranan ifadeyi
-// içeren bloğu verir. Amaç: dokümandaki örnek GERÇEKTEN yüklenebilsin —
+// içeren bloğu verir. Amaç: dokümandaki örnek GERÇEKTEN yüklenebilsin -
 // örnek yazıldıktan sonra config değişirse sessizce yanlış kalmasın.
 func yamlOrnegiCikar(t *testing.T, docs, aranan string) string {
 	t.Helper()
@@ -367,7 +367,7 @@ func TestDokumandakiOpencodeOrnegiYukleniyor(t *testing.T) {
 //
 // 2026-10-06 ölçümü: `session` koddan zorunluydu ama örnekte yoktu ve
 // dokümanda "zorunlu" kelimesi geçmiyordu. Okuyan örnekten kopyalayınca
-// `session required` hatası alıyordu — hatanın nedenini dokümanda
+// `session required` hatası alıyordu - hatanın nedenini dokümanda
 // okuyamıyordu.
 func TestDokumanZorunluAlanlariBelirtiyor(t *testing.T) {
 	raw := readShippedDocs(t)

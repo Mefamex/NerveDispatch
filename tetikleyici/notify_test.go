@@ -14,7 +14,7 @@ import (
 )
 
 // bildirimTest, notify testleri için kurulu notifier döndürür.
-// Damga dosyası her testte ayrı geçici dizindedir — testler birbirini
+// Damga dosyası her testte ayrı geçici dizindedir - testler birbirini
 // throttle ile kirletmesin.
 func bildirimTest(t *testing.T, fake *fakeBridge, cfg notifyConfig) *notifier {
 	t.Helper()
@@ -27,7 +27,7 @@ func bildirimTest(t *testing.T, fake *fakeBridge, cfg notifyConfig) *notifier {
 }
 
 // TestBildirimYapilandirilmamissaGitmez: notify bloğu yoksa hiçbir şey
-// gönderilmez. "Kimse yoksa hata da yok" — kapalı hat sessizdir.
+// gönderilmez. "Kimse yoksa hata da yok" - kapalı hat sessizdir.
 func TestBildirimYapilandirilmamissaGitmez(t *testing.T) {
 	fake := &fakeBridge{}
 	n := bildirimTest(t, fake, notifyConfig{})
@@ -77,7 +77,7 @@ func TestBildirimThrottleAyniTur(t *testing.T) {
 	}
 }
 
-// TestBildirimFarkliTurAyriThrottle: farklı türler ayrı damgalanır — on_start
+// TestBildirimFarkliTurAyriThrottle: farklı türler ayrı damgalanır - on_start
 // gittikten sonra on_stop da gidebilir.
 func TestBildirimFarkliTurAyriThrottle(t *testing.T) {
 	fake := &fakeBridge{}
@@ -97,7 +97,7 @@ func TestBildirimFarkliTurAyriThrottle(t *testing.T) {
 	}
 }
 
-// TestDamgaDosyadaKalir: damga DOSYADA tutulur — aynı dosyadan yeni bir
+// TestDamgaDosyadaKalir: damga DOSYADA tutulur - aynı dosyadan yeni bir
 // defter kuran (restart simülasyonu) throttle'ı bilir. Yoksa her restart'ta
 // on_start bir daha giderdi.
 func TestDamgaDosyadaKalir(t *testing.T) {
@@ -116,7 +116,7 @@ func TestDamgaDosyadaKalir(t *testing.T) {
 	yeni := yeniNotifier(fake.start(t), testOptions(), func() notifyConfig { return cfg }, yol)
 	yeni.baslat(t.Context())
 	if len(fake.sent) != 1 {
-		t.Errorf("restart sonrası throttle hatırlanmalı — ikinci gönderim olmamalı: %d sent", len(fake.sent))
+		t.Errorf("restart sonrası throttle hatırlanmalı - ikinci gönderim olmamalı: %d sent", len(fake.sent))
 	}
 }
 
@@ -143,12 +143,12 @@ func TestBildirimHataYenidenDener(t *testing.T) {
 	// Başarılı gönderim DAMGALANDI: yeni defter aynı tür için 5m engelli.
 	defter := yeniDamgaDefteri(n.damga.yol)
 	if defter.izinli(bildirimStart, 5*time.Minute, time.Now()) {
-		t.Error("başarılı gönderim damgalanmalı — yeni defter 5m içinde izin vermemeli")
+		t.Error("başarılı gönderim damgalanmalı - yeni defter 5m içinde izin vermemeli")
 	}
 }
 
 // TestBildirimVazgecer: köprü yanıt vermiyorsa maxRetry denemeden sonra
-// vazgeçilir, damga YOKTUR (başarısız gönderim damgalanmaz — sonraki olay
+// vazgeçilir, damga YOKTUR (başarısız gönderim damgalanmaz - sonraki olay
 // yeniden deneyebilsin) ve sahibe hata mesajı gitmez.
 func TestBildirimVazgecer(t *testing.T) {
 	fake := &fakeBridge{sendFailKalan: 99}
@@ -165,7 +165,7 @@ func TestBildirimVazgecer(t *testing.T) {
 	}
 	defter := yeniDamgaDefteri(n.damga.yol)
 	if !defter.izinli(bildirimStart, 5*time.Minute, time.Now()) {
-		t.Error("başarısız gönderim damgalanmamalı — bir sonraki olay yeniden deneyebilmeli")
+		t.Error("başarısız gönderim damgalanmamalı - bir sonraki olay yeniden deneyebilmeli")
 	}
 }
 
@@ -269,7 +269,7 @@ func TestConfigIzleyiciDegisinceBildirir(t *testing.T) {
 	}
 }
 
-// TestGuncelNotifyDosyadanOkur: notifier olayları mesaj akışından bağımsız —
+// TestGuncelNotifyDosyadanOkur: notifier olayları mesaj akışından bağımsız -
 // snapshot (mesaj bazlı reload) bayat kalabilir. guncelNotify dosyayı TAZE
 // okur; dosya bozuksa yedeğe düşer, çökmez. Canlı ölçülen tuzağın testi:
 // `to` dosyada tek LID'e düşürülünce snapshot hâlâ eski çift hedefli olsa
@@ -345,7 +345,7 @@ rules:
 }
 
 // TestNotifyBlockYanlisAlanAdiHataVerir: KnownFields sayesinde yanlış yazılmış
-// bir alan sessizce yutulmaz — kullanıcı "on_startt" yazınca hata görür.
+// bir alan sessizce yutulmaz - kullanıcı "on_startt" yazınca hata görür.
 func TestNotifyBlockYanlisAlanAdiHataVerir(t *testing.T) {
 	_, err := parseConfig([]byte(`notify:
   on_startt: true

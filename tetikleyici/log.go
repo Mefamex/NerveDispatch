@@ -13,7 +13,7 @@ import (
 // logger, satırları hem ekrana hem dosyaya yazar.
 //
 // Arka planda çalışan bir araç olduğu için ekran geçip gider; dosya tek
-// gerçek kayıttır. Dosya açılamazsa yalnız ekrana yazar ve uyarır — araç
+// gerçek kayıttır. Dosya açılamazsa yalnız ekrana yazar ve uyarır - araç
 // yine çalışır.
 type logger struct {
 	mu   sync.Mutex

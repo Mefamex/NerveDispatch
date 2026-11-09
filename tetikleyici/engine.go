@@ -14,7 +14,7 @@ import (
 //
 // Temel fikir: config bir kez okunmaz, **her mesajda yeniden okunur**. Kullanıcı
 // dosyayı düzenleyip kaydettiği anda yeni kural geçerlidir; yeniden başlatma
-// gerekmez. Bozuk bir düzenleme de kuralları götürmez — son geçerli config
+// gerekmez. Bozuk bir düzenleme de kuralları götürmez - son geçerli config
 // korunur.
 type engine struct {
 	configPath string
@@ -65,7 +65,7 @@ func newEngine(configPath string, opts options) *engine {
 
 // zamanlanmisAcikDurum, çalışma anındaki zamanlanmış mesaj bayrağını
 // iş parçacığı güvenli döndürür (rules() e.mu altında yazar). Tarayıcı
-// goroutine'i değeri bu kapıdan okur — rules() tazelediği için
+// goroutine'i değeri bu kapıdan okur - rules() tazelediği için
 // /zamanla aç|kapat restart'sız yansır (MEVZU Aşama 3).
 func (e *engine) zamanlanmisAcikDurum() bool {
 	e.mu.Lock()
@@ -167,7 +167,7 @@ func (e *engine) dispatch(ctx context.Context, client *bridgeClient, seen *seenS
 
 	// ⛔ RATE LIMIT GERİ ÇEKİLMESİ: bu sohbet bekleme süresindeyse ajan
 	// ÇALIŞTIRILMAZ. Kullanıcıya ne olduğu ve ne zaman deneyebileceği
-	// söylenir — sessizce yutmak sistemi "çökmüş" gösterir.
+	// söylenir - sessizce yutmak sistemi "çökmüş" gösterir.
 	//
 	// Kontrol YAKALAMA'DAN ÖNCE yapılır: bağlam penceresi için köprüye
 	// gitmek de gereksiz; zaten cevap verilmeyecek.
@@ -190,7 +190,7 @@ func (e *engine) dispatch(ctx context.Context, client *bridgeClient, seen *seenS
 	for _, r := range hits {
 		names = append(names, r.name())
 	}
-	logf("EŞLEŞTİ: %s (%s) — %d kural: %s",
+	logf("EŞLEŞTİ: %s (%s) - %d kural: %s",
 		m.label(), truncate(m.From, 40), len(hits), strings.Join(names, ", "))
 
 	// Her kural için kimliğin nasıl sağlandığını yaz: numara mı tuttu, isim mi?
@@ -209,14 +209,14 @@ func (e *engine) dispatch(ctx context.Context, client *bridgeClient, seen *seenS
 	if e.opts.dryRun {
 		for _, r := range hits {
 			for _, a := range r.Actions {
-				logf("  KURU MOD — %s → %s", r.name(), a.label())
+				logf("  KURU MOD - %s → %s", r.name(), a.label())
 			}
 		}
 		return len(hits)
 	}
 
 	// Paralel eylem çalıştırma: her action ayrı goroutine.
-	// Session kilidi (oturumKilidiAl) runAction içinde — aynı session
+	// Session kilidi (oturumKilidiAl) runAction içinde - aynı session
 	// kullanan action'lar kendiliğinden sıralanır, farklı session'lar
 	// paralelde çalışır. sync.WaitGroup ile hepsi bitene kadar bekleriz.
 	var wg sync.WaitGroup
@@ -237,7 +237,7 @@ func (e *engine) dispatch(ctx context.Context, client *bridgeClient, seen *seenS
 					// (bosCiktiSebebi); burada ayrıca sistem kendini durdurur.
 					//
 					// Bu iki ayrı şeydir ve ikisi de gerekir: kullanıcıya
-					// söylemek yeterli DEĞİL — söyledikten sonra da
+					// söylemek yeterli DEĞİL - söyledikten sonra da
 					// denemeye devam ediyorduk.
 					if kotali, _ := rateLimitMi(err.Error()); kotali {
 						bitis := e.bekleme.baslat(m.From, rateLimitBekleme)
@@ -387,7 +387,7 @@ func catchUp(ctx context.Context, e *engine, client *bridgeClient, seen *seenSto
 		// geçmiş çekememiş olabilir (topUpFromWhatsApp 0 döndürmüş).
 		istenen := probeWidth(e.window)
 		if len(window) < istenen/2 && len(window) > 0 {
-			logf("⚠️ catch-up: %s için %d istenen, %d geldi — köprü geçmişi eksik olabilir",
+			logf("⚠️ catch-up: %s için %d istenen, %d geldi - köprü geçmişi eksik olabilir",
 				jid, istenen, len(window))
 		}
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_tunel.py — Tünel, /session ve /cmdhub komut testleri."""
+"""test_tunel.py - Tünel, /session ve /cmdhub komut testleri."""
 
 import json
 import os

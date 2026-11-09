@@ -8,7 +8,7 @@
 //	tetikleyici --config tetikleyici.yaml
 //
 // Config, mesaj başına yeniden okunur: dosyayı düzenleyip kaydetmek yeterlidir,
-// yeniden başlatma gerekmez. Tek kural yoktur — istediğin kadar kural yazılır,
+// yeniden başlatma gerekmez. Tek kural yoktur - istediğin kadar kural yazılır,
 // hepsi de tutarsa hepsi çalışır.
 //
 // Bağımsızdır: köprüyle yalnızca HTTP/JSON üzerinden konuşur, bridge-go
@@ -134,7 +134,7 @@ func run(ctx context.Context, raw args) error {
 		logf("uyarı: config'de kural yok, hiçbir şey tetiklenmeyecek (%s)", raw.configPath)
 	}
 	// opencode yolu: engine her mesajda tazeler ama heartbeat startup
-	// kopyasını kullanır — ilk turda boş kalmasın diye burada da doldur.
+	// kopyasını kullanır - ilk turda boş kalmasın diye burada da doldur.
 	// (run döngüsü her turda yine tazeler.)
 	opts.opencode = set.OpenCode
 	if set.CatchUpMaxAge != "" {
@@ -178,7 +178,7 @@ func run(ctx context.Context, raw args) error {
 	}
 
 	// Kalp atışı: sessiz kalan sohbeti uyarır. Yapılandırılmamışsa hiç
-	// başlamaz. Ana akıştan bağımsız çalışır — bir sohbet sessizse o
+	// başlamaz. Ana akıştan bağımsız çalışır - bir sohbet sessizse o
 	// sohbetin kuralı çalışmasa bile uyarı üretilir.
 	if hb := newHeartbeat(set, client, opts); hb != nil {
 		logf("  kalp atışı: %d sn'de bir, %d dk sessizlikte uyarır",
@@ -187,13 +187,13 @@ func run(ctx context.Context, raw args) error {
 	}
 
 	// Zamanlanmış mesajlar: "/zamanla <süre> <metin>" ile ertelenen gönderimler.
-	// Kapalıysa (zamanlanmis_mesaj.acik yok/false — MEVZU varsayılanı) hiç
+	// Kapalıysa (zamanlanmis_mesaj.acik yok/false - MEVZU varsayılanı) hiç
 	// başlamaz. Açıkken iş dizinini tarar, vadesi geleni köprüye gönderir,
-	// gönderileni siler. Köprü düşse bile süreç yaşar — denemeler 1 dk nefesle,
+	// gönderileni siler. Köprü düşse bile süreç yaşar - denemeler 1 dk nefesle,
 	// 3 başarısızda iptal (zamanlanmis.go).
 	//
 	// Bayrak engine.opts'a yazılır: runCommand, komut env'ini engine'in
-	// kopyasından kurar (engine.go:194 runAction(ctx, e.opts, …)) — yerel
+	// kopyasından kurar (engine.go:194 runAction(ctx, e.opts, …)) - yerel
 	// opts'a yazmak komut sürecine ulaşmazdı.
 	engine.opts.zamanlanmisAcik = set.Zamanlanmis.enabled()
 	if engine.opts.zamanlanmisAcik {
@@ -201,14 +201,14 @@ func run(ctx context.Context, raw args) error {
 	}
 	// Tarayıcı HER ZAMAN başlar (MEVZU Aşama 3 ADIM 3): kapalıyken tur
 	// atmaz; /zamanla aç çalışma anında canlandırır. Önceden yalnız açık
-	// başlangıçta başlıyordu — çalışma anında açılan işler hiç gönderilmezdi.
+	// başlangıçta başlıyordu - çalışma anında açılan işler hiç gönderilmezdi.
 	go zamanlanmisIzle(ctx, client, engine.zamanlanmisAcikDurum)
 
-	// Bildirimler (notify): tetikleyicinin kendi olayları — açılış, kapanış,
+	// Bildirimler (notify): tetikleyicinin kendi olayları - açılış, kapanış,
 	// köprü düşüşü/kalkışı, config değişimi. Yapılandırılmışsa on_start
 	// şimdi gider; köprü durumu aşağıdaki döngüde izlenir.
 	//
-	// cfg her bildirimde config dosyasını TAZE okur (guncelNotify) — mesaj
+	// cfg her bildirimde config dosyasını TAZE okur (guncelNotify) - mesaj
 	// bazlı snapshot bayat kalabileceği için event'ler dosyaya göre karar
 	// verir. Canlı ölçülen tuzak: eski to listesiyle ikinci kez çift gönderim.
 	n := yeniNotifier(client, opts,
@@ -228,7 +228,7 @@ func run(ctx context.Context, raw args) error {
 		if set.Notify.OnConfigChange {
 			go configDegisikliginiIzle(ctx, raw.configPath, 5*time.Second,
 				func() bool { return engine.snapshot().Notify.OnConfigChange },
-				func() { n.bildir(ctx, bildirimConfig, "⚙️ Config değişti — yeni ayarlar aktif") })
+				func() { n.bildir(ctx, bildirimConfig, "⚙️ Config değişti - yeni ayarlar aktif") })
 		}
 	}
 
@@ -276,7 +276,7 @@ func run(ctx context.Context, raw args) error {
 		}
 	}
 
-	// on_stop: süreç kapanıyor, bu son şans. Bağlam kısa ömürlü olmalı —
+	// on_stop: süreç kapanıyor, bu son şans. Bağlam kısa ömürlü olmalı -
 	// durdur dönünce tetikleyici çıkar; köprü düşükse bütçe tükenip
 	// vazgeçilir.
 	stopCtx, stopIptal := context.WithTimeout(context.Background(), 25*time.Second)
@@ -327,7 +327,7 @@ func connectOnce(ctx context.Context, client *bridgeClient, engine *engine, seen
 	// İŞLEYİCİ (2026-10-06): kuyruk artık TEK işçili değil.
 	//
 	// Sorun: tek işçide 12 dakikalık bir iş, o süre boyunca gelen TÜM
-	// mesajları — başka sohbetler dâhil — bekletiyordu. Kullanıcı "hiç cevap
+	// mesajları - başka sohbetler dâhil - bekletiyordu. Kullanıcı "hiç cevap
 	// yok" diyordu.
 	//
 	// Şimdi: her sohbet kendi işçisinde işlenir (farklı sohbetler paralel),
@@ -446,7 +446,7 @@ func parseArgs() args {
 	return raw
 }
 
-// waitFor, bağlam iptali ya da süre dolana dek bekler. İptalde false döner —
+// waitFor, bağlam iptali ya da süre dolana dek bekler. İptalde false döner -
 // çağıran döngüden çıkar. select'i her yerde tekrar etmemek için:
 // bekleyişin iptal edilebilir olması, kapanışta 3. bir bekleyiş yaratmaz.
 func waitFor(ctx context.Context, sure time.Duration) bool {

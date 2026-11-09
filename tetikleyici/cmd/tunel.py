@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""tunel.py — Oturum ve CMDHUB tünel durumu yönetimi.
+"""tunel.py - Oturum ve CMDHUB tünel durumu yönetimi.
 
 Kullanıcıların aktif tünel modunu (.tetikleyici/tunel_durumu.json) yönetir:
 - "normal": Varsayılan ana oturum

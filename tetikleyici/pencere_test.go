@@ -12,7 +12,7 @@ import (
 //
 // TODO itirazı: "her cevap öncesi tek pencerede oku; şu an tetikleyici kendi
 // penceresini geçiyor, geçmişi ajana ayrıca göstermiyor". İtiraz ya doğru
-// ya da hayır — varsayım değil ÖLÇÜM ister. Aşağıdaki testler istemin
+// ya da hayır - varsayım değil ÖLÇÜM ister. Aşağıdaki testler istemin
 // tam metnini sahte ajanın argüman dosyasından okur; yani ajanın gerçekten
 // gördüğü şey ölçülür, hesaplanmaz.
 
@@ -241,7 +241,7 @@ rules:
 		sendTimeout:   5 * time.Second,
 	}
 	// History YİNE doldurulur: buildPrompt yalnız History'e bakar. Yalnız
-	// Trigger verilseydi istem boş çıkar ve test "geçmiş gitmedi" sanardı —
+	// Trigger verilseydi istem boş çıkar ve test "geçmiş gitmedi" sanardı -
 	// oysa geçmiş hiç denenmemişti.
 	tetikleyen := pencereMesaji(100, "y", "merhaba", false)
 	p := payload{Trigger: tetikleyen, History: []message{tetikleyen}}

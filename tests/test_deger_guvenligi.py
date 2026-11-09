@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""test_deger_guvenligi.py — deger_guvenligi kuralının regresyon testleri.
+"""test_deger_guvenligi.py - deger_guvenligi kuralının regresyon testleri.
 
 Buradaki cevaplar ÖLÇÜLMÜŞTÜR: tools/prompt_varyant.py'nin d-kucuk.png
 koşularından ve tools/ocr_yol_deneyi.py'den alıntıdır. Elle uydurulmamıştır.
@@ -80,7 +80,7 @@ class TestKayipTespiti(unittest.TestCase):
             with self.subTest(cevap=i):
                 kayip, gerekce = dg.kayip_mi(cevap, OCR_KUCUK)
                 self.assertTrue(kayip, f"kaçırıldı: {cevap[:70]}")
-                self.assertTrue(gerekce, "gerekçe boş — loga yazılmalı")
+                self.assertTrue(gerekce, "gerekçe boş - loga yazılmalı")
 
     def test_olculmus_basarisiz_cevaplarda_hicbir_rakam_yok(self):
         # Kural 1'in gerekçesi: bu cevaplarda gerçekten rakam yok.
@@ -106,7 +106,7 @@ class TestKayipTespiti(unittest.TestCase):
         self.assertFalse(kayip)
 
     def test_tek_degerli_ocr_kural_disinda(self):
-        # Yalnız bir değer varsa "değer taşınmadı" demek manasız —
+        # Yalnız bir değer varsa "değer taşınmadı" demek manasız -
         # cevap o değeri kelime olarak söylemiş olabilir.
         kayip, _ = dg.kayip_mi("Bu bir teknik servis formu.", "Toplam: 5 TL")
         self.assertFalse(kayip)

@@ -1,6 +1,6 @@
 // whatsapp-bridge-project/tetikleyici/message.go
 
-// Package main — tetikleyici, WhatsApp köprüsünün HTTP API'sini dinleyip
+// Package main - tetikleyici, WhatsApp köprüsünün HTTP API'sini dinleyip
 // mesajları kural dosyasındaki kurallarla eşleştiren bağımsız bir araçtır.
 //
 // Köprüyle bağı yalnızca HTTP/JSON'dur: bu modül bridge-go'nun paketlerine

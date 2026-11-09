@@ -65,7 +65,7 @@ func TestUzatilmisYaziVeAnketOturumaGider(t *testing.T) {
 
 // Eski düzende bu mesajların her biri AYRI bir kural gerektiriyordu
 // (mefamex-oturum, mefamex-gorsel, mefamex-sesli-not, mefamex-belge…). Tek kural
-// hepsini kapsıyor mu — sorusu bu testin konusu.
+// hepsini kapsıyor mu - sorusu bu testin konusu.
 func TestTekKuralEskiKurallarinHepsiniKapsar(t *testing.T) {
 	act := tamYetenekliEylem()
 
@@ -102,7 +102,7 @@ func TestTekKuralEskiKurallarinHepsiniKapsar(t *testing.T) {
 }
 
 // Kapalı hat kuralı: ne cevap gider ne ajan uyarılır. En sık yanlış anlaşılan
-// nokta burası — "cevap yok" ile "iş başarısız" aynı şey değil.
+// nokta burası - "cevap yok" ile "iş başarısız" aynı şey değil.
 func TestKapaliIzinSessizGecer(t *testing.T) {
 	vakalar := []struct {
 		ad    string
@@ -171,7 +171,7 @@ func TestTipVeMetinBosturSessiz(t *testing.T) {
 }
 
 // Yazı tipinde olmayan boş mesaj ("") iç trafiktir; ama köprü ileride yeni bir
-// metin tipi eklerse sessizce yutulmamalı — en azından oturuma düşmeli.
+// metin tipi eklerse sessizce yutulmamalı - en azından oturuma düşmeli.
 func TestBilinmeyenTipSessizceYutulmaz(t *testing.T) {
 	if y, ok := tamYetenekliEylem().yonlendir(turMesaji("sticker_video", "")); ok {
 		t.Errorf("bilinmeyen tip yönlenmemeli, got %+v", y)
@@ -288,7 +288,7 @@ func TestTamYetenekliEylemGecerlidir(t *testing.T) {
 
 func TestNewSessionOturumSabitlemez(t *testing.T) {
 	// new_session bilerek oturum bağlamaz; alan kalmışsa kullanıcı ya yanlış
-	// tür seçmiş ya da eski config'ten artık var — ikisi de sessizce yanlış
+	// tür seçmiş ya da eski config'ten artık var - ikisi de sessizce yanlış
 	// davranış üretir.
 	err := action{Kind: "new_session", SessionID: "ses_x"}.check()
 	if err == nil || !strings.Contains(err.Error(), "must not pin a session") {
@@ -487,7 +487,7 @@ func TestBozukSatirlarAkisiBozmaz(t *testing.T) {
 
 	got := sonCevap(akis, nil)
 	if got != "görünmeli" {
-		t.Errorf("cevap = %q — bozuk satır akışı bozdu", got)
+		t.Errorf("cevap = %q - bozuk satır akışı bozdu", got)
 	}
 }
 
@@ -508,7 +508,7 @@ func TestDusunmeBlokuCevabaKarismaz(t *testing.T) {
 // Gerçek ajana ihtiyaç duymadan akışın tamamını test edebilmek için.
 //
 // Çağırdığı argümanları args dosyasına yazar; argüman sırasını test eden
-// testler bunu okur (opencode mesajı SONDAN okur — yanlış sırada prompt
+// testler bunu okur (opencode mesajı SONDAN okur - yanlış sırada prompt
 // kaybolur).
 func sahteOpencode(t *testing.T, cikti string) (bin, argsDosya string) {
 	t.Helper()
@@ -646,7 +646,7 @@ func TestAddAITagYazilmadikcaGlobalGecerli(t *testing.T) {
 	}
 }
 
-// do_debug: false iken ara mesaj gitmez — bu, "kullanıcı tek mesajda 'bir saniye'
+// do_debug: false iken ara mesaj gitmez - bu, "kullanıcı tek mesajda 'bir saniye'
 // + cevap alıyor" şikâyetinin düzeltilmiş hâlidir.
 func TestDoDebugKapaliykenAraMesajGitmez(t *testing.T) {
 	act, opts := acıkKular(t, akisOrnegi)
@@ -841,17 +841,17 @@ func TestAciklamaAcikVeKapaliyiAyirir(t *testing.T) {
 }
 
 // TestKapaliHatMaviTikDeBasmaz, kapalı hatta mesajın OKUNDU da
-// işaretlenmediğini — yani susturmanın yalnız cevabı değil, hattın
+// işaretlenmediğini - yani susturmanın yalnız cevabı değil, hattın
 // *varlığını* bile belli eden tüm yan etkileri kapsadığını sınar.
 //
 // ⛔ Neden gerekli: `config.readme.md` §2.1 "izin kuralının tam metni"
 // şunu iddia ediyor:
 //
 //	"ne cevap gider, ne ajan çağrır, ne hata yazılır, ne 'çıktı boş'
-//	 bildirimi gider — ve mesaj OKUNDU da işaretlenmez."
+//	 bildirimi gider - ve mesaj OKUNDU da işaretlenmez."
 //
 // İlk dördü `TestKapaliHatHicbirSeyGondermez` ile yıllardır sınanıyor.
-// Beşincisi — mavi tik — hiçbir testte yoktu. Kod okunduğunda doğru
+// Beşincisi - mavi tik - hiçbir testte yoktu. Kod okunduğunda doğru
 // görünüyordu (`sendSeenIfAsked`, yön seçildikten SONRA çağrılıyor ve
 // yön yoksa akış oradan çıkıyor) ama "kod okununca doğru" ile "sınanmış
 // doğru" aynı şey değildir. İddia dokümana yazıldıysa iddianın sahibi
@@ -884,7 +884,7 @@ func TestKapaliHatMaviTikDeBasmaz(t *testing.T) {
 	}
 	if len(fake.isaret) != 0 {
 		t.Errorf(
-			"kapalı hatta mavi tik BASILMAMALI — okundu işaretleme %d kez çağrıldı: %+v",
+			"kapalı hatta mavi tik BASILMAMALI - okundu işaretleme %d kez çağrıldı: %+v",
 			len(fake.isaret), fake.isaret,
 		)
 	}

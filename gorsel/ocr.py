@@ -1,9 +1,9 @@
-"""ocr — tesseract ile görselden metin çıkarma.
+"""ocr - tesseract ile görselden metin çıkarma.
 
 Neden ayrı katman:
   Tesseract bir saniyede çalışır, ~5 milyon kelime vardır ve vision
   modeline DOKUNMADAN metni çıkarır. Vision modeli metin okumada
-  güvenilir değildir — küçük puntolu ekran görüntülerini uydurur.
+  güvenilir değildir - küçük puntolu ekran görüntülerini uydurur.
   Doğrulama (tools/gorsel-test/karsilastir.py) qwen modellerinin
   belge okumada tesseract'ın gerisinde kaldığını gösterdi.
 
@@ -93,7 +93,7 @@ def temizle(metin: str) -> str:
     • Boş satırları atar
     • Tekrarlanan boşlukları daraltır
     • Aşırı uzun satırları keser (gürültü)
-    • Kenar gürültüsü olan kısa satırları eler — AMA yalnız gerçek metin
+    • Kenar gürültüsü olan kısa satırları eler - AMA yalnız gerçek metin
       varsa. Aksi hâlde ekran görüntüsündeki "OK", "Evet", "Ad", "1"
       gibi kısa ama anlamlı satırlar da silinirdi.
     • Gürültü oranı yüksekse çıktıyı reddeder
@@ -117,7 +117,7 @@ def temizle(metin: str) -> str:
         return ""
 
     # Kısa satır eleme. Ölçüt UZUNLUK DEĞİL, İÇERİK: gürültü harf/rakam
-    # içermez ("[]", "|", "—", "ı"). "OK", "Ad", "No" gibi 2 harfli
+    # içermez ("[]", "|", "-", "ı"). "OK", "Ad", "No" gibi 2 harfli
     # kelimeler gerçektir ve kalır.
     #
     # Önceki sürüm len<=2 idi ve "OK"/"Ad" ekran görüntülerinde kayboldu.
@@ -132,7 +132,7 @@ def alfanum_siz(satir: str) -> bool:
 
 
 def pdf_metni(pdf: Path) -> str:
-    """PDF'ten metin çıkarır — OCR'sız, kesin.
+    """PDF'ten metin çıkarır - OCR'sız, kesin.
 
     Dijital PDF'te bu her zaman doğrudur. Taranmış PDF'te boş döner,
     o durumda çağıran taraf sayfayı görsele çevirip OCR yapar.

@@ -74,7 +74,7 @@ func (p payload) json() string {
 	return b.String()
 }
 
-// marshalJSON, bir mesajı JSON'a çevirir. Hata olursa null yazar — payload
+// marshalJSON, bir mesajı JSON'a çevirir. Hata olursa null yazar - payload
 // bozuk olsa bile komut çalışmaya devam etmelidir.
 func marshalJSON(m message) string {
 	raw, err := jsonMarshal(m)
@@ -126,7 +126,7 @@ func runAction(ctx context.Context, opts options, act action, p payload, client 
 		out, err = runOpencodeDirect(ctx, opts, act, p, araGonderici(ctx, opts, client, p, debugCikti))
 	case "opencode":
 		// Tek kişi tek kural: yön burada seçilir. Yol yoksa mesaj
-		// SESSİZCE geçilir — "çıktı boş" bildirimi de gönderilmez, çünkü
+		// SESSİZCE geçilir - "çıktı boş" bildirimi de gönderilmez, çünkü
 		// kapalı hat "iş yapılmadı" demektir, "iş başarısız" değil.
 		hat, varMi := act.yonlendir(p.Trigger)
 		if !varMi {
@@ -163,12 +163,12 @@ func runAction(ctx context.Context, opts options, act action, p payload, client 
 	// hatası verdiğinde kullanıcıya hemen "biraz sonra tekrar dene" demek
 	// yerine aynı oturuma "Continue, unstop" verilir ve işin tamamlanması
 	// denenir. Başarılıysa cevap zaten gider; bu tur nil hata olarak döner
-	// (bekleme başlatılmaz — iş bitti). Başarısızsa eski akış aynen işler:
+	// (bekleme başlatılmaz - iş bitti). Başarısızsa eski akış aynen işler:
 	// kullanıcı tek mesaj alır, bekleme başlar.
 	//
 	// Yalnız bir oturuma bağlı (session ID'li) ve modelin ürettiği cevabı
 	// gönderen eylemlerde anlamlıdır: devam, oturumun kaldığı yerden
-	// sürmesini ister. Devam denemeleri SESSİZDİR (SessizHata) — kullanıcı
+	// sürmesini ister. Devam denemeleri SESSİZDİR (SessizHata) - kullanıcı
 	// "kota doldu" ve "cevap geldi" diye iki çelişkili mesaj almaz.
 	if err != nil {
 		if kotali, _ := rateLimitMi(err.Error()); kotali && oturumIsı && !act.SessizHata &&
@@ -214,7 +214,7 @@ func runAction(ctx context.Context, opts options, act action, p payload, client 
 	}
 	if reply == "" {
 		// Otomatik devam turu: başarısız tur sessizdir (hata olsun, çıktı boş
-		// olsun). Ana akış tek mesajla bildirir — her tur "çıktı boş" dese
+		// olsun). Ana akış tek mesajla bildirir - her tur "çıktı boş" dese
 		// kullanıcı bir duvar yazısı seli alırdı.
 		if act.SessizHata {
 			if err != nil {
@@ -265,7 +265,7 @@ func runAction(ctx context.Context, opts options, act action, p payload, client 
 //
 // Sahibin isteği: "rate limitte direkt continue diye mesaj gondersin".
 // Model kota hatası verince kullanıcıya "biraz sonra tekrar dene" demek
-// yetmiyor — iş YARIM kalıyor ve kullanıcıya kalmış oluyor. Otomatik devam,
+// yetmiyor - iş YARIM kalıyor ve kullanıcıya kalmış oluyor. Otomatik devam,
 // aynı oturuma birkaç kez devam imleci verir; biri tutarsa cevap
 // kendiliğinden gider.
 
@@ -292,7 +292,7 @@ const rateLimitDevamAra = 15 * time.Second
 // akış "yanıt gönderildi"yi görür.
 //
 // Hata: hiçbir deneme tutmazsa çağıran bilgilendirilir. Denemeler
-// SESSİZDİR (SessizHata): kullanıcıya yalnız ana akışta tek mesaj gider —
+// SESSİZDİR (SessizHata): kullanıcıya yalnız ana akışta tek mesaj gider -
 // "kota doldu" ve "cevap geldi" diye çelişkili çift mesaj değil.
 //
 // Rate limit DIŞI bir hata görülürse devam anlamsızdır, orada bırakılır:
@@ -338,12 +338,12 @@ func devamDene(ctx context.Context, opts options, act action, p payload, client 
 //
 // Gönderim süresi ayrı bir bağlamla sınırlıdır: eylemin kendi zaman aşımı
 // dolmuş olsa bile bildirim gitmelidir. Bağlam iptal edilmişse (eylem
-// zaman aşımı) bağlam olmadan denenır — süreç kapanışı yine de iptal eder.
+// zaman aşımı) bağlam olmadan denenır - süreç kapanışı yine de iptal eder.
 func gonder(ctx context.Context, opts options, client *bridgeClient, jid, metin string) error {
 	if client == nil {
 		// Köprü yoksa gönderilemez. Bu bir hata değil, KÖPRÜSÜZ kip:
 		// testler ve "ajanı çalıştır, cevabı sen al" kullanımı. Panik yerine
-		// açık hata — çağıran zaten gönderemez, yanlışlıkla "gönderildi"
+		// açık hata - çağıran zaten gönderemez, yanlışlıkla "gönderildi"
 		// sanmasın.
 		return fmt.Errorf("köprü yok, gönderilemedi")
 	}
@@ -378,7 +378,7 @@ const zamanBastirmaPencere = 2 * time.Minute
 // Köprü Unix saniyesi gönderir; mesajın saniye içindeki konumu bilinmez.
 // Bu yüzden 119,5 saniye önce giden mesaj "120,5 saniye önce" hesaplanabilir
 // ve sınırın hemen dışında görünür. Tolerans olmazsa pencere sınırındaki
-// mesajlar rastgele kaçar — yani çift gönderim koruması zamanla zayıflar.
+// mesajlar rastgele kaçar - yani çift gönderim koruması zamanla zayıflar.
 //
 // Yön seçimi: belirsizlik pencerenin DIŞINA doğru açılır, içe değil.
 // Bir mesajın yaşı belirsizken bastırmak, kullanıcının cevabı yutulması
@@ -850,7 +850,7 @@ func runOpencode(ctx context.Context, opts options, act action, p payload, araMe
 // opencodeOlay, `opencode run --format json` akışının tek satırı.
 //
 // Yalnız gereken alanlar çözülür: olayın adı ve parçanın türü/metni. Tool
-// olaylarının `state.output` alanı bilinçli olarak ÇÖZÜLMEZ — okunmamalı.
+// olaylarının `state.output` alanı bilinçli olarak ÇÖZÜLMEZ - okunmamalı.
 type opencodeOlay struct {
 	Type string `json:"type"`
 	Part struct {

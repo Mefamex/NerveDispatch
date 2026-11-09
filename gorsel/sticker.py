@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""gorsel/sticker.py — WebP sticker → PNG → OCR → Vision.
+"""gorsel/sticker.py - WebP sticker → PNG → OCR → Vision.
 
 Akış:
     WebP sticker indir → PNG çevir (magick) → OCR → eğer metin az/yoksa Vision

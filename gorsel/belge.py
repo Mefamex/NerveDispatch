@@ -1,4 +1,4 @@
-"""belge — belge türlerinden metin çıkarır.
+"""belge - belge türlerinden metin çıkarır.
 
 Kapsam:
     pdf  → pdftotext (kesin, hızlı); boş dönerse sayfa görsele çevrilir
@@ -177,7 +177,7 @@ def _duz(yol: Path) -> str:
     """Düz metin dosyası. Kodlama sırası: utf-8 → cp1254 → latin-1.
 
     ⚠️ SONUÇTA İKİ KONTROL VAR, ikisi de şart:
-      latin-1 HİÇBİR baytı reddetmez — yani kodlama denemeleri sonunda
+      latin-1 HİÇBİR baytı reddetmez - yani kodlama denemeleri sonunda
       dosya "metin" sayılır. Olmadan PNG/ELF/zip çöpü belge sanılır.
       Bu yüzden (a) NUL baytı ve (b) denetim karakteri oranı ölçülür.
     """
@@ -253,7 +253,7 @@ def _duzla(metin: str) -> str:
 
 
 def csv_olarak(metin: str) -> list[list[str]]:
-    """Ayraçlı metni tabloya çevirir — modele "tablo şöyle" demek için."""
+    """Ayraçlı metni tabloya çevirir - modele "tablo şöyle" demek için."""
     try:
         return list(csv.reader(io.StringIO(metin), delimiter="|"))
     except csv.Error:
@@ -261,7 +261,7 @@ def csv_olarak(metin: str) -> list[list[str]]:
 
 
 def ozet_istatistik(metin: str) -> dict:
-    """Belge hakkında tek satırlık bilgi — cevaba değil, günlüğe."""
+    """Belge hakkında tek satırlık bilgi - cevaba değil, günlüğe."""
     satirlar = [s for s in metin.splitlines() if s.strip()]
     kelimeler = len(metin.split())
     return {

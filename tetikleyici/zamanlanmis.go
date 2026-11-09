@@ -2,7 +2,7 @@
 //
 // Zamanlanmış mesaj: "şu zaman sonra şu mesajı gönder" (`/zamanla <süre>
 // <metin>`). Gönderim, kısa ömürlü komut sürecinin değil, tetikleyicinin
-// kendisinin işidir — bu dosya o uzun ömürlü tarayıcıyı barındırır.
+// kendisinin işidir - bu dosya o uzun ömürlü tarayıcıyı barındırır.
 //
 // Neden iş dizini (her iş ayrı dosya)? Komut tarafı (/zamanla → cmd.py) iş
 // EKLER, tarayıcı gönderince SİLER. Tek ortak dosyada iki yazar yarışırdı;
@@ -10,7 +10,7 @@
 // dosyalar .tetikleyici/zamanlanmis/ altında durur.
 //
 // Hata politikası: gönderilemeyen iş 1 dakika sonra yeniden denenir, 3
-// başarısız denemede iptal edilir (logla düşürülür) — köprü düşükken 5
+// başarısız denemede iptal edilir (logla düşürülür) - köprü düşükken 5
 // saniyede bir spam denemek anlamsız. Köprüsüz kip (client nil) işlere
 // dokunmaz.
 
@@ -63,12 +63,12 @@ func zamanlanmisEnv(opts options) []string {
 }
 
 // zamanlanmisIzle, zamanlanmış mesajları yöneten döngüdür. run() tarafından
-// goroutine olarak çalıştırılır; köprü bağlı olmasa bile durmaz — bağlantı
+// goroutine olarak çalıştırılır; köprü bağlı olmasa bile durmaz - bağlantı
 // geri gelince işler yerinde durur.
 //
 // acik, çalışma anındaki bayrağı döndüren kapıdır (engine.zamanlanmisAcikDurum).
 // MEVZU Aşama 3 (ADIM 3): tarayıcı HER ZAMAN çalışır ama kapalıyken tur
-// ATMaz — böylece /zamanla aç çalışma anında tarayıcıyı canlandırır
+// ATMaz - böylece /zamanla aç çalışma anında tarayıcıyı canlandırır
 // (önceden yalnız açık başlangıçta başlıyordu → açılan işler hiç
 // gönderilmiyordu). Kapalıyken bekleyen işler dizinde kalır; tekrar
 // açılınca vadesi geçenler hemen gider.
@@ -93,7 +93,7 @@ func zamanlanmisIzle(ctx context.Context, client *bridgeClient, acik func() bool
 }
 
 // zamanlanmisTur, bir tarama turunu işler: vadesi gelen işleri gönderir,
-// gönderilenleri siler. Başarısız işler SİLİNMEZ — deneme sayısı artar ve
+// gönderilenleri siler. Başarısız işler SİLİNMEZ - deneme sayısı artar ve
 // nefes (zamanlanmisDenemeAra) dolunca yeniden denenir; 3 başarısız denemede
 // iptal edilir. Ayrı fonksiyon = test edilebilir.
 func zamanlanmisTur(ctx context.Context, client *bridgeClient, dizin string) {
@@ -113,7 +113,7 @@ func zamanlanmisTur(ctx context.Context, client *bridgeClient, dizin string) {
 			continue
 		}
 		if client == nil {
-			// Köprüsüz kip: işe dokunma — gönderilemez, silmek yanlış olur.
+			// Köprüsüz kip: işe dokunma - gönderilemez, silmek yanlış olur.
 			continue
 		}
 

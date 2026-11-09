@@ -6,13 +6,13 @@
 // ölçülüyor: bekleme sırasında AJAN GERÇEKTEN ÇALIŞMIYOR MU?
 //
 // Bu ayrım önemli. Bekleme.tablosu doğru çalışabilir ama dispatch onu
-// okumuyorsa koruma yalnız tabloda kalır ve hiçbir işe yaramaz — "ölçtüğün
+// okumuyorsa koruma yalnız tabloda kalır ve hiçbir işe yaramaz - "ölçtüğün
 // şeyi ölçme" hatasının tam olarak kendisi.
 //
 // ⛔ SAYAÇ DOSYASI: betik ve sayaç AYRI dosyadır. Betik kendi kendine
 // yazsaydı, sayım betiğin KENDİ KAYNAK METNİNİ de sayardı ve "0 kez
 // çalıştı" hiçbir zaman görünmezdi. Tespit ettiğim ilk hata buydu: sayaç
-// 5 gösteriyordu, oysa hiçbir şey çalışmamıştı — 5, betiğin beş kelimesiydi.
+// 5 gösteriyordu, oysa hiçbir şey çalışmamıştı - 5, betiğin beş kelimesiydi.
 
 package main
 
@@ -111,7 +111,7 @@ func beklemeMesaj(id, metin string) message {
 // ⛔ ANAHTAR TEST: bekleme sırasında eylem ÇALIŞMAMALI.
 //
 // Sayaç dosyasına bakarak ölçüyoruz. Dönüş değerine bakmak yanıltıcı olurdu:
-// beklemede `return len(hits)` ile döndüğümüz için "işlendi" gibi görünür —
+// beklemede `return len(hits)` ile döndüğümüz için "işlendi" gibi görünür -
 // oysa hiçbir şey çalışmadı. Sayaç dosyası gerçeği gösterir.
 func TestBeklemedeEylemCalismaz(t *testing.T) {
 	betik, sayac := beklemeAractizi(t)
@@ -123,7 +123,7 @@ func TestBeklemedeEylemCalismaz(t *testing.T) {
 	sonuc := e.dispatch(context.Background(), client, newSeenStore(yeniSeenYolu(t)), beklemeMesaj("m1", "merhaba"))
 
 	if sayacOku(t, sayac) != 0 {
-		t.Errorf("bekleme sırasında eylem %d kez çalıştı — koruma işe yaramadı",
+		t.Errorf("bekleme sırasında eylem %d kez çalıştı - koruma işe yaramadı",
 			sayacOku(t, sayac))
 	}
 	// "İşlenmedi" dönmek yanlış olurdu: yeniden denemede aynı kontrol tekrar
@@ -144,7 +144,7 @@ func TestBeklemedeKullaniciyaSebepSoylenir(t *testing.T) {
 	e.dispatch(context.Background(), client, newSeenStore(yeniSeenYolu(t)), beklemeMesaj("m1", "merhaba"))
 
 	if len(fake.sent) != 1 {
-		t.Fatalf("bekleme uyarısı gönderilmedi (%d mesaj) — kullanıcı sebebi öğrenemez", len(fake.sent))
+		t.Fatalf("bekleme uyarısı gönderilmedi (%d mesaj) - kullanıcı sebebi öğrenemez", len(fake.sent))
 	}
 	metin := fake.sent[0].Text
 	if !strings.Contains(metin, "kota") {
@@ -196,7 +196,7 @@ func TestRateLimitHatasiBeklemeKurar(t *testing.T) {
 		t.Fatalf("komut %d kez çalıştı, want 1 (test kurulumu bozuk olabilir)", sayacOku(t, sayac))
 	}
 	if e.bekleme.kalan(beklemeSohbet) <= 0 {
-		t.Fatal("rate limit hatası bekleme kurmadı — sonraki her mesaj yeni kotayı yakacak")
+		t.Fatal("rate limit hatası bekleme kurmadı - sonraki her mesaj yeni kotayı yakacak")
 	}
 }
 

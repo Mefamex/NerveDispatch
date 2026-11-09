@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""voice_pipeline.transcribe — GPU OOM'da CPU'ya düşme regresyon testleri.
+"""voice_pipeline.transcribe - GPU OOM'da CPU'ya düşme regresyon testleri.
 
 Çalıştırma:
     python3 -m pytest tests/test_voice_pipeline.py -v

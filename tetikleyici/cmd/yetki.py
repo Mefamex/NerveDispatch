@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""yetki.py — 3 aşamalı yetki modeli.
+"""yetki.py - 3 aşamalı yetki modeli.
 
 1. Kişi config'de var mı? (users listesinde number/name eşleşmesi)
 2. O kişinin `/` ile gelen mesajlara yetkisi var mı? (allow_slash)

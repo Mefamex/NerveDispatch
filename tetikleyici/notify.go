@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-// Bildirim türleri — damga dosyasının anahtarları ve log etiketleridir.
+// Bildirim türleri - damga dosyasının anahtarları ve log etiketleridir.
 const (
 	bildirimStart     = "start"
 	bildirimStop      = "stop"
@@ -22,9 +22,9 @@ const (
 
 // Varsayılanlar (TODO'daki şartname):
 //
-//	throttle: 5m   — aynı tür 5 dakika içinde bir daha gitmez
-//	retry: 30s     — köprü bağlı değilse deneme aralığı
-//	max_retry: 10  — en fazla deneme, sonra günlüğe yazıp vazgeç
+//	throttle: 5m   - aynı tür 5 dakika içinde bir daha gitmez
+//	retry: 30s     - köprü bağlı değilse deneme aralığı
+//	max_retry: 10  - en fazla deneme, sonra günlüğe yazıp vazgeç
 const (
 	varsayilanBildirimThrottle = 5 * time.Minute
 	varsayilanBildirimRetry    = 30 * time.Second
@@ -90,7 +90,7 @@ func (n *notifier) baslat(ctx context.Context) {
 	if !n.cfg().OnStart {
 		return
 	}
-	n.bildir(ctx, bildirimStart, "✅ Tetikleyici açıldı — mesaj izleme aktif")
+	n.bildir(ctx, bildirimStart, "✅ Tetikleyici açıldı - mesaj izleme aktif")
 }
 
 // durdur, on_stop bildirimini gönderir.
@@ -109,7 +109,7 @@ func (n *notifier) durdur(ctx context.Context) {
 //
 // Akış kopması bir köprü düşüşü DEĞİLDİR: köprü SSE'yi her ~30 saniyede
 // bilerek kapatır. Gerçek ölçüt /health'tir. İlk gözlem hiçbir şey
-// göndermez — "başlangıçta zaten düşüktü" bir olay değildir.
+// göndermez - "başlangıçta zaten düşüktü" bir olay değildir.
 func (n *notifier) kopru(ctx context.Context, hErr error) {
 	cfg := n.cfg()
 	up := hErr == nil
@@ -125,10 +125,10 @@ func (n *notifier) kopru(ctx context.Context, hErr error) {
 	}
 
 	if up && cfg.OnBridgeUp {
-		n.bildir(ctx, bildirimKopruUp, "🔌 Köprü bağlandı — mesaj izleme aktif")
+		n.bildir(ctx, bildirimKopruUp, "🔌 Köprü bağlandı - mesaj izleme aktif")
 	}
 	if !up && cfg.OnBridgeDown {
-		n.bildir(ctx, bildirimKopruDown, "⛔ Köprüye ulaşılamıyor — mesajlar işlenemiyor")
+		n.bildir(ctx, bildirimKopruDown, "⛔ Köprüye ulaşılamıyor - mesajlar işlenemiyor")
 	}
 }
 
@@ -263,10 +263,10 @@ func (d *damgaDefteri) kaydet(tur string, now time.Time) {
 //
 // Neden: notifier olayları mesaj akışından BAĞIMSIZ çalışır, ama
 // engine.snapshot() yalnız MESAJ geldiğinde yenilenir. Config değişince
-// watcher olay üretir — o anda snapshot hâlâ bayattır → ESKİ ayarla
+// watcher olay üretir - o anda snapshot hâlâ bayattır → ESKİ ayarla
 // gönderilir. Canlı ölçüldü: `to` tek LID'e düşürüldükten sonra çalışan
 // süreç eski çift hedefle kaldı, sonraki config bildirimi yine 2 kanala
-// gitti. Olaylar throttle'lı ve seyrek, dosya küçük — taze okumak bedava.
+// gitti. Olaylar throttle'lı ve seyrek, dosya küçük - taze okumak bedava.
 func guncelNotify(yol string, yedek func() notifyConfig) notifyConfig {
 	set, err := loadConfig(yol)
 	if err != nil {
@@ -280,7 +280,7 @@ func guncelNotify(yol string, yedek func() notifyConfig) notifyConfig {
 // değişmiş" sayılmaz).
 //
 // Neden gerekiyor: config mesaj başına yeniden okunur ama kimse değişimi
-// BİLDİRMEZ. Kullanıcı dosyayı düzenlediğinde kural değişir — bunu sahibin
+// BİLDİRMEZ. Kullanıcı dosyayı düzenlediğinde kural değişir - bunu sahibin
 // de bilmesi iyi olur. Throttle (5m) sık kaydetmelerde gürültüyü keser.
 func configDegisikliginiIzle(ctx context.Context, configPath string, periyot time.Duration, acik func() bool, bildir func()) {
 	son := dosyaDamgasi(configPath)

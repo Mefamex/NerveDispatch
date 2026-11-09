@@ -107,7 +107,7 @@ func (c *bridgeClient) streamEvents(ctx context.Context, onMessage func(message)
 //
 // HIZLI istekler (topupKapali=true) köprüye "WhatsApp'a gitme, yerel tamponu
 // ver" der. NEDEN: varsayılan davranış, tampon yetmediğinde WhatsApp'a gidip
-// 10 saniye bekliyor — ve çağıranların bütçesi 8 saniye. ÖLÇÜLDÜ (2026-10-06):
+// 10 saniye bekliyor - ve çağıranların bütçesi 8 saniye. ÖLÇÜLDÜ (2026-10-06):
 // /messages?count=12 tam 10,12 sn sürüyordu, tetikleyicinin çift gönderim
 // denetimi bu yüzden HER SEFERİNDE "geçmiş alınamadı" deyip korumayı sessizce
 // atlıyordu.

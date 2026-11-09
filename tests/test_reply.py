@@ -264,7 +264,7 @@ class ReplyZamanAsimiTestleri(unittest.TestCase):
 
         out = reply.reply_komut("", "list")
         self.assertIn("0", out)
-        # Yeni format: "0: HH:MM — soru" — "1" substring olabilir (örn. "21:54" içinde)
+        # Yeni format: "0: HH:MM - soru" - "1" substring olabilir (örn. "21:54" içinde)
         # Bu yüzden satır başı kontrolü yap: "1:" veya " 1 " olarak gelmemeli
         self.assertNotRegex(out, r"(^|\n)1:")  # "1:" satır başı yok
         self.assertNotRegex(out, r" 1 ")  # " 1 " arada yok

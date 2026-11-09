@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""zamanla.py — /zamanla komutu: "şu zaman sonra şu mesajı gönder".
+"""zamanla.py - /zamanla komutu: "şu zaman sonra şu mesajı gönder".
 
 Zamanlanmış mesaj işlerini iş dizinine yazar; gönderimi tetikleyicinin
 kendisi yapar (zamanlanmis.go tarayıcısı). Bu modül yalnız:
@@ -9,7 +9,7 @@ kendisi yapar (zamanlanmis.go tarayıcısı). Bu modül yalnız:
     <süre> <mesaj>     → iş ekler (10dk, 2sa, 1gun, 45sn veya 22:30)
 
 Her iş ayrı dosyadır (.tetikleyici/zamanlanmis/<id>.json): komut ekler,
-tarayıcı gönderip siler — tek ortak dosyada iki yazar yarışmaz.
+tarayıcı gönderip siler - tek ortak dosyada iki yazar yarışmaz.
 """
 
 from __future__ import annotations
@@ -72,7 +72,7 @@ def _ac_ayarla(acik: bool) -> str:
     """`zamanlanmis_mesaj.acik` değerini config dosyasında günceller.
 
     YAML'ı yeniden yazmaz; yalnız ilgili `acik:` satırını metin olarak
-    değiştirir — yorumlar ve diğer yapılar aynen korunur. Atomik (tmp+rename).
+    değiştirir - yorumlar ve diğer yapılar aynen korunur. Atomik (tmp+rename).
     /zamanla aç|kapat (MEVZU Aşama 3, ADIM 2): engine her tetiklemede config'i
     yeniden okuduğundan (rules→zamanlanmisAcik) değişim restart'sız yansır.
     """
@@ -212,7 +212,7 @@ def _gosterim(fire_at: int) -> str:
 
 def zamanla_komut(zaman_metni: str, metin: str, gonderen_numara: str) -> str:
     """/zamanla komutunu işler ve WhatsApp cevabını döndürür."""
-    # MEVZU Aşama 3 (ADIM 2, 2026-10-06): /zamanla aç|kapat — çalışma anı
+    # MEVZU Aşama 3 (ADIM 2, 2026-10-06): /zamanla aç|kapat - çalışma anı
     # ayar kanalı. Kullanıcı config düzenlemeden açar/kapatır; engine her
     # tetiklemede config'i yeniden okuduğundan değişim restart'sız yansır.
     if zaman_metni in ("aç", "kapat"):

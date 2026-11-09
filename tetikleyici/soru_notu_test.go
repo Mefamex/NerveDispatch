@@ -1,6 +1,6 @@
 // whatsapp-bridge-project/tetikleyici/soru_notu_test.go
 //
-// /reply ADIM 2 — soruNotu + bekleyen cevap dosyası yönetimi testleri.
+// /reply ADIM 2 - soruNotu + bekleyen cevap dosyası yönetimi testleri.
 // (reply_test.go zaten çift gönderim/fakeBridge testleri barındırıyor;
 // bu dosya yalnız yeni soru-notu mantığını test eder.)
 
@@ -14,7 +14,7 @@ import (
 )
 
 // testTmpConfig, test için geçici bir config yolu döndürür. Config dosyasının
-// var olması gerekmez — yalnızca dizini proje kökü yerine geçer.
+// var olması gerekmez - yalnızca dizini proje kökü yerine geçer.
 func testTmpConfig(t *testing.T) string {
 	t.Helper()
 	return filepath.Join(t.TempDir(), "tetikleyici.yaml")

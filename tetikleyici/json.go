@@ -17,7 +17,7 @@ func jsonMarshal(v any) (string, error) {
 }
 
 // jsonUnmarshal, jsonMarshal'ın okuma ikizidir. Çözülemezse (yarım yazım,
-// elle bozulma) hata döner; çağıran karar verir — bozuk damga dosyasında
+// elle bozulma) hata döner; çağıran karar verir - bozuk damga dosyasında
 // boş başlamak, hiç göndermemekten iyidir.
 func jsonUnmarshal(raw []byte, v any) error {
 	return json.Unmarshal(raw, v)

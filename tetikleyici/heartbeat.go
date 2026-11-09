@@ -12,7 +12,7 @@ import (
 // heartbeat, sessiz kalan sohbeti belirli aralıklarla uyarır.
 //
 // Neden var: "admin konuşmuyor mu" sorusu, tetikleyicinin kendisinden sorulacak
-// şekilde bırakılmıştı. Bu, hat sağlığı testi **değildir** — onun işi `ping`
+// şekilde bırakılmıştı. Bu, hat sağlığı testi **değildir** - onun işi `ping`
 // kuralıdır. Buradaki ölçüt farklı: sohbette **trafik** var mı, yok mu.
 //
 // Döngü riski ve nasıl kırıldığı: uyarı bir kez gider, ajan cevap verir, o
@@ -20,7 +20,7 @@ import (
 // tetiklenmez. Bu yüzden "her turda" uyarı gönderen bir döngüye dönüşmez.
 //
 // Hata politikası: bir turda hata olursa tur atlanır ve günlüğe yazılır. Kalp
-// atışı, hatalı da olsa sürekli çalışmaya devam eder — durursa kullanıcıya
+// atışı, hatalı da olsa sürekli çalışmaya devam eder - durursa kullanıcıya
 // sessizce kaybolur, ki bu tam olarak kaçınmak istediğimiz şey.
 type heartbeatRunner struct {
 	client   *bridgeClient
@@ -32,7 +32,7 @@ type heartbeatRunner struct {
 // newHeartbeat, yapılandırılmışsa çalışan bir koşucu döndürür.
 //
 // Yapılandırılmamışsa (nil) döner; çağıran taraf bunu kontrol eder. Süreler
-// çözülemiyorsa varsayılana düşer ve günlüğe yazılır — çalışmayı durdurmak,
+// çözülemiyorsa varsayılana düşer ve günlüğe yazılır - çalışmayı durdurmak,
 // kullanıcıyı eski bir ayarla bırakmaktan iyidir.
 func newHeartbeat(set ruleSet, client *bridgeClient, opts options) *heartbeatRunner {
 	h := set.Heartbeat
@@ -80,7 +80,7 @@ func (h *heartbeatRunner) run(ctx context.Context, engine *engine) {
 			return
 		case <-ticker.C:
 			// Config her turda yeniden okunur: kullanıcı `heartbeat:` bloğunu
-			// düzenleyip kaydedince restart gerekmez — tıklama yeter.
+			// düzenleyip kaydedince restart gerekmez - tıklama yeter.
 			set := engine.rules()
 			if !set.Heartbeat.enabled() {
 				continue
@@ -93,7 +93,7 @@ func (h *heartbeatRunner) run(ctx context.Context, engine *engine) {
 
 // tazeleOpts, opencode yolunu taze config'den alır.
 //
-// Neden: main.run opts.opencode doldurmaz — engine her mesajda tazeler ama
+// Neden: main.run opts.opencode doldurmaz - engine her mesajda tazeler ama
 // heartbeat startup kopyasını kullanır. Tazelenmezse nudge "opencode yolu
 // tanımlı değil" diye düşer (2026-10-07 canlı ölçümü: 4 tur üst üste).
 func (h *heartbeatRunner) tazeleOpts(set ruleSet) {

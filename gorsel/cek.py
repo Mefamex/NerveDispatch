@@ -1,4 +1,4 @@
-"""cek — medyayı köprüden indirir, türünü belirler.
+"""cek - medyayı köprüden indirir, türünü belirler.
 
 Köprüde medya ucu /media/{kimlik} olduğu için buraya KİMLİK verilir,
 metin değil. Bu karışıklık canlıda oldu: sesli not kuralı {mesajlar}

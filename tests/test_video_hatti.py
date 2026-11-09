@@ -43,7 +43,7 @@ sys.path.insert(0, str(KOK))
 from gorsel import gorme, video  # noqa: E402
 
 # Üretim yolu. `gorsel_pipeline` modül düzeyinde yan etki yapabilir (env
-# okuması), bu yüzden burada import ediliyor — testler bu yolun davranışını
+# okuması), bu yüzden burada import ediliyor - testler bu yolun davranışını
 # sınıyor, klonun değil.
 import gorsel_pipeline as pipeline  # noqa: E402
 
@@ -79,7 +79,7 @@ class TestMetinModelSecim(unittest.TestCase):
         )
 
     def test_dusunen_model_ad_tam_eslesmede_gecer(self):
-        """Etiket tam eşleşmesi varsa sıra korunur — düşünmeyen olan kazanır."""
+        """Etiket tam eşleşmesi varsa sıra korunur - düşünmeyen olan kazanır."""
         kurulu = ["qwen3:4b", "qwen2.5:7b"]
         with mock.patch.object(gorme, "modeller", return_value=kurulu):
             self.assertEqual(gorme.metin_model_sec(), "qwen2.5:7b")
@@ -171,9 +171,9 @@ class TestBosCevapTaniSine(unittest.TestCase):
 
         self.assertIn("stop", mesaj)
         self.assertNotIn(
-            "MAX_TOKEN", mesaj, "stop durumunda pencere bitmemiş — yol gösterme"
+            "MAX_TOKEN", mesaj, "stop durumunda pencere bitmemiş - yol gösterme"
         )
-        self.assertNotIn("düşünme", mesaj, "düşünme boştu — düşünmeyi suçlamak yanlış")
+        self.assertNotIn("düşünme", mesaj, "düşünme boştu - düşünmeyi suçlamak yanlış")
 
     def test_done_reason_yoksa_bilinmiyor_denir(self):
         """Eksik yanıtta uydurma sebep üretilmez."""
@@ -280,7 +280,7 @@ class TestSureSabitleri(unittest.TestCase):
     onizleme.py'de ffmpeg ALT SÜREÇ zaman aşımıydı (60 sn), video.py'de
     vision soru süresiydi (300 sn). Aynı ada iki varsayılan. Kullanıcı
     vision'a süre vermek için yükseltirse ffmpeg'e de aynı süre gidiyor;
-    tersi de doğru — ffmpeg'i hızlandırmak için 30 sn yazarsa vision çağrısı
+    tersi de doğru - ffmpeg'i hızlandırmak için 30 sn yazarsa vision çağrısı
     da 30 sn'ye düşer ve ölçülen 32 sn'lik kare her seferinde zaman aşımına
     uğrar.
     """
@@ -326,7 +326,7 @@ class TestSureSabitleri(unittest.TestCase):
         self.assertEqual(on.FFMPEG_SURESI, 60, "ffmpeg alt süreç bütçesi 60 sn olmalı")
         self.assertFalse(
             hasattr(on, "KARE_SURESI"),
-            "onizleme.KARE_SURESI çakışmayı sürdürür — silinmeli",
+            "onizleme.KARE_SURESI çakışmayı sürdürür - silinmeli",
         )
 
 
@@ -341,7 +341,7 @@ def onizleme_suresi() -> str:
 
 
 class TestUretimYoluOcrKarari(unittest.TestCase):
-    """⛔ Video yolunda OCR çalıştırılmaz — bu BİR ÖLÇÜMÜN SONUÇUDUR.
+    """⛔ Video yolunda OCR çalıştırılmaz - bu BİR ÖLÇÜMÜN SONUÇUDUR.
 
     Ölçüm: üç sahneli video (kırmızı/yeşil/mavi, "SAHNE 1/3/5").
 
@@ -349,7 +349,7 @@ class TestUretimYoluOcrKarari(unittest.TestCase):
       · OCR tüm karelerde, etiketli → "1. Sahne 1: 6 / 2. Sahne 3: 6 / 3. …"
         (kapsamlı ama betimleme değil, düz OCR tekrarı)
       · OCR tüm karelerde + "önce anlat" talimatı → HALÜSİNASYON
-        ("bir karakterin yüzü ve elini gösteren kare" — renkli düz karelerde
+        ("bir karakterin yüzü ve elini gösteren kare" - renkli düz karelerde
          ne yüz ne el var)
       · OCR hiç → üç sahne, renkler doğru, yazılar da aktarıldı  ✅
 
@@ -403,7 +403,7 @@ class TestKlonTuzağı(unittest.TestCase):
         """⛔ Klon, üretim yolundan import edilmemeli.
 
         Doğrulama yolu: import edilseydi `video` adı modül yüklemelerinde
-        görünürdü. Burada dosya metni taranır — üretim yolunun klondan
+        görünürdü. Burada dosya metni taranır - üretim yolunun klondan
         bir şey çağırdığını gösterir.
         """
         kaynak = Path(KOK / "gorsel_pipeline.py").read_text(encoding="utf-8")
@@ -414,7 +414,7 @@ class TestKlonTuzağı(unittest.TestCase):
                 for satir in kaynak.splitlines()
                 if "gorsel import" in satir or (satir.startswith("    video,"))
             ),
-            "gorsel_pipeline klonu import ediyor — ya klonu sil ya da bunu bilerek yap",
+            "gorsel_pipeline klonu import ediyor - ya klonu sil ya da bunu bilerek yap",
         )
 
     def test_klon_basliginda_uyari_var(self):
@@ -427,7 +427,7 @@ class TestKlonTuzağı(unittest.TestCase):
         self.assertIn(
             "ÜRETİM YOLU DEĞİLDİR",
             baslik,
-            "klonun başlığı üretim yolu olmadığını söylemiyor — tuzak geri döner",
+            "klonun başlığı üretim yolu olmadığını söylemiyor - tuzak geri döner",
         )
 
 

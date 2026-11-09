@@ -3,7 +3,7 @@
 // Tehlikeli mesaj uyarısı: kurallarda TANINMAYAN numaralardan gelen şüpheli
 // mesajlar (metinde link VEYA dosya/medya eki) admin'e bildirilir.
 //
-// ⛔ KALICI KURAL saygısı — "kapalı hat sessizdir" (2026-10-06):
+// ⛔ KALICI KURAL saygısı - "kapalı hat sessizdir" (2026-10-06):
 //   · Uyarı bir YANIT değildir: gelen numaraya HİÇBİR ŞEY gönderilmez.
 //   · Kurallarda tanınan kimliklerden (mefamex dâhil) gelen hiçbir mesaj
 //     uyarıya girmez.
@@ -12,7 +12,7 @@
 //     NORMAL mesajlar admin'e "şüpheli" diye düşmez.
 //
 // Sahte pozitif zararsızdır: uyarı yalnız admin'e gider; sahte negatif
-// (kaçırılan bir sinyal) sessizdir — özellik kapanabilir, hat hiçbir zaman
+// (kaçırılan bir sinyal) sessizdir - özellik kapanabilir, hat hiçbir zaman
 // bir kullanıcıyı yanlış cevaplamaz.
 
 package main
@@ -50,7 +50,7 @@ func supheliSinyal(m message) (sebep string, supheli bool) {
 //
 // Numaralar (From/Sender) ve isimler (PushName) ayrı ayrı denenir; LID'li
 // sohbetlerde numara payload'da olmaz, isim kalır. Herhangi bir eşleşme
-// yeterlidir — tanınan biri uyarıya HİÇ girmez.
+// yeterlidir - tanınan biri uyarıya HİÇ girmez.
 func taninanKimlik(set ruleSet, m message) bool {
 	for _, r := range set.Rules {
 		for _, num := range r.Match.Numbers {
@@ -74,7 +74,7 @@ func taninanKimlik(set ruleSet, m message) bool {
 // supheliIzleyici, aynı numaradan uyarıların aralığını bellekte tutar.
 //
 // Restart'ta sıfırlanır: o an aynı numara bir kez daha uyarabilir. Zararsız
-// — uyarı yanıt değildir ve numara kümesi küçüktür; kalıcı dosya, seen
+// - uyarı yanıt değildir ve numara kümesi küçüktür; kalıcı dosya, seen
 // defteri gibi yazma kaygısı bu kadar hafif bir özellik için gerekmiyor.
 type supheliIzleyici struct {
 	mu  sync.Mutex
@@ -107,7 +107,7 @@ func (s *supheliIzleyici) kaydet(numara string, simdi time.Time) {
 
 // supheliUyari, eşleşmeyen ve tanınmayan bir mesaj şüpheli sinyalle
 // gelirse admin'e bildirir. Yapılandırılmamışsa, tanınıyorsa ya da şüpheli
-// değilse SESSİZCE geçer — üçü de "normal trafik" sayılır.
+// değilse SESSİZCE geçer - üçü de "normal trafik" sayılır.
 func (e *engine) supheliUyari(ctx context.Context, client *bridgeClient, set ruleSet, m message) {
 	cfg := set.Tehlikeli
 	if !cfg.enabled() || client == nil {
@@ -145,7 +145,7 @@ func (e *engine) supheliUyari(ctx context.Context, client *bridgeClient, set rul
 // supheliMetni, admin'e gidecek kısa, satırlı uyarı metnini kurar.
 //
 // Kimlik satırı etiketsiz numara döner (LID olabilir); push_name varsa
-// insan okunur ad öne geçer. İçerik tek satıra kırpılır — uzun bir link
+// insan okunur ad öne geçer. İçerik tek satıra kırpılır - uzun bir link
 // bile tek satırda kalmalı.
 func supheliMetni(m message, sebep string) string {
 	kimlik := m.label()

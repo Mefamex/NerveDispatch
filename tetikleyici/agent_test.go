@@ -43,7 +43,7 @@ func TestOturumEylemiAgentAdiniGecirir(t *testing.T) {
 
 // agent yazılmamışsa --agent ÜRETİLMEZ. Bu bir hata değil: kullanıcı eski
 // config'te çalıştırıyor olabilir. Ama bu durumda ajan gönderme aracına
-// sahiptir ve çift gönderim riski vardır — uyarı loglanmalı.
+// sahiptir ve çift gönderim riski vardır - uyarı loglanmalı.
 func TestAgentYoksaBayrakUretilmez(t *testing.T) {
 	act := action{Kind: "session", SessionID: "ses_abc"}
 
@@ -105,14 +105,14 @@ func TestGelenConfigHerYanitKuralindaAgentVar(t *testing.T) {
 				continue
 			}
 			if strings.TrimSpace(a.Agent) == "" {
-				t.Errorf("%s: yanıt gönderen eylemde `agent:` yok — "+
+				t.Errorf("%s: yanıt gönderen eylemde `agent:` yok - "+
 					"ajan whatsapp_send çağırırsa mesaj iki kez gider", r.Name)
 			}
 		}
 	}
 
 	if yanitVeren == 0 {
-		t.Fatal("config'de yanıt gönderen eylem yok — test geçersiz")
+		t.Fatal("config'de yanıt gönderen eylem yok - test geçersiz")
 	}
 }
 

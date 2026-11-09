@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════════════
-#  AÇIK OLAN ÖZELLİKLER  (MEVZU Aşama 2 — 2026-10-06)
+#  AÇIK OLAN ÖZELLİKLER  (MEVZU Aşama 2 - 2026-10-06)
 # ═══════════════════════════════════════════════════════════════════════
 #
 #  Her boolean izin koda "false default" ile girer (MEVZU Aşama 1) ve bu
@@ -30,24 +30,24 @@
 #  TETİKLEYİCİ KURALLARI
 # ═══════════════════════════════════════════════════════════════════════
 #
-#  Her mesajda yeniden okunur — düzenle, kaydet, bitti. Restart yok.
+#  Her mesajda yeniden okunur - düzenle, kaydet, bitti. Restart yok.
 #  start · status · log 50   →   ./tetikleyici.sh
 #
 #  📖 TÜM OPSİYONLAR, KOŞULLAR, ÖRNEKLER ve TUZAKLAR:
 #     → config.readme.md
 #
 #  ───────────────────────────────────────────────────────────────────────
-#  İKİ KURAL — en çok bunlar bozulur
+#  İKİ KURAL - en çok bunlar bozulur
 # ───────────────────────────────────────────────────────────────────────
 #
 #  1) KENDİ MESAJLARIN ASLA TETİKLEMEZ.  (direction=out olanlar elenir.)
 #
 #  2) number/wp_number ÖNCELİKLİ OR; text/type ise AND.
-#     LID TÜRETİLEMEZ — telefon 905551234567, LID 12345678901234...
+#     LID TÜRETİLEMEZ - telefon 905551234567, LID 12345678901234...
 #     tamamen başka bir sayı. LID'li sohbet için İKİSİNİ de yaz.
 #
 #  3) KURAL YOKSA CEVAP YOK.  Sessizlik kasıtlıdır, hata değil.
-#     "Şu an kapalıyım" gibi otomatik cevap KONULMAZ — kullanıcı
+#     "Şu an kapalıyım" gibi otomatik cevap KONULMAZ - kullanıcı
 #     bunu açıkça reddetti. Bkz. aşağıdaki ⛔ bloğu ve config.readme.md
 #
 # ───────────────────────────────────────────────────────────────────────
@@ -58,22 +58,22 @@
 # Oturum kimliği:   opencode session list
 opencode: ~/.opencode/bin/opencode
 
-# Gelen her mesajı okundu işaretle (mavi tik) — varsayılan: false
+# Gelen her mesajı okundu işaretle (mavi tik) - varsayılan: false
 # NOT: type: opencode kuralı bunu KENDİ send_seen bayrağıyla ezer.
 okundu_isaretle: false
 
-# Her cevabın sonuna "🤖 AI asistanı" ekle — varsayılan: false
+# Her cevabın sonuna "🤖 AI asistanı" ekle - varsayılan: false
 # NOT: type: opencode kuralı bunu KENDİ add_aitag bayrağıyla ezer.
 ai_eti_ekle: false
 
 # opencode'nin ham stdout/stderr'ini (düşünce süreci, ara mesajlar dahil)
-# doğrudan WhatsApp'a gönder — varsayılan: false
+# doğrudan WhatsApp'a gönder - varsayılan: false
 # NOT: type: opencode kuralı bunu KENDİ do_debug bayrağıyla ezer ve
 #      düşünce/tool çıktısını YİNE de eler (bkz. aşağıdaki kural).
 debug_cikti: false
 
 # Bilgisayar kamerasından tek kare çekip mefamex'e gönderme izni.
-# Varsayılan: false (KAPALI — kamera mahremiyeti gereği bilinçli açılır).
+# Varsayılan: false (KAPALI - kamera mahremiyeti gereği bilinçli açılır).
 # true = `/camera` komutu çalışır; false = "izin kapalı" cevabı gider.
 kamera_izni: true
 
@@ -107,14 +107,14 @@ users:
       allow_reply: true
 
 # ── zamanlanmis_mesaj: "şu zaman sonra şu mesajı gönder" ─────────────────
-# Kural değildir — gönderim tetikleyicinin kendi sürecinde gerçekleşir.
+# Kural değildir - gönderim tetikleyicinin kendi sürecinde gerçekleşir.
 #   /zamanla 10dk su iç      → 10 dk sonra "su iç" gönderilir
 #   /zamanla 22:30 uyku      → bugün 22:30'da (geçtiyse yarın) gönderilir
 #   /zamanla list            → bekleyen işler
 #   /zamanla iptal <id>      → işi sil
 # Süreler: sn, dk, sa/saat, gun/gün · 1 dk – 7 gün. İşler restart'a dayanır
 # (.tetikleyici/zamanlanmis/). Gönderilemezse 1 dk nefesle 3 deneme, sonra
-# iptal. Varsayılan: false (KAPALI — bilinçli açılır).
+# iptal. Varsayılan: false (KAPALI - bilinçli açılır).
 zamanlanmis_mesaj:
   acik: true
 
@@ -129,14 +129,14 @@ zamanlanmis_mesaj:
 #    değildir, kimseye geri yazılmaz.
 #
 # Spam koruması: aynı numaradan uyarılar arası `aralik` (varsayılan 1s).
-# Varsayılan: false (KAPALI — bilinçli açılır; MEVZU Aşama 1).
+# Varsayılan: false (KAPALI - bilinçli açılır; MEVZU Aşama 1).
 tehlikeli_mesaj:
   acik: false
   to: "12345678901234@lid"
   aralik: "1h"
 
 # ── notify: tetikleyicinin KENDİ olay bildirimleri ──────────────────────
-# Kural değildir — mesaj eşleşmesiyle ilgisi yoktur. Açılış, kapanış,
+# Kural değildir - mesaj eşleşmesiyle ilgisi yoktur. Açılış, kapanış,
 # köprü düşüşü/kalkışı ve config değişiminde yalnız `to`'ya haber verir.
 #
 # ⛔ KENDİ NUMARANI (905550000005) BURAYA YAZMA. Gönderim yalnız bu
@@ -147,7 +147,7 @@ tehlikeli_mesaj:
 #    sebebi buydu). Tek kimlik kullan: LID (most 1:1 chats open under LID).
 #
 # Spam koruması (tasarlanmış, değiştirilebilir):
-#   · Aynı tür, throttle (5m) içinde bir daha gitmez — dosyada tutulur:
+#   · Aynı tür, throttle (5m) içinde bir daha gitmez - dosyada tutulur:
 #     .tetikleyici/bildirim.txt → RESTART'TA DA HATIRLANIR.
 #   · Köprü bağlı değilse max_retry (10) kez retry (30s) ile denenir,
 #     sonra günlüğe yazılıp vazgeçilir. Başarısız gönderim damgalanmaz.
@@ -170,7 +170,7 @@ notify:
 # bu yüzden döngü kendiliğinden kırılır (aktif sohbette tekrar tetiklenmez).
 # Eşik/sıklık (15m/1m) ve MESAJ sahibin verdiği değerler (03:33 + 2026-10-07
 # onayı). Kapatmak = `session:` satırını silmek (boşsa heartbeat kapalıdır;
-# restart GEREKMEZ — her tur config yeniden okunur).
+# restart GEREKMEZ - her tur config yeniden okunur).
 heartbeat:
   to: ["12345678901234@lid"]
   # session: ses_ef8590662ffeRSLXLL2R8VhJfM   # boşsa/yorumdaysa heartbeat kapalıdır
@@ -214,7 +214,7 @@ rules:
         agent: wp-sahip    # sahibin oturumu: gönderim aracı kapalı → çift gönderim olmaz
         timeout: 12m        # uzun işler için (varsayılan 3m)
         reply: true          # ajanın cevabı sohbete gider
-        # NOT: reply şu an sıkıntılı çalışıyor — doğrudan oturum çıktısını
+        # NOT: reply şu an sıkıntılı çalışıyor - doğrudan oturum çıktısını
         # canlı yayınlamak yerine geçici çözüm. Kaldırılması planlı.
 
         # ── BU KURALA ÖZEL BAYRAKLAR ─────────────────────────────────
@@ -270,10 +270,10 @@ rules:
 #   protocol · poll_update · noPayload · unknown  →  (sessiz)
 #
 #   ⚠️ "/" ile başlayan metin AJANA GİTMEZ, komut hattına gider.
-#      İzni kapalıysa da ajana düşmez — "kapalı" demek "sessiz" demektir.
+#      İzni kapalıysa da ajana düşmez - "kapalı" demek "sessiz" demektir.
 
 # ───────────────────────────────────────────────────────────────────────
-#  TÜM OPSİYONLAR — tek örnek. Ayrıntı ve daha çok örnek: config.readme.md
+#  TÜM OPSİYONLAR - tek örnek. Ayrıntı ve daha çok örnek: config.readme.md
 # ───────────────────────────────────────────────────────────────────────
 #
 #   - name: örnek
@@ -298,7 +298,7 @@ rules:
 #       - type: new_session            # her seferinde yeni oturum
 #         reply: true
 #
-#   # ── type: opencode — TEK KİŞİ, TEK KURAL ────────────────────────────
+#   # ── type: opencode - TEK KİŞİ, TEK KURAL ────────────────────────────
 #   - name: mefamex
 #     match:
 #       wp_number: ["905551234567", "12345678901234@lid"]
@@ -329,7 +329,7 @@ rules:
 # ───────────────────────────────────────────────────────────────────────
 #
 #  Kapalı kuralın karşılığı cevap değil, HİÇBİR ŞEYDİR.
-#  "Şu an kapalıyım" / "mefamex'e yaz" / ping karşılığı — hiçbiri konulmaz.
+#  "Şu an kapalıyım" / "mefamex'e yaz" / ping karşılığı - hiçbiri konulmaz.
 #  Kullanıcı 2026-10-06'da bunu öneren çözümü kesinlikle reddetti.
 #  Gerekçe: config.readme.md § "Sessizlik kasıtlıdır" · NOTES.md madde 31
 #
@@ -338,7 +338,7 @@ rules:
 
 
 # ───────────────────────────────────────────────────────────────────────
-#  ⏸  PASİF KURALLAR (Burak · Yusuf · Masha) — AYRI DOSYADA
+#  ⏸  PASİF KURALLAR (Burak · Yusuf · Masha) - AYRI DOSYADA
 # ───────────────────────────────────────────────────────────────────────
 #  Bu 6 kural tetikleyici'ye YÜKLENMEZ ve bu dosyada BULUNMAZ.
 #  Yerleri:  pasif-kurallar.yaml

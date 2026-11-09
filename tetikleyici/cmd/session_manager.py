@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""session_manager.py — /session komutları yöneticisi.
+"""session_manager.py - /session komutları yöneticisi.
 
 - /session list [n]       → Son n session listesi (varsayılan 10)
 - /session go <n|id>      → Session tüneline gir

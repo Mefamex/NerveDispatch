@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""zamanla.py — /zamanla aç|kapat (MEVZU Aşama 3, ADIM 2) testleri.
+"""zamanla.py - /zamanla aç|kapat (MEVZU Aşama 3, ADIM 2) testleri.
 
 Çalıştırma:
     python3 -m pytest tests/test_zamanla.py -v
@@ -45,7 +45,7 @@ class ZamanlaAcKapatTestleri(unittest.TestCase):
         return self.cfg.read_text(encoding="utf-8")
 
     def test_ac_ayarla_canliyken_acik_satirini_true_yapar(self):
-        # Aşama 3 senaryosu: yalnız 1+2+3(ezen) — kullanıcı çalışma anında açar.
+        # Aşama 3 senaryosu: yalnız 1+2+3(ezen) - kullanıcı çalışma anında açar.
         self._yaz(
             "# AÇIK OLAN ÖZELLİKLER bloğu\n"
             "zamanlanmis_mesaj:\n"

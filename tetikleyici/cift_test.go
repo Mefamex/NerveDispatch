@@ -3,7 +3,7 @@
 // ÇİFT GÖNDERİM DENETİMİNİN CANLI ÖLÇÜMÜ.
 //
 // TODO'da açık kalan madde: "gerçek mesaj sayımı yapılmadı, testler sahte
-// köprüyle geçiyor". Bu dosya SAHTE KÖPRÜ KULLANMAZ — gerçek köprüye
+// köprüyle geçiyor". Bu dosya SAHTE KÖPRÜ KULLANMAZ - gerçek köprüye
 // (127.0.0.1:31415) bağlanır, gerçekten mesaj gönderir, gerçek geçmişten
 // okur ve "bu metin az önce gitti mi" sorusunu gerçek HTTP yolundan yanıtlar.
 //
@@ -20,7 +20,7 @@
 //
 // ⚠️ KİMLİK KURALI: yalnız mefamex'e (12345678901234@lid) gönderir. Başka kimseye
 // ve gruba mesaj gitmez. Test canlı köprüye yazdığı için buradaki metinler
-// gerçekten gönderilir — bu yüzden kısa ve anlamsız tutulur.
+// gerçekten gönderilir - bu yüzden kısa ve anlamsız tutulur.
 //
 // Bu dosya SKIP edilir: BRIDGE_CANLI_TEST=1 verilmemişse.
 
@@ -61,7 +61,7 @@ func canliKopruKur(t *testing.T) *bridgeClient {
 
 	// Sağlık: adres doğru olmak yetmez, köprü BAĞLI olmalı. Bağlantısız
 	// köprüde gönderim sessizce boşa gider (NOTES.md kuralı) ve test
-	// "başarılı" görünür — en tehlikeli hata.
+	// "başarılı" görünür - en tehlikeli hata.
 	if err := client.health(ctx); err != nil {
 		iptal()
 		t.Fatalf("köprü bağlı değil (%s): %v", canliKopruAdresi, err)
@@ -69,7 +69,7 @@ func canliKopruKur(t *testing.T) *bridgeClient {
 	return client
 }
 
-// TestCiftGonderimCanliYeniMesajiYeniSaymaz — gönderilen bir metin, az önce
+// TestCiftGonderimCanliYeniMesajiYeniSaymaz - gönderilen bir metin, az önce
 // GİTMEDİĞİ için bastırılmamalı.
 //
 // Bu, denetimin en tehlikeli yönü: yanlış çalışırsa kullanıcının cevabı
@@ -86,7 +86,7 @@ func TestCiftGonderimCanliYeniMesajiYeniSaymaz(t *testing.T) {
 	}
 }
 
-// TestCiftGonderimCanliGonderilenMesajiGoruyor — gönderilen bir metin, az sonra
+// TestCiftGonderimCanliGonderilenMesajiGoruyor - gönderilen bir metin, az sonra
 // bastırılmalı. Bu, denetimin çalıştığının kanıtı.
 //
 // Sahte köprüde bu test "çalışır" ama gerçeği ölçmez: sahte köprü
@@ -123,7 +123,7 @@ func TestCiftGonderimCanliGonderilenMesajiGoruyor(t *testing.T) {
 	}
 }
 
-// TestCiftGonderimCanliZamanDamgasiSaniyeCinsinden — köprü zaman damgaları
+// TestCiftGonderimCanliZamanDamgasiSaniyeCinsinden - köprü zaman damgaları
 // saniye cinsinden; denetim `time.Unix(ts,0)` ile çözüyor.
 //
 // ÖLÇÜM: gönderimden sonra geçen süre, geçmişteki zaman damgası farkıyla
@@ -169,13 +169,13 @@ func TestCiftGonderimCanliZamanDamgasiSaniyeCinsinden(t *testing.T) {
 	// uzakta olabilir (ağ + tampon). Dakika saat olsaydı bu fark yüzlerce
 	// saniye olurdu ve test kırmızıya dönerdi.
 	if fark > 5*time.Second {
-		t.Errorf("zaman damgası %v uzakta — saniye cinsinden DEĞİL?\n"+
+		t.Errorf("zaman damgası %v uzakta - saniye cinsinden DEĞİL?\n"+
 			"Denetim `yas > pencere+1sn` ile eleyeceği için sessizce\n"+
 			"her zaman 'yeni' sanır ve çift gönderim koruması ölür.", fark)
 	}
 }
 
-// TestCiftGonderimCanliBicimKabugu — model aynı cevabı "**Toplam 23 TL**" ve
+// TestCiftGonderimCanliBicimKabugu - model aynı cevabı "**Toplam 23 TL**" ve
 // "Toplam 23 TL" biçimlerinde verebilir. Bunlar AYNI cevaptır.
 //
 // Bu saf metin normalizasyonu, ama canlı köprü üzerinden ölçülür: köprünün
@@ -208,11 +208,11 @@ func TestCiftGonderimCanliBicimKabugu(t *testing.T) {
 	}
 
 	if !bulundu {
-		t.Fatal("biçim kabuğu soyulduğunda metin eşleşmedi — aynı cevap iki kez sayılır")
+		t.Fatal("biçim kabuğu soyulduğunda metin eşleşmedi - aynı cevap iki kez sayılır")
 	}
 }
 
-// TestCiftGonderimCanliGelenMesajiSaymaz — KULLANICININ mesajı bastırma
+// TestCiftGonderimCanliGelenMesajiSaymaz - KULLANICININ mesajı bastırma
 // sebebi OLMAMALI. Yalnız kendi gönderimlerimiz sayılır.
 //
 // Bu bir canlı tuzak: köprü bize gelen mesajı fromMe=false döndürürse,
@@ -227,7 +227,7 @@ func TestCiftGonderimCanliGelenMesajiSaymaz(t *testing.T) {
 		t.Fatalf("geçmiş okunamadı: %v", err)
 	}
 	if len(msgs) == 0 {
-		t.Skip("geçmiş boş — bu test için mesaj gerekir")
+		t.Skip("geçmiş boş - bu test için mesaj gerekir")
 	}
 
 	var gelen []string
@@ -237,7 +237,7 @@ func TestCiftGonderimCanliGelenMesajiSaymaz(t *testing.T) {
 		}
 	}
 	if len(gelen) == 0 {
-		t.Skip("geçmişte gelen mesaj yok — canlı doğrulama yapılamadı")
+		t.Skip("geçmişte gelen mesaj yok - canlı doğrulama yapılamadı")
 	}
 
 	// Kullanıcının METNİYLE bayt bayt aynı olan kendi gönderimimiz olmamalı.
@@ -253,7 +253,7 @@ func TestCiftGonderimCanliGelenMesajiSaymaz(t *testing.T) {
 	}
 }
 
-// TestCiftGonderimCanliBosMetinYokSayilir — boş metin asla "gönderilmiş" sayılmaz.
+// TestCiftGonderimCanliBosMetinYokSayilir - boş metin asla "gönderilmiş" sayılmaz.
 //
 // Boş metin her sohbette eşleşirdi (teklastirMetin("") == ""), yani bir
 // hatadaki boş yanıt, sonraki TÜM boş yanıtları bastırırdı.

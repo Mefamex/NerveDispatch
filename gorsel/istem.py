@@ -1,8 +1,8 @@
-"""istem — kullanıcının sorusunu bulur, model istemini kurar.
+"""istem - kullanıcının sorusunu bulur, model istemini kurar.
 
-Kritik ayrım — mesaj metni ile soru aynı şey değil:
+Kritik ayrım - mesaj metni ile soru aynı şey değil:
     Köprü `readableText()` (tetikleyici/message.go) bir görsel mesajı için
-    "[image tipinde mesaj]" DÖNDÜRÜR — bu bir soru değil, bir yer tutucu.
+    "[image tipinde mesaj]" DÖNDÜRÜR - bu bir soru değil, bir yer tutucu.
     Onu modele soru diye verirsen model kullanıcının ne istediğini
     bilmeden uydurur.
 
@@ -70,7 +70,7 @@ OCR_UYARI = (
 # ⚠️ BURAYA SOMUT ÖRNEK KOYMA.
 # Ölçüldü (tools/prompt_tune.py): isteme gerçek cevap örneği konunca
 # qwen2.5vl:3b onu KOPYALIYOR. Şekiller görseli (hiç yazı yok) "Bu bir
-# Monster dizüstü, 18.450 TL" cevabını verdi — çünkü örnekte o vardı.
+# Monster dizüstü, 18.450 TL" cevabını verdi - çünkü örnekte o vardı.
 # Kural biçimini açıkla, içeriğini gösterme.
 
 
@@ -81,7 +81,7 @@ def soru(
 ) -> tuple[str, str]:
     """Kullanıcının sorusunu ve kaynağını döndürür.
 
-    Dönüş: (soru, kaynak) — kaynak: "baslik" | "onceki-mesaj" | "serbest"
+    Dönüş: (soru, kaynak) - kaynak: "baslik" | "onceki-mesaj" | "serbest"
     """
     ortam = os.environ if ortam is None else ortam
 
@@ -118,7 +118,7 @@ def kur(
 
     ⚠️ Buraya somut cevap örneği KOYMA. Ölçüldü
     (tools/prompt_tune.py): isteme örnek konunca qwen2.5vl:3b onu
-    kopyalıyor — yazısız bir şekil görseline "Bu bir Monster dizüstü,
+    kopyalıyor - yazısız bir şekil görseline "Bu bir Monster dizüstü,
     18.450 TL" cevabı verdi, çünkü örnekte o vardı. Kuralın BİÇİMİNİ
     tarif et, içeriğini gösterme.
     """
@@ -237,7 +237,7 @@ def _onceki_soru(gecmis) -> str:
     """Geçmişten, tetikleyen mesajdan önceki son SORU gibi görünen metni bulur.
 
     Köprü geçmişi eskiden yeniye verir; tetikleyen mesaj en sonda olur, bu
-    yüzden sondan geriye gidilir. Medya taşıyan mesajlar atlanır — bir sesli
+    yüzden sondan geriye gidilir. Medya taşıyan mesajlar atlanır - bir sesli
     not, "toplam ne" sorusunun yerine geçmez.
 
     Soru olmayan bir metne gelindiğinde ARAMA DURUR: daha eskiye bakmak
@@ -281,7 +281,7 @@ def yalın_isteme_gir(metin) -> str:
     qwen2.5vl:3b isteme rağmen Markdown, emoji ve madde işareti üretir.
 
     ÖNEMLİ: yalnız SUNUM biçimini temizler, içeriğe dokunmaz. Modelin
-    uydurduğu cevabı burada düzeltmek yanlış olur — ham cevap loglarda
+    uydurduğu cevabı burada düzeltmek yanlış olur - ham cevap loglarda
     saklanır ve pipeline çıktısında aynen görünür.
     """
     if not isinstance(metin, str):
