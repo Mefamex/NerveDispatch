@@ -27,6 +27,8 @@ import (
 	"sync"
 	"syscall"
 	"time"
+
+	"tetikleyici/cli"
 )
 
 // options, çalışma ayarlarıdır. Kural davranışı değil; config'den gelir.
@@ -82,6 +84,14 @@ type args struct {
 }
 
 func main() {
+	if handled, err := cli.Dispatcher(os.Args[1:]); handled {
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "hata: %v\n", err)
+			os.Exit(1)
+		}
+		return
+	}
+
 	raw := parseArgs()
 
 	if err := openLog(raw.logFile, raw.logOnly); err != nil {
