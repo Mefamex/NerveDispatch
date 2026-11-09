@@ -8,6 +8,27 @@
 
 ---
 
+### [2026-11-09 07:16] — FAZ 3 Geliştirme 3.6: Cross-Channel Failover (Köprü Çöküşünde Telegram Acil Uyarısı)
+- **Değişiklikler:** `tetikleyici/notify.go` içinde `sendTelegramAlert` fonksiyonu ve `tur == bildirimKopruDown` olduğunda WhatsApp'a bağımlı kalmadan Mefamex Telegram ID (`975678139`) üzerinden doğrudan Telegram Bot API ile acil durum mesajı ulaştıran failover mekanizması kuruldu. `tetikleyici/notify_test.go` içine `TestTelegramFailoverOnBridgeDown` birim testi eklendi.
+- **Kök Neden / Problem:** WhatsApp köprüsü çöktüğünde WhatsApp üzerinden durum bildirimi iletilemiyordu; Telegram failover hattı sayesinde kullanıcı masaüstü kesintilerinden anında haberdar edilir.
+- **Doğrulama Kanıtı:** `tetikleyici/notify_test.go` (0.004s), `make verify` (ALL_OK).
+
+---
+
+### [2026-11-09 07:13] — FAZ 3 Geliştirme 3.5: Birleşik /channels API, Web Dashboard ve nerve CLI Entegrasyonu
+- **Değişiklikler:** `bridge/internal/httpapi/channels.go` yazıldı ve `/channels` REST endpoint'i eklendi. Gömülü WebUI (`bridge/internal/webui/static/index.html`) içindeki 4 kanal kartı (WhatsApp, Telegram, Discord, Instagram) dinamik canlı duruma bağlandı. `tetikleyici/cli/commands.go` içindeki `nerve channel list` komutu HTTP API sorgusu ve akıllı yerel fallback ile güncellendi.
+- **Kök Neden / Problem:** Tüm iletişim kanallarının canlı durumunu tek merkezden (hem web arayüzünde hem terminalde) izleyebilme.
+- **Doğrulama Kanıtı:** `bridge/internal/httpapi/channels_test.go` (PASS), `tetikleyici/cli/commands_test.go` (PASS), `make verify` (ALL_OK).
+
+---
+
+### [2026-11-09 07:10] — FAZ 3 Geliştirme 3.3 & 3.4: Discord ve Instagram Kanal Adaptörleri
+- **Değişiklikler:** `bridge/internal/channels/discord/` (Bot Gateway & REST API, `SendText`, `SendEmbed`, `SendMedia`, `React`, `SendPoll`) ve `bridge/internal/channels/instagram/` (Meta Graph API v19.0, `SendText`, `SendMedia`, `React`) adaptörleri yazıldı. `tetikleyici/config.go` ve `match.go` kural motoruna `discord_id` ve `instagram_id` alanları eklendi.
+- **Kök Neden / Problem:** NerveDispatch'in WhatsApp ve Telegram haricinde Discord sunucuları/DM'leri ve Instagram Direct mesajları üzerinden de ajanları tetikleyebilmesi.
+- **Doğrulama Kanıtı:** `discord_test.go` (PASS), `instagram_test.go` (PASS), `match_test.go` (PASS), `make verify` (ALL_OK).
+
+---
+
 ### [2026-11-09 07:01] — FAZ 3 Geliştirme 3.1 & 3.2: Çok Kanallı Adaptör Mimarisi ve Telegram Adaptörü
 - **Değişiklikler:** `bridge/internal/channels/` paketi oluşturuldu (`ChannelAdapter` arayüzü, `Manager`, `MediaPayload`, `IncomingEvent`). `bridge/internal/channels/telegram/` adaptörü kodlandı (`sendMessage`, `sendPhoto`, `sendDocument`, `sendVoice`, `sendPoll`, `setMessageReaction` ve long polling döngüsü). `tetikleyici/config.go`, `match.go` ve `message.go` içine `channel` ve `telegram_id` eşleştirme desteği eklendi. Mefamex Telegram ID (`975678139`) kural motoruna bağlandı.
 - **Kök Neden / Problem:** Sistemin tek kanala bağımlı kalmasını önlemek, WhatsApp haricinde Telegram üzerinden de kesintisiz iletişim, komut yönetimi ve yedeklilik sağlamak.

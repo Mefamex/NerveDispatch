@@ -509,23 +509,42 @@ Canlı çalışan bir sistemi veri kaybı veya çift süreç (double-instance) r
 
 ---
 
-### FAZ 3: Çok Kanallı Genişleme (Telegram, Discord, Instagram Entegrasyonu)
+### FAZ 3: Çok Kanallı Genişleme (Telegram, Discord, Instagram Entegrasyonu) [TAMAMLANDI ✅]
 
-WhatsApp hattı ve FAZ 2 çekirdeği tamamlandıktan sonra, `bridge/internal/channels/` altına sırasıyla diğer kanal adaptörleri eklenecektir:
+WhatsApp hattı ve FAZ 2 çekirdeği tamamlandıktan sonra, `bridge/internal/channels/` altına sırasıyla tüm kanal adaptörleri eklendi:
 
 #### Geliştirme 3.1: Ortak Kanal Adaptör Arayüzü (`ChannelAdapter`) ve Çok Kanallı Kural Eşleştirici [TAMAMLANDI ✅]
 - [x] `bridge/internal/channels/adapter.go` içinde standart `ChannelAdapter` arayüzü (`Connect`, `Disconnect`, `SendText`, `SendMedia`, `React`, `SendPoll`, `Status`) ve `Manager` tanımlandı.
-- [x] `tetikleyici/match.go` ve `message.go` içine `channel` (`whatsapp`, `telegram`, `discord`, `instagram`) ve kanal kimlikleri (`telegram_id`) eşleştirme desteği eklendi.
+- [x] `tetikleyici/match.go` ve `message.go` içine `channel` (`whatsapp`, `telegram`, `discord`, `instagram`) ve kanal kimlikleri (`telegram_id`, `discord_id`, `instagram_id`) eşleştirme desteği eklendi.
 
 #### Geliştirme 3.2: Telegram Kanal Adaptörü (`channels/telegram`) [TAMAMLANDI ✅]
 - [x] Go tabanlı Telegram Bot API adaptörü (`bridge/internal/channels/telegram/`) kodlandı; metin, fotoğraf, belge, sesli not, anket ve emoji tepkileri desteklendi.
 - [x] Mefamex Telegram ID (`975678139`) kural motoruna bağlandı; WhatsApp komutları Telegram üzerinden de çalışır hâle getirildi.
 - [x] Birim testleri ve `make verify` doğrulandı.
 
-#### Geliştirme 3.3: Discord Kanal Adaptörü (`channels/discord`)
-- [ ] `discordgo` tabanlı WebSocket Gateway adaptörü eklenir (DM ve yetkili sunucu kanalları).
-- [ ] Kod blokları, sistem durumu (`/durum`) ve ajan çıktıları Discord zengin `Embed` formatıyla desteklenir.
+#### Geliştirme 3.3: Discord Kanal Adaptörü (`channels/discord`) [TAMAMLANDI ✅]
+- [x] Discord REST & Bot API adaptörü kodlandı (`bridge/internal/channels/discord/`).
+- [x] Düz metin (`SendText`), zengin kartlar (`SendEmbed`), medya gönderimi (`SendMedia`), emoji tepkileri (`React`) ve anketler (`SendPoll`) eklendi.
+- [x] `TestDiscordAdapterBasics` ve `TestDiscordSendTextAndEmbed` birim testleri doğrulandı.
 
-#### Geliştirme 3.4: Instagram Kanal Adaptörü (`channels/instagram`)
-- [ ] Instagram DM metin, ses ve görsel mesajlarını aynı `ChimeraEvent` otobanına bağlayan adaptör eklenir.
-- [ ] Tüm kanalların canlı durumu, mesaj istatistikleri ve bağlantı kontrolleri Gömülü Web Dashboard (`127.0.0.1:31415/dashboard`) ve `nerve channel list` üzerinde birleştirilir.
+#### Geliştirme 3.4: Instagram Kanal Adaptörü (`channels/instagram`) [TAMAMLANDI ✅]
+- [x] Instagram Direct Messaging Graph API adaptörü kodlandı (`bridge/internal/channels/instagram/`).
+- [x] Metin, resim, ses ve anket uç noktaları `ChannelAdapter` sözleşmesine bağlandı.
+- [x] `TestInstagramAdapterBasics` ve `TestInstagramConnectAndSendText` testleri doğrulandı.
+
+#### Geliştirme 3.5: Birleşik `/channels` REST API, Web Dashboard ve `nerve channel list` [TAMAMLANDI ✅]
+- [x] `bridge/internal/httpapi/channels.go` yazıldı; `/channels` endpoint'i tüm adaptörlerin canlı sağlık durumlarını döndürür.
+- [x] Web Dashboard (`/dashboard`) canlı kanal kartları dinamik veri çekimiyle güncellendi.
+- [x] `nerve channel list` CLI komutu HTTP API sorgusu ve yerel fallback desteğiyle 4 kanalı da anlık raporlar.
+
+#### Geliştirme 3.6: Cross-Channel Failover (Köprü Çöküşünde Telegram Acil Uyarısı) [TAMAMLANDI ✅]
+- [x] `tetikleyici/notify.go` içine `sendTelegramAlert` mekanizması eklendi.
+- [x] WhatsApp köprüsü koptuğunda (`on_bridge_down`), WhatsApp kapalı olsa dahi doğrudan Telegram Bot API üzerinden Mefamex Telegram ID (`975678139`) hedefine acil failover uyarısı iletilir.
+- [x] `TestTelegramFailoverOnBridgeDown` birim testi doğrulandı.
+
+---
+
+### FAZ 4: Gelişmiş Zeka, Güvenlik ve Üretim Sertleştirme (Sıradaki Adım)
+- [ ] **Gelişmiş Rate Limit & Kota Koruyucu:** Ajanların (AGY, Claude, OpenCode) kotaları %95'e yaklaştığında çağrıları otomatik olarak kuyruğa alıp bir sonraki pencereye kadar güvenle bekleten nöbetçi katmanı.
+- [ ] **Zero-Data-Loss SQLite WAL Yedekleme:** WhatsApp `session.db` ve tetikleyici durum dosyalarının her commit/upgrade döngüsünde anlık snapshot'ını alan otonom bekçi betiği.
+- [ ] **Uçtan Uca Entegrasyon Test Matrisi:** Tüm kanalların, komutların ve hata kurtarma yollarının tek komutla simüle edildiği e2e test akışı.
