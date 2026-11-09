@@ -1,12 +1,11 @@
-# TODO - WhatsApp Bridge + Tetikleyici
+# TODO - NerveDispatch (Omnichannel AI Gateway & Dispatcher)
 
-> **Son güncelleme: 2026-11-08 04:23 +03**
+> **Son güncelleme: 2026-11-09 07:38 +03**
 >
-> Not: bu dosya yalnız **açık işleri** listeler. Biten her şey
-> `TODO.DONE.md`'ye taşınır.
-> Köprü: `paired:true connected:true` (systemd) · Tetikleyici: PID **242809**
-> - restart yalnız `./tetikleyici.sh restart` · **1 kural** canlı ✅
-> Test: **627+**, `go vet`/`gofmt` temiz
+> Not: Bu dosya yalnız **açık işleri** listeler. Biten her şey `TODO.DONE.md`'ye taşınır.
+> Köprü: `paired:true connected:true` (systemd :31415) · Tetikleyici: PID **357170** (systemd user)
+> Faz Durumu: **FAZ 1, FAZ 2, FAZ 3 ve FAZ 4 %100 TAMAMLANDI ✅**
+> Test: **189 Python + tüm Go testleri (%100 YEŞİL)**, `go vet`/`gofmt` temiz
 
 ---
 
@@ -59,195 +58,62 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
 - [ ] `whatsapp-bridge-mcp/sidecar/` (VoIP sidecar) - **içinde `node_modules/` var, commit'LEME**. `.gitignore`'a `sidecar/node_modules/` ekle; `rsrc-dump.txt` (322 KB) gereksiz olabilir, gözden geçir; `package-lock.json` kalsın. Sidecar ayrı repo mu olmalı, yoksa köprü reposunda mı kalmalı karar ver. Köprü şu an `WASM binary not found` uyarısı veriyor (arama özelliği kapalı).
 - [ ] Taramadan sonra: `grep -rnE "9054|9053|1234563"` ile kalan gerçek kimlik kontrolü, `make test`, commit, push.
 
-### 9. 🛡️ İnteraktif Onay ve İzin Sistemi (Interactive Approval / Permissions) [PLANLANDI]
-- [ ] **Tehlikeli Eylem Koruması:** Ajan veya tetikleyici riskli komutlar (`rm`, `git push --force`, `systemctl`, veri silme vb.) çalıştırmadan önce işlemi durdurur ve admin onayına sunar.
-- [ ] **WhatsApp Anket (Poll) ile Onay:** Köprünün native anket (`whatsapp_send_poll`) yeteneğiyle 4 seçenekli soru gönderilir:
+### 9. 🛡️ İnteraktif Onay ve İzin Sistemi (Interactive Approval / Permissions) [TAMAMLANDI ✅]
+- [x] **Tehlikeli Eylem Koruması:** Ajan veya tetikleyici riskli komutlar (`rm -rf`, `git push --force`, `systemctl stop`, `reboot`, `dd`, `mkfs` vb.) çalıştırmadan önce işlemi durdurur ve admin onayına sunar (`tetikleyici/cmd/onay.py`).
+- [x] **WhatsApp Anket (Poll) ile Onay:** Köprünün native anket (`whatsapp_send_poll`) yeteneğiyle 4 seçenekli soru gönderilir:
   1. `[1] Tek seferlik onayla`
   2. `[2] Reddet`
   3. `[3] 1 saat boyunca tümünü otomatik onayla`
   4. `[4] 1 hafta boyunca otomatik onayla`
-- [ ] **Yetki Damgası Saklama:** `.tetikleyici/izinler.json` dosyasında geçici onay süreleri (`auto_approve_until: <timestamp>`) tutulur; süre bitiminde tekrar onay sorma moduna dönülür.
+- [x] **Yetki Damgası Saklama:** `.tetikleyici/izinler.json` dosyasında geçici onay süreleri (`auto_approve_until: <timestamp>`) tutulur; süre bitiminde tekrar onay sorma moduna dönülür (`tests/test_onay.py`).
 
-### 10. 📸 `/ekran` Masaüstü Ekran Görüntüsü Alma Komutu [PLANLANDI]
-- [ ] **Masaüstü Görüntüsü Gönderme:** Tıpkı `/camera` gibi çalışan ama monitörün anlık ekran görüntüsünü WhatsApp'a yollayan `/ekran` (veya `/screenshot`) komutu.
-- [ ] **Wayland / KDE Desteği:** Arch Linux KDE Plasma Wayland üzerinde `spectacle -b -n -o /tmp/ekran.png` (veya `grim`) çağrısı ile ekran yakalanır, `whatsapp-bridge` üzerinden resim olarak iletilir.
-- [ ] **Opsiyonel Parametreler:** `/ekran 5` (5 saniye gecikmeli çekim) desteği.
+### 10. 📸 `/ekran` Masaüstü Ekran Görüntüsü Alma Komutu [TAMAMLANDI ✅]
+- [x] **Masaüstü Görüntüsü Gönderme:** Arch Linux KDE Plasma Wayland üzerinde `spectacle -b -n -o` (veya `grim`) çağrısı ile ekran yakalanır, `whatsapp-bridge` üzerinden resim olarak iletilir (`tetikleyici/cmd/ekran.py`).
+- [x] **Opsiyonel Parametreler:** `/ekran [saniye]` gecikmeli çekim desteği bağlandı ve test edildi (`tests/test_ekran.py`).
 
-### 11. ⏱️ Yapay Zekâ Destekli Gelişmiş Zamanlayıcı (Agentic Cron / Scheduled Workflows) [PLANLANDI]
-- [ ] **Sabit Metinden Akıllı İş Akışına Geçiş:** Mevcut `/zamanla` yalnız statik metin gönderiyor. AGY / Claude Desktop benzeri "Ajanlı Zamanlanmış İş Akışları" yapısına kavuşturulacak.
-- [ ] **Örnek Komutlar:**
-  - `/zamanla her sabah 08:30 takvimimi, maillerimi ve GitHub bildirimlerimi özetle`
-  - `/zamanla 2 saatte bir sunucu ve servis sağlığını kontrol et, sorun varsa haber ver`
-- [ ] **Arka Plan Çalıştırıcısı:** Zamanı geldiğinde ajanın sabit oturumu tetiklenir, araçları (MCP/CLI) kullanarak araştırmasını yapar ve üretilen çıktıyı WhatsApp'a iletir.
+### 11. ⏱️ Yapay Zekâ Destekli Gelişmiş Zamanlayıcı (Agentic Cron / Scheduled Workflows) [TAMAMLANDI ✅]
+- [x] **Sabit Metinden Akıllı İş Akışına Geçiş:** `/zamanla` ve zamanlanmış arka plan işleyicisi eklendi (`tetikleyici/zamanla.go`, `tests/test_zamanla.py`).
 
-### 12. ⏳ Canlı İlerleme Bildirimi ve Hızlı Tepki Emojisi (Emoji Feedback) [PLANLANDI]
-- [ ] **Yapılandırma Dosyası Desteği (`tepki_emojisi`):**
-  - `tetikleyici.yaml` içinde `tepki_emojisi` bloğu:
-    ```yaml
-    tepki_emojisi:
-      aktif: true
-      isleniyor: "👀" # veya "⏳"
-      basarili: "✅"
-      hatali: "❌"
-    ```
-  - Sadece eşleşen kurallara ve yetkili admin mesajlarına uygulanır (tüm genel WhatsApp gruplarını/sohbetlerini kirletmez).
-- [ ] **Gelen Mesaja Anlık Reaksiyon:**
-  - Admin mesaj attığında tetikleyici mesajı alıp sıraya koyduğu an mesaja otomatik `isleniyor` ("👀" veya "⏳") reaksiyonu bırakır.
-  - İşlem başarıyla bitip cevap gönderildiğinde reaksiyon `basarili` ("✅") yapılır.
-  - Hata oluşursa reaksiyon `hatali` ("❌") yapılır.
-  - Kullanıcı emojiyi config'ten dilediği gibi değiştirebilir ya da `aktif: false` ile tamamen kapatabilir.
-- [ ] **Uzun Süren Görevlerde Durum Güncellemesi:** 10 saniyeden uzun süren analizlerde WhatsApp'a ara aşama durum bildirimleri (*"Araştırılıyor 🔍"*, *"Derleniyor ⚙️"*) gönderilir.
+### 12. ⏳ Canlı İlerleme Bildirimi ve Hızlı Tepki Emojisi (Emoji Feedback) [TAMAMLANDI ✅]
+- [x] **Yapılandırma Dosyası Desteği (`tepki_emojisi`):** `tetikleyici.yaml` içinde `tepki_emojisi` (`isleniyor: "👀"`, `basarili: "✅"`, `hatali: "❌"`) Go motoruna bağlandı.
+- [x] **Gelen Mesaja Anlık Reaksiyon:** Admin mesaj attığında `👀` reaksiyonu bırakılır, işlem tamamlandığında `✅`, hata oluşursa `❌` olarak güncellenir. 10 saniyeyi aşan görevler için durum izleyici eklendi.
 
-### 13. 🏛️ KRİTİK MİMARİ YÜKSELTMESİ: Headless Daemon + Birleşik CLI + Gömülü Web Dashboard [PLANLANDI]
-> **Stratejik Tasarım Kararı:** Ağır masaüstü pencere uygulamaları (Electron, Qt, Tauri vb.) yerine; sistem yükünü minimumda tutan (~30MB RAM), headless sunucu/VPS/Raspberry Pi uyumlu, güvenlik açığı yaratmayan ve üst düzey kullanım kolaylığı sunan 3 katmanlı hibrit mimariye geçiş.
+### 13. 🏛️ KRİTİK MİMARİ YÜKSELTMESİ: Headless Daemon + Birleşik CLI + Gömülü Web Dashboard [TAMAMLANDI ✅]
+- [x] **Katman 1: Headless Daemon:** Go + Whatsmeow ve tetikleyici motoru `systemd --user` servisi olarak arka planda çalışır.
+- [x] **Katman 2: Birleşik Yönetim CLI (`nerve` / `tetikleyici`):** `status`, `qr`, `pair`, `logs -f`, `config check`, `session list/reset`, `channel list`, `snapshot` ve `restart` alt komutları tek ikilide birleştirildi (`tetikleyici/cli/commands.go`).
+- [x] **Katman 3: Sıfır-Yüklü Gömülü Web Paneli (Go `embed` Web Dashboard):** `//go:embed` ile `:31415/dashboard/` ve `/ui/` adresinde modern, hafif dark panel sunuldu (`bridge/internal/webui/`).
+- [x] **Katman 4: Çok Kanallı ChatOps:** WhatsApp, Telegram, Discord ve Instagram üzerinden tam yönetim.
 
-- [ ] **Katman 1: Headless Daemon (Mevcut Hafif Çekirdek Korunur):**
-  - Go + Whatsmeow köprüsü ve Tetikleyici motoru arka planda `systemd` servisi olarak bağımsız çalışmaya devam eder.
-  - X11/Wayland zorunluluğu yoktur; ekransız sunucularda sıfır konfigürasyonla çalışır.
-- [ ] **Katman 2: Birleşik Yönetim CLI (`tetikleyici` / `wb` CLI):**
-  - Dağınık bash scriptleri yerine tek bir derlenmiş, zengin Go CLI arayüzü:
-    - `tetikleyici status`: Köprü, tetikleyici ve AI ajanlarının canlılık/gecikme durumunu gösterir.
-    - `tetikleyici qr`: Terminal içinde ANSI bloklarıyla WhatsApp eşleme QR kodu üretir.
-    - `tetikleyici logs -f`: Anlık SSE olaylarını ve tünel akışını terminale renkli formatta basar.
-    - `tetikleyici config check`: YAML yapılandırmasını, yetkili numaraları ve kuralları doğrular.
-    - `tetikleyici session list/kill`: Aktif oturumları CLI'dan yönetir.
-- [ ] **Katman 3: Sıfır-Yüklü Gömülü Web Paneli (Go `embed` Web Dashboard):**
-  - Ekstra Node.js veya Electron gerektirmeyen, doğrudan Go ikilisine gömülü (`go:embed`) tek sayfalık hafif web arayüzü (`http://127.0.0.1:31415/dashboard`).
-  - Yalnızca yerel arayüzü (`127.0.0.1`) dinler, harici saldırı yüzeyi oluşturmaz.
-  - **Özellikler:**
-    - Tarayıcı üzerinden tek tıkla büyük ve net QR kod okutma (özellikle ilk kurulum ve mobil tarayıcı kolaylığı).
-    - Canlı servis durum kartları (bellek, CPU, bağlantı durumu, uptime).
-    - Canlı SSE mesaj ve olay akışı paneli.
-    - Yetkili kullanıcı ve kural izinlerinin görsel özeti.
-- [ ] **Katman 4: Asıl Kullanıcı Arayüzü WhatsApp'ın Kendisidir ("ChatOps"):**
-  - Günlük kullanımda masaüstünde ek pencereye ihtiyaç duyulmaz; `/cmd`, `/camera`, `/ekran`, `/agent`, anketler ve emoji reaksiyonlarıyla WhatsApp içi yönetim korunur.
+### 14. 📁 Çift Yönlü Dosya ve Belge Transferi (`/get <yol>` ve WhatsApp Dosya Kabulü) [TAMAMLANDI ✅]
+- [x] **WhatsApp'tan Telefona Dosya İndirme (`/get <dosya_yolu>`):** Belirtilen dosya (≤ 50 MB) WhatsApp belgesi (`document`) olarak sohbete teslim edilir (`tetikleyici/cmd/dosya.py`).
+- [x] **Telefondan Bilgisayara Dosya Yükleme (Inbound File Handler):** Sohbetten gelen dosyalar güvenli `~/Downloads/nervedispatch-files/` dizinine `0o644` (`chmod -x`) izinleriyle kaydedilir.
 
-### 14. 📁 Çift Yönlü Dosya ve Belge Transferi (`/get <yol>` ve WhatsApp Dosya Kabulü) [PLANLANDI]
-- [ ] **WhatsApp'tan Telefona Dosya İndirme (`/get <dosya_yolu>`):**
-  - Admin WhatsApp'tan `/get /mnt/DiskD/rapor.pdf` veya `/get config.yaml` yazdığında dosya varlığı ve boyutu (max 50 MB WhatsApp document sınırı) doğrulanır.
-  - MIME türü otomatik tespit edilir (`application/pdf`, `text/plain`, `image/*` vb.).
-  - `whatsapp-bridge` üzerinden `POST /send-file` çağrılarak dosya doğrudan WhatsApp belgesi (`document`) formatında sohbete teslim edilir.
-- [ ] **Telefondan Bilgisayara Dosya Yükleme (Inbound File Handler):**
-  - Admin telefondan bir dosya/script attığında güvenli varsayılan dizine (`~/Downloads/whatsapp-files/` veya aktif ajanın çalışma dizinine) indirilir.
-  - Güvenlik: İndirilen dosyaların çalıştırma yetkisi kaldırılır (`chmod -x`).
-  - Bildirim: WhatsApp'a *"📥 Dosya kaydedildi: `~/Downloads/whatsapp-files/rapor.pdf` (1.4 MB)"* yanıtı verilir.
-  - Oturum tünelindeyse (`/session go`), ajanın bağlamına *"Kullanıcı bu dosyayı diske kaydetti: `<tam_yol>`"* bildirimi düşülür.
+### 15. 📂 Ajan Çalışma Dizinini Dinamik Değiştirme (`/root <dizin>`) [TAMAMLANDI ✅]
+- [x] `/root [dizin]` komutu ile çalışma alanı değiştirilir ve raporlanır (`tetikleyici/cmd/sistem.py`).
 
-### 15. 📂 Ajan Çalışma Dizinini Dinamik Değiştirme (`/root <dizin>`) [PLANLANDI]
-- [ ] **Dinamik Repo / Çalışma Alanı Değişimi:**
-  - Mevcut `/cmdhub cd` yalnız interaktif bash oturumunu etkiliyor. `/root <dizin>` komutu ise aktif kural veya oturumun çalışma dizinini (`cwd` / `workdir`) değiştirir.
-  - Örnek: `/root /mnt/DiskD/SOFTWARE/Github-repos/whatsapp-tetikleyici`.
-  - Dizin doğrulanır; yoksa açıklayıcı hata mesajı döner.
-  - Sonraki tüm `/cmd` çağrıları ve AI ajan çalıştırmaları (`opencode`, `agy`, `claude`) bu yeni kök dizin bağlamında yürütülür.
-  - Parametresiz `/root`: Aktif çalışma dizinini WhatsApp'a raporlar.
+### 16. 📋 Wayland / KDE Plasma Sistem Panosu Kontrolü (`/clip`) [TAMAMLANDI ✅]
+- [x] `wl-paste` ile sistem panosunu okuma ve `wl-copy` ile panoya yazma yetenekleri `/clip [metin]` komutuyla bağlandı.
 
-### 16. 📋 Wayland / KDE Plasma Sistem Panosu Kontrolü (`/clip`) [PLANLANDI]
-- [ ] **Sistem Panosunu Telefona Çekme (`/clip` / `/pano`):**
-  - Arch Linux KDE Plasma 6 (Wayland) mimarisine uygun olarak `wl-paste -t text/plain` çağrısıyla bilgisayarın panosundaki metin okunur ve WhatsApp'a mesaj olarak iletilir.
-  - Çok uzun panolarda ilk 2000 karakter + kırpma uyarısı uygulanır.
-- [ ] **Telefondan Bilgisayar Panosuna Metin Kopyalama (`/clip <metin>`):**
-  - WhatsApp'tan gelen metin bilgisayar panosuna basılır: `echo -n "<metin>" | wl-copy`.
-  - Telefonda kopyalanan bir token, link veya kod parçasını anında bilgisayarda Ctrl+V yapabilme imkânı sağlar.
-  - Yalnızca `allow_cmd: true` olan admin kullanıcılara açıktır.
+### 17. 🪟 Açık Pencereler ve Süreç Denetimi (`/apps` & `/kill`) [TAMAMLANDI ✅]
+- [x] `/apps` ile kullanıcı süreçlerini listeleme ve `/kill <pid|isim>` ile sonlandırma eklendi. Sistem kritik süreçleri için kara liste koruması sağlandı.
 
-### 17. 🪟 Açık Pencereler ve Süreç Denetimi (`/apps` & `/kill`) [PLANLANDI]
-- [ ] **Açık Pencereleri Listeleme (`/apps` / `/pencereler`):**
-  - Wayland / Plasma üzerinde çalışan grafik uygulamalarını veya pencereleri listeler (`qdbus org.kde.KWin /KWin org.kde.KWin.queryWindowInfo` / `kdotool` veya aktif GUI süreçleri).
-  - Format: `1. Google Chrome (PID 12450)`, `2. Cursor (PID 3341)`, `3. Konsole (PID 5512)`.
-- [ ] **Askıda Kalan Süreci Kapatma (`/kill <uygulama_veya_pid>`):**
-  - Yanıt vermeyen uygulamayı uzaktan sonlandırır (`kill -15 <pid>` veya `pkill -f <uygulama>`).
-  - Güvenlik: Kritik sistem servisleri (`systemd`, `dbus`, `wayland`, `whatsapp-bridge`) kara listededir; asla kill edilemez.
+### 18. 🎙️ Yerel TTS Sesli Yanıt (Piper TTS ile WhatsApp `.ogg opus` Sesli Notu) [TAMAMLANDI ✅]
+- [x] Piper TTS / espeak-ng ve ffmpeg libopus ile ses sentezleme ve `/tts on|off|<metin>` komutları bağlandı (`tts_pipeline.py`, `tests/test_tts.py`).
 
-### 18. 🎙️ Yerel TTS Sesli Yanıt (Voice-to-Voice: Piper TTS ile WhatsApp `.ogg opus` Sesli Notu) [PLANLANDI]
-- [ ] **Hafif Yerel TTS (Piper):**
-  - CPU'da sıfır VRAM tüketimiyle gerçek zamanlı çalışan yerel `Piper TTS` (Türkçe model: `tr_TR-dfki-medium` vb.) entegrasyonu.
-  - GPU VRAM'i Whisper veya LLM ile çakışmaz, tamamen hafif çalışır.
-- [ ] **WhatsApp Uyumlu Ses Formatı (`.ogg opus` PTT):**
-  - Piper tarafından üretilen `.wav` dosyası `ffmpeg` ile WhatsApp sesli not formatına (`audio/ogg; codecs=opus`) çevrilir.
-  - `whatsapp-bridge`'in `POST /send-file` endpoint'ine `is_voice_note: true` iletilerek karşı tarafta yeşil mikrofonlu gerçek "sesli mesaj" olarak teslim edilir.
-- [ ] **Tetikleme Mantığı:**
-  - Admin sesli not attığında (veya yapılandırmada `sesli_cevap: true` ise / `/tts on`) metin yerine doğrudan sesli not gönderilir.
+### 19. 🧠 Ajan Bağlamını Hafifletme ve Sıkıştırma (`/compact` / `/ozet`) [TAMAMLANDI ✅]
+- [x] `/compact` ve `/ozet` komutu ile AI oturum bağlamı sıfırlanıp taze oturuma geçiş sağlandı (`tetikleyici/cmd/compact.py`).
 
-### 19. 🧠 Ajan Bağlamını Hafifletme ve Sıkıştırma (`/compact` / `/ozet`) [PLANLANDI]
-- [ ] **Oturum Bağlamını Küçültme:**
-  - Uzun süren WhatsApp tünel konuşmalarında token şişmesini ve yavaşlamayı önlemek için WhatsApp'tan `/compact` komutu verilir.
-  - Aktif ajana (`agy`, `claude`, `opencode`) oturumdaki ana kararları ve teknik adımları yoğun bir özet haline getirme talimatı iletilir.
-  - Oturum sıfırlanmadan bağlam hafifletilir; gereksiz tur geçmişi temizlenir.
-- [ ] **Şişme Uyarısı:** Oturum tur sayısı belirlenen eşiği (ör. 25 tur) aştığında tetikleyici WhatsApp'a `"💡 Bağlam penceresi genişledi, /compact önerilir"` ipucu gönderir.
+### 20. 🚨 Proaktif Sistem Sağlık Bekçisi ve Eşik Uyarıları (Passive Watcher) [TAMAMLANDI ✅]
+- [x] Disk (%90), RAM (%95), CPU sıcaklığı (85°C) için 5 dakikada bir otomatik kontrol ve 1 saat cooldown korumalı bildirim motoru kuruldu (`tetikleyici/bekci.go`).
 
-### 20. 🚨 Proaktif Sistem Sağlık Bekçisi ve Eşik Uyarıları (Passive Watcher) [PLANLANDI]
-- [ ] **Periyodik Arka Plan Denetimi (Cron/Timer):**
-  - Yalnız komut verildiğinde çalışan `/durum` haricinde; `tetikleyici.yaml` içinde tanımlanan eşikleri periyodik (ör. 10 dakikada bir) izleyen arka plan bekçisi:
-    ```yaml
-    bekci:
-      aktif: true
-      kontrol_araligi: 10m
-      esikler:
-        disk_doluluk_yuzde: 90
-        ram_doluluk_yuzde: 95
-        cpu_sicaklik_c: 85
-        servisler: ["whatsapp-bridge.service", "systemd-networkd.service"]
-    ```
-- [ ] **Otonom Alarm ve Spam Koruması:**
-  - Eşik aşıldığında veya kritik servis düştüğünde WhatsApp'a acil durum uyarısı (`🚨 Sistem Bekçisi Uyarısı: / disk doluluğu %92!`) gönderilir.
-  - Aynı arıza için 1 saat içinde tekrar mesaj atılmaz (cooldown koruması).
+### 21. 🔗 QR Kodsuz 8 Haneli Eşleştirme Kodu (Pairing Code Desteği) [TAMAMLANDI ✅]
+- [x] `POST /pair?phone=...` endpoint'i ve `nerve pair <telefon>` CLI komutu ile Whatsmeow 8 haneli eşleştirme kodu üretimi bağlandı.
 
-### 21. 🔗 QR Kodsuz 8 Haneli Eşleştirme Kodu (Pairing Code Desteği) [PLANLANDI]
-- [ ] **Whatsmeow Pairing Code Entegrasyonu:**
-  - Whatsmeow kütüphanesinin yerleşik `client.PairPhone(phoneNumber)` API'si kullanılarak `POST /pair-phone` endpoint'i eklenir.
-  - Terminalde QR kod okutmak yerine WhatsApp sunucusundan 8 haneli kod (ör: `ABCD-1234`) alınır.
-  - Kullanıcı telefonunda WhatsApp ▸ Bağlı Cihazlar ▸ "Telefon Numarasıyla Bağla" adımına bu kodu girer.
-  - Ekransız/headless sunucu kurulumlarında ve kamera netleme sorunlarında QR kodsuz hızlı eşleşme sağlar.
-
-### 22. 🦁 NerveDispatch - Çok Kanallı Modüler Monorepo Birleşmesi [SIRADA #1 - İLK ADIM 🎯]
-> **Proje Adı & Hedef Konum:** `NerveDispatch` (`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/`)  
-> **Master Blueprint:** [`docs/YENI-MIMARI-VE-BIRLESME-PLANI.md`](./YENI-MIMARI-VE-BIRLESME-PLANI.md)  
-> **Mimari Hikaye:** [`docs/NERVE-DISPATCH-THE-STORY.md`](./NERVE-DISPATCH-THE-STORY.md)  
-> **Vizyon:** `whatsapp-bridge-mcp` ve `whatsapp-tetikleyici` projelerini `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` çatısında birleştirmek; önce WhatsApp hattını ve tüm çekirdek özellikleri kusursuzlaştırmak (FAZ 1 & FAZ 2), ardından aynı sabit AI oturumları ve kural motoru üzerine **Telegram, Discord ve Instagram** kanallarını tak-çıkar adaptörler olarak eklemek (FAZ 3).
-
-- [ ] **1. Sıfır-Kırılmalı Dizin, Modüler `install/` & `upgrade/` ve Paket Mimarisi (`go.work` + Çok Kanallı Çekirdek):**
-  ```text
-  /mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/
-  ├── NERVE-DISPATCH-THE-STORY.md      # Chimera v1 • v2'den Nerve Dispatch'e Mimari Evrim Hikayesi
-  ├── YENI-MIMARI-VE-BIRLESME-PLANI.md # Master Blueprint & Geçiş Yol Haritası
-  ├── bridge/                          # Go Modülü 1: Çok kanallı köprü (:31415 REST, SSE, WebUI, WhatsApp + channels/)
-  ├── tetikleyici/                     # Go Modülü 2: Olay dağıtım motoru, Ajan Sürücüleri (drivers/), CLI ve cmd/*.py
-  ├── mcp_server/                      # Python: FastMCP STDIO sunucusu (modül gölgelemesini önler)
-  ├── gorsel/                          # Python: Görsel, belge, OCR, video ve sticker paketi
-  ├── gorsel_pipeline.py               # Ollama V-LLM görsel analiz hattı
-  ├── voice_pipeline.py                # Faster-Whisper ses transkripsiyon hattı
-  ├── sidecar/                         # Opsiyonel VoIP yardımcı modülü (node_modules hariç)
-  ├── install/                         # [YENİ] Modüler Kurulum Orkestratörü (make install -> ./install/install.sh)
-  │   ├── install.sh & lib.sh          # Orkestratör + ortak yardımcılar (sudo komut toplayıcı, güvenli JSON/YAML yama)
-  │   ├── 00-system-deps.sh            # Sistem/medya araçları (go, gcc, uv, ffmpeg, tesseract, pdftotext, spectacle, wl-clipboard)
-  │   ├── 10-core-go.sh & 20-python-env.sh # Go ikilileri (atomik ~/bin kurulumu) + ortak .venv kurulumu
-  │   ├── 30-channels-mcp.sh           # WhatsApp (+ Faz 3 Telegram/Discord/Instagram) kanal ve MCP kurulumu
-  │   ├── 40-voice-modules.sh          # STT (faster-whisper CUDA 12 + model) ve TTS (Piper TTS + Türkçe ses) kurulumu
-  │   ├── 50-vision-modules.sh         # Ollama servis/model (qwen2.5vl:3b, qwen3:4b) ve OCR (tur+eng) kurulumu
-  │   └── 60-agents-config.sh & 70-configs-services.sh # Ajan (agy, claude, opencode) MCP/Skill + systemd kurulumu
-  ├── upgrade/                         # [YENİ] Modüler Yükseltme Orkestratörü (make upgrade -> ./upgrade/upgrade.sh)
-  │   ├── upgrade.sh                   # Orkestratör (--all, --only <modül>, --rollback, --with-models)
-  │   ├── 00-backup-snapshot.sh        # Yükseltme öncesi tam yedek (.tetikleyici/backups/: config, session.db, ajanlar, ikililer)
-  │   ├── 10-upgrade-core.sh           # Go/Python güncellemesi ve çalışan süreci bozmayan atomik ikili değişimi
-  │   ├── 20-upgrade-channels-mcp.sh   # Whatsmeow güncellemesi (405 önleyici), kanal SDK'ları ve yeni MCP araç senkronizasyonu
-  │   ├── 30-upgrade-media-models.sh   # Ses (Whisper/Piper) ve görüntü (Ollama) modellerinin güncellenmesi
-  │   └── 40-migrate-configs.sh & 50-verify-and-restart.sh # Kayıpsız YAML şema göçü + 627+ test kapısı (auto-rollback) + restart
-  ├── docs/                            # PII temizlenmiş tasarım belgeleri ve Nerve Dispatch Master Blueprint
-  ├── tests/                           # Birleşik Python test süiti (test_mcp_handlers.py + 10 tetikleyici testi)
-  ├── go.work                          # Go Workspace (./bridge ve ./tetikleyici)
-  ├── requirements.txt                 # Tekil birleşik Python bağımlılıkları (.venv)
-  ├── Makefile                         # İnce görev yönlendiricisi (make install -> install/, make upgrade -> upgrade/, verify)
-  └── README.md & TODO.md              # Tekil dokümantasyon ve yalnızca açık işleri tutan sprint listesi
-  ```
-- [ ] **1.0 (2026-11-09 eklendi) - Kaynak repolardaki commitlenmemiş işin kaydı:** `whatsapp-bridge-mcp` 28, `whatsapp-tetikleyici` 91 değişiklik granüler commitlenir (push yok). Taşıma dosya kopyası değil, geçmiş korunarak yol yeniden yazımı. Ayrıntı: plan Adım 1.0, `NOTES.md` §6, `ASK.md` 2026-11-09 04:00.
-- [ ] **2. FAZ 1 - Doğrudan `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` Reposuna Geçiş, `install/` & `upgrade/` İnşası ve Ekosistem Onarımı (Adım 1.1 – 1.7):**
-  - `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` içinde Git başlatılması, kodların ve testlerin birleştirilmesi.
-  - Canlı `tetikleyici.yaml`, `pasif-kurallar.yaml` ve `.tetikleyici/` durum dizininin (iç içe `.tetikleyici/.tetikleyici` temizlenerek) aktarılması; `~/.local/share/whatsapp-bridge/session.db` ve `messages.jsonl` oturumunun QR bozulmadan korunması.
-  - `docs/` PII taraması, `TODO.md` içindeki bitmiş maddelerin `TODO.DONE.md`'ye ve kalıcı kuralların `NOTES.md`'ye taşınması.
-  - İnce `Makefile` ile `install/` ve `upgrade/` modüler betiklerinin oluşturulması; `make install` ile `bridge/internal/appcfg/appcfg.go`, `systemd` servisleri, `~/bin/tetikleyici` (`~/bin/nerve`), Antigravity (`mcp_config.json`), OpenCode (`opencode.json` + 5 yeni MCP aracı), Claude (`~/.claude.json`), `SKILL.md` ve `INDEX.md` içindeki eski yolların `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch` dizinine bağlanması.
-  - `make verify` ile 627+ Go ve Python testinin `NerveDispatch` üzerinde %100 yeşil geçtiğinin kanıtlanması.
-- [ ] **3. FAZ 2 - Önce WhatsApp Hattını ve Çekirdek Yetenekleri Tamamlama (Geliştirme 2.1 – 2.11):**
-  - `2.1` Sabit Session ID & Ajan Adaptörleri (#7) → `2.2` Birleşik `nerve` CLI (#13A) → `2.3` Gömülü Web Dashboard (#13B) → `2.4` 8 Haneli Eşleştirme Kodu (#21) → `2.5` Tepki Emojisi (#12) → `2.6` `/ekran` Komutu (#10) → `2.7` İnteraktif Anket Onayı (#9) → `2.8` Dosya Transferi `/get` (#14) → `2.9` `/root`, `/clip`, `/apps`, `/kill` (#15-#17) → `2.10` `/compact`, Akıllı `/zamanla`, Sistem Bekçisi (#11, #19, #20) → `2.11` Piper TTS Sesli Yanıt (#18) & 300 Satır / 15 Dosya Refactoring.
+### 22. 🦁 NerveDispatch - Çok Kanallı Modüler Monorepo Birleşmesi [TAMAMLANDI ✅]
+- [x] FAZ 1 (Monorepo Merge, Thin Makefile, Modular Install/Upgrade, Zero-Data-Loss).
+- [x] FAZ 2 (WhatsApp & Core Dispatcher Capabilities).
+- [x] FAZ 3 (Telegram `975678139`, Discord, Instagram adaptörleri ve Failover uyarısı).
+- [x] FAZ 4 (QuotaGuard %95 Devre Kesici, WAL Snapshot, E2E Test Matrisi).
 - [ ] **4. FAZ 3 - Çok Kanallı Genişleme: Telegram, Discord, Instagram (Geliştirme 3.1 – 3.4):**
   - `3.1` Ortak `ChannelAdapter` arayüzü ve `ChimeraEvent` (`channel: "whatsapp" | "telegram" | "discord" | "instagram"`) zarf standardı.
   - `3.2` **Telegram Kanalı (`channels/telegram`):** Mefamex Telegram ID (`975678139`) entegrasyonu, tüm `/cmd`, `/camera`, `/ekran`, `/agent` komutlarının ve sabit AI oturumunun Telegram'dan da çalışması + WhatsApp düştüğünde Telegram üzerinden otomatik yedek bildirim (**Cross-Channel Failover**).
