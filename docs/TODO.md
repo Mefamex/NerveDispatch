@@ -120,12 +120,14 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
   - `3.3` **Discord Kanalı (`channels/discord`):** REST API / Bot, DM/Kanal mesajları ve zengin yanıtlar.
   - `3.4` **Instagram Kanalı (`channels/instagram`):** Graph API v19.0 entegrasyonu ve tüm kanalların Web Dashboard üzerinde tek ekrandan izlenmesi.
 
-### 23. 🧵 Motor Başına Sabit Sohbet (`/agent` geçişi) - Madde 7 yeniden açıldı [SIRADA 🎯]
+### 23. 🧵 Motor Başına Sabit Sohbet (`/agent` geçişi) - Madde 7 yeniden açıldı [KOD HAZIR - canlıya alınmadı]
 > Tespit (2026-11-09, Claude): Madde 7 kod olarak yazıldı ama bağlanmadı. `.tetikleyici/oturumlar.json`'da üç motorun da oturum alanı boş ve kodda bu kaydı dolduran yer yok (`SessionStore.Set` hiç çağrılmıyor). Ayrıca `runAgent` kuraldaki `session:` (OpenCode `ses_…`) değerini motora bakmadan sürücüye veriyor: aktif motor `agy` iken agy `--conversation ses_…` ile, `claude` iken `--resume ses_…` ile çağrılıyor.
-- [ ] Kuralda motor başına sohbet: `session:` OpenCode için kalır; yeni `sessions: { opencode: …, agy: …, claude: … }` eşlemesi.
-- [ ] `runAgent`: önce `sessions[motor]`, sonra `oturumlar.json`'daki kayıt; kuraldaki OpenCode kimliği başka motora asla verilmez.
-- [ ] `/agent durum` aktif motorla birlikte o motorun sohbet kimliğini de göstersin; `/agent <motor> <sohbet-id>` ile WhatsApp'tan sohbet atanabilsin.
-- [ ] Testler: motor değişince doğru kimlik doğru bayrakla gidiyor (`--conversation` / `--resume` / opencode `-s`).
+- [x] Motor başına sohbet `.tetikleyici/oturumlar.json`'da: agy `8372b68f-…`, claude `a9ce2f25-…` (Claude Desktop'ta NerveDispatch → "Selam"), opencode `ses_ef8590…` (OpenCode veritabanında yok; `-s` ilk mesajda bu kimlikle yeni oturum açar). Kuraldaki `session:` yalnız OpenCode'a gider.
+- [x] `runAgent`: kayıtlı sohbet varsa ona bağlanır, yoksa yeni sohbet açar ve kimliğini kaydeder (agy: `--output-format json` → `conversation_id`; claude: üretilen UUID ile `--session-id`).
+- [x] `/agent durum` her motorun bağlı sohbetini gösterir.
+- [ ] `/agent <motor> <sohbet-id>` ile WhatsApp'tan sohbet atama (şimdilik `oturumlar.json` elle düzenlenir).
+- [ ] Kayıtlı sohbet silinmişse (devam hatası) yeni sohbete otomatik geçiş.
+- [x] Testler: `drivers_test.go` (bayraklar, kimlik yakalama), `oturum_motor_test.go` (motor ayrımı, kayıt), `tests/test_agent_sohbet.py`.
 
 ### 24. 🌡️ Bekçi Eşiklerinin Ayarlanabilir Olması [SONRA]
 > Tespit (2026-11-09): Eşikler `tetikleyici/bekci.go`'da sabit (disk %90, RAM %95, CPU 85°C). İşlemci sınırı 100°C olduğundan CPU alarmı 9 Kasım'da saat başı 8 kez WhatsApp'a gitti (86-96°C). Mefamex rutin bildirim istemiyor.
