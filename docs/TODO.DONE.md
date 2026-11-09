@@ -8,6 +8,13 @@
 
 ---
 
+### [2026-11-09 07:20] — FAZ 4 Geliştirme 4.1: QuotaGuard (%95 Kota Sigortası) ve Canlı Devre Kesici
+- **Değişiklikler:** `tetikleyici/quota_guard.go` ve `quota_guard_test.go` kodlandı. AGY, Claude ve OpenCode motorları için 5 saatlik ve haftalık limitlerde %95 kullanım eşiği aşımında otomatik devre kesici (circuit breaker) eklendi. Kota dolduğunda çağrılar engellenip kalan yenilenme süresi hesaplanır, süre dolduğunda otomatik serbest bırakılır. `action.go` ve `cli/commands.go` (`nerve status`) içine entegre edildi. Canlı servis (PID 350112) güncellendi.
+- **Kök Neden / Problem:** Yapay zeka ajanlarının kotaları tükenme sınırına geldiğinde kazaen API çağrısı yapıp oturumu veya hesabı kilitlemesini önlemek, kotanın yenilenme anına kadar güvenle bekletilmesini sağlamak.
+- **Doğrulama Kanıtı:** `tetikleyici/quota_guard_test.go` (5 test passed, 0.004s), `make verify` (ALL_OK), PID 350112 aktif.
+
+---
+
 ### [2026-11-09 07:16] — FAZ 3 Geliştirme 3.6: Cross-Channel Failover (Köprü Çöküşünde Telegram Acil Uyarısı)
 - **Değişiklikler:** `tetikleyici/notify.go` içinde `sendTelegramAlert` fonksiyonu ve `tur == bildirimKopruDown` olduğunda WhatsApp'a bağımlı kalmadan Mefamex Telegram ID (`975678139`) üzerinden doğrudan Telegram Bot API ile acil durum mesajı ulaştıran failover mekanizması kuruldu. `tetikleyici/notify_test.go` içine `TestTelegramFailoverOnBridgeDown` birim testi eklendi.
 - **Kök Neden / Problem:** WhatsApp köprüsü çöktüğünde WhatsApp üzerinden durum bildirimi iletilemiyordu; Telegram failover hattı sayesinde kullanıcı masaüstü kesintilerinden anında haberdar edilir.
