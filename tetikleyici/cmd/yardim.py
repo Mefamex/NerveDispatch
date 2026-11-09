@@ -25,6 +25,7 @@ YARDIMCI KOMUTLAR
 /zamanla iptal <id>     → zamanlanmış mesaj iptal
 /camera                 → kameradan tek kare çekip gönderir (izinliyse)
 /ekran [sn]             → masaüstü ekran görüntüsünü çekip gönderir (Wayland Plasma)
+/get <dosya_yolu>       → bilgisayardaki dosyayı WhatsApp'a belge olarak gönderir
 /durum                  → tetikleyici + köprü anlık durumu (PID, uptime, kural, tampon)
 /ping                   → pong (sağlık kontrolü)
 /agent [motor]          → aktif ajan motorunu göster/değiştir (agy, claude, opencode)

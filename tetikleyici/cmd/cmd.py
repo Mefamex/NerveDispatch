@@ -181,6 +181,12 @@ def ana(metin: str, gonderen_numara: str, gonderen_isim: str) -> str:
     if sonuc.komut_turu == "ping":
         return "pong 🏓"
 
+    # /get <dosya_yolu> - uzaktan dosya çekme
+    if sonuc.komut_turu == "get":
+        from dosya import dosya_gonder
+
+        return dosya_gonder(sonuc.hedef, gonderen_numara)
+
     # /sil veya /revoke - alıntılanan mesajı herkesten sil
     if sonuc.komut_turu == "revoke":
         import json

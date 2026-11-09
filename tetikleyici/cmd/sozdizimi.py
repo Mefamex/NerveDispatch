@@ -63,6 +63,7 @@ CAMERA_PATTERN = re.compile(r"^/camera\s*$", re.IGNORECASE)
 EKRAN_PATTERN = re.compile(r"^/ekran(?:\s+(?P<saniye>\d+))?\s*$", re.IGNORECASE)
 DURUM_PATTERN = re.compile(r"^/durum\s*$", re.IGNORECASE)
 PING_PATTERN = re.compile(r"^/ping\s*$", re.IGNORECASE)
+GET_PATTERN = re.compile(r"^/get\s+(?P<yol>.+)$", re.IGNORECASE)
 REVOKE_PATTERN = re.compile(r"^/(?:sil|revoke)\b", re.IGNORECASE)
 AGENT_PATTERN = re.compile(r"^/agent(?:\s+(?P<arg>.+))?$", re.IGNORECASE)
 CALL_PATTERN = re.compile(r"^/call\s+(?P<arg>.+)$", re.IGNORECASE)
@@ -96,6 +97,11 @@ def parse_cmd(metin: str) -> CmdParseResult:
     # /ping - bağlantı/tetikleme sağlığı (ajan turuna gerek yok)
     if PING_PATTERN.match(metin):
         return CmdParseResult(komut_turu="ping")
+
+    # /get <yol> - dosya transferi
+    get_match = GET_PATTERN.match(metin)
+    if get_match:
+        return CmdParseResult(komut_turu="get", hedef=get_match.group("yol").strip())
 
     # /sil veya /revoke - alıntılanan mesajı herkesten sil
     if REVOKE_PATTERN.match(metin):
