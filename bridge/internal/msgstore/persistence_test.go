@@ -79,7 +79,7 @@ func TestOpen_OnlyLastCapacityReplayed(t *testing.T) {
 	if s2.Len() != 5 {
 		t.Fatalf("Len() = %d, want 5 (son kapasite)", s2.Len())
 	}
-	// Bellekte de son 5 kaldı (eskiler "a","b","c" yüklendi mi? hayır — baştan
+	// Bellekte de son 5 kaldı (eskiler "a","b","c" yüklendi mi? hayır - baştan
 	// appende devam eden dosyada 8 satır var; son 5 alınır: d,e,f,g,h).
 	recent := s2.Recent("905550000001@s.whatsapp.net", 5)
 	if recent[4].ID != "d" {

@@ -34,7 +34,7 @@ func main() {
 
 	// Message log: JSONL replay sayesinde restart'ta /messages ve çift
 	// gönderim geçmişi siyah kutusu korunur. Log açılamazsa sessizce
-	// in-memory'e düşmek YERİNE nedenini loglarız — "Stored 0" vakalarının
+	// in-memory'e düşmek YERİNE nedenini loglarız - "Stored 0" vakalarının
 	// kökü buydu.
 	messages := msgstore.New(msgstore.DefaultCapacity)
 	if logPath, perr := appcfg.MessagesLogPath(); perr == nil {
@@ -42,10 +42,10 @@ func main() {
 			messages = opened
 			defer opened.Close()
 		} else {
-			log.Printf("⚠️ message log açılamadı (%v) — in-memory devam", oerr)
+			log.Printf("⚠️ message log açılamadı (%v) - in-memory devam", oerr)
 		}
 	} else {
-		log.Printf("⚠️ message log yolu yok (%v) — in-memory devam", perr)
+		log.Printf("⚠️ message log yolu yok (%v) - in-memory devam", perr)
 	}
 
 	wa, err := wabridge.New(bus, messages)
@@ -104,7 +104,7 @@ func serveAPI(srv *http.Server) {
 //	00:44:37 ❌ Connection failed: … lookup web.whatsapp.com: Temporary failure
 //	in name resolution
 //
-// ve köprü bir daha DENEMEDİ — API yanıt veriyor, `connected:false` diyor,
+// ve köprü bir daha DENEMEDİ - API yanıt veriyor, `connected:false` diyor,
 // mesaj gelmiyor. Her açılışta böyle olur ve tek çözüm "sudo systemctl restart".
 //
 // whatsmeow başarılı bağlantıdan sonra KENDİ yeniden bağlanır; bu yüzden
@@ -120,12 +120,12 @@ func connectWhatsApp(ctx context.Context, wa *wabridge.Service) {
 
 		// Ağ henüz yoksa (boot sırası) hata DNS kaynaklıdır; ayrıca belirt.
 		// Gerçek oturum/session hatası ise sürekli tekrar denemek anlamsız
-		// olur — günlüğe net yazılır, kullanıcı kararını verir.
+		// olur - günlüğe net yazılır, kullanıcı kararını verir.
 		if ctx.Err() != nil {
 			return
 		}
 
-		log.Printf("❌ Bağlantı kurulamadı: %v — %.0fs sonra tekrar denenecek (ağ henüz hazır olmayabilir)",
+		log.Printf("❌ Bağlantı kurulamadı: %v - %.0fs sonra tekrar denenecek (ağ henüz hazır olmayabilir)",
 			err, backoff.Seconds())
 
 		select {

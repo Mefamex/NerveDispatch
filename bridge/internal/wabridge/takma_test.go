@@ -30,7 +30,7 @@ func TestTakmaAdYoksaUretilmez(t *testing.T) {
 	for _, v := range vakalar {
 		t.Run(v.ad, func(t *testing.T) {
 			if got := takmaAdlar(v.istendi, target); got != nil {
-				t.Errorf("takma ad üretildi: %v (gereksiz — mesaj başka sohbetlerde de görünür)", got)
+				t.Errorf("takma ad üretildi: %v (gereksiz - mesaj başka sohbetlerde de görünür)", got)
 			}
 		})
 	}
@@ -48,7 +48,7 @@ func TestTakmaAdCozulmeyenKimlikIcinUretilir(t *testing.T) {
 
 // Boşluklu istek KIRPILMALI: " 475…@lid " ile "475…@lid" aynı sohbettir.
 // Kırpılmazsa mesaj " boşluklu" kimlikle kaydedilir ve normal sorgu onu
-// bulamaz — yani takma ad yine işe yaramaz.
+// bulamaz - yani takma ad yine işe yaramaz.
 func TestTakmaAdKirpilir(t *testing.T) {
 	target := types.JID{User: "905550000001", Server: "s.whatsapp.net"}
 

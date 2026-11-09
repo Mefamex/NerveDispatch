@@ -14,7 +14,7 @@ import (
 // handleEditMessage resolves a SecretEncryptedMessage carrying a message edit
 // and folds the new text into the store.
 //
-// WhatsApp delivers edits inside the normal Message event — there is no
+// WhatsApp delivers edits inside the normal Message event - there is no
 // separate edit event. whatsmeow does not decrypt them automatically; the
 // plaintext must be requested explicitly. Without this step the edit lands in
 // the store as "[unsupported: MessageContextInfo, SecretEncryptedMessage]"

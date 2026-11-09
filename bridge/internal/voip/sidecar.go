@@ -64,7 +64,7 @@ func New(bus *eventbus.Bus, sender StanzaSender, selfJID func() string) *Sidecar
 func (s *Sidecar) Start() {
 	dir := appcfg.SidecarDir()
 	if err := checkAssets(dir); err != nil {
-		log.Printf("⚠️ [Sidecar] %v — calling features disabled", err)
+		log.Printf("⚠️ [Sidecar] %v - calling features disabled", err)
 		log.Printf("💡 [Sidecar] Run 'cd %s && npm run fetch-wasm' to enable calls", dir)
 		return
 	}

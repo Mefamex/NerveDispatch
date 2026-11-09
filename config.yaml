@@ -1,5 +1,5 @@
 # =============================================================================
-# WhatsApp Bridge & MCP — Yapılandırma Dosyası (config.yaml)
+# WhatsApp Bridge & MCP - Yapılandırma Dosyası (config.yaml)
 #
 # YAPILANDIRMA FELSEFESİ VE ÖNCELİK SIRASI:
 # 1. Ortam Değişkenleri (ENV)    -> [EN YÜKSEK] Çalışma anında verilenler (Örn: WHATSAPP_API_PORT=31415)

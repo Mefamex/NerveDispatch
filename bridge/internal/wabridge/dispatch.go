@@ -126,7 +126,7 @@ func unknownCallFrom(node *waBinary.Node) string {
 
 // lidTelefonu, LID kimliğin store'da bilinen telefon karşılığını döner.
 //
-// Eşleşme yoksa (veya istemci/store hazır değilse) "" döner — gelen mesajın
+// Eşleşme yoksa (veya istemci/store hazır değilse) "" döner - gelen mesajın
 // From alanı asla değiştirilmez, sonuç yalnız TakmaAd'a eklenir. Olay
 // döngüsünü kilitlememek için sorgu 2 sn ile sınırlıdır (CachedLIDMap
 // zaten bellekten karşılar).
@@ -185,7 +185,7 @@ func (s *Service) handleMessage(v *events.Message) {
 	msg := Translate(v)
 
 	// LID takma adı: gelen mesaj LID ile gelir (`123@lid`); store'da
-	// bilinen telefon karşılığı varsa TakmaAd'a eklenir. From DEĞİŞMEZ —
+	// bilinen telefon karşılığı varsa TakmaAd'a eklenir. From DEĞİŞMEZ -
 	// store anahtarları, dedup ve tetikleyici eşleşmesi etkilenmez; dış
 	// istemci (tetikleyici) telefonu ek kimlik olarak görür.
 	for _, aday := range []string{msg.From, msg.Sender} {
@@ -200,8 +200,8 @@ func (s *Service) handleMessage(v *events.Message) {
 	)
 
 	// Control traffic stays out of the store. WhatsApp emits a stream of
-	// protocol frames (history-sync acks, receipts, ephemeral settings) —
-	// a couple per minute — and the store keeps only the last 1000 entries.
+	// protocol frames (history-sync acks, receipts, ephemeral settings) -
+	// a couple per minute - and the store keeps only the last 1000 entries.
 	// Storing them evicts real conversations, which is how a chat silently
 	// disappears from /messages. The log line above still records them.
 	if msg.Type == "protocol" {

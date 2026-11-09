@@ -34,7 +34,7 @@ func describeUnsupported(m *waE2E.Message) (kind, text string) {
 // Reflection is deliberate: waE2E.Message has 113 fields and gains more every
 // few months, so a hand-written list would rot silently. Generated protobuf
 // structs also carry unexported bookkeeping (state, sizeCache, unknownFields),
-// which IsExported skips. Scalar fields need a non-zero check too — a
+// which IsExported skips. Scalar fields need a non-zero check too - a
 // reflection-only listing would miss them entirely.
 func renderMessage(m *waE2E.Message) string {
 	v := reflect.ValueOf(m).Elem()

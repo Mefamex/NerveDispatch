@@ -22,7 +22,7 @@ import (
 //
 // KİMLİK EŞLEŞMESİ: whatsmeow'un error DEĞERİ kullanılır, `errors.Is` ile
 // eşleşir. Metne göre eşleştirme ("client is nil") whatsmeow metni
-// değiştirdiğinde sessizce TÜM bu testleri yanlış çevirir — testler
+// değiştirdiğinde sessizce TÜM bu testleri yanlış çevirir - testler
 // kırılmaz, tersine yalan söyler.
 var errClientNil = whatsmeow.ErrClientIsNil
 
@@ -66,7 +66,7 @@ func TestStarMessageKimliksizIstemciyeGitmez(t *testing.T) {
 
 // Boş gönderen, hedefe DÜŞMELİ: birebir sohbette gönderen hedefle aynıdır.
 // Düşmezse whatsmeow boş JID ile yıldız yaması kurar ve telefon uygulamasında
-// yıldız görünmez — hata da vermez (sessiz başarısızlık).
+// yıldız görünmez - hata da vermez (sessiz başarısızlık).
 func TestStarMessageBosGonderenHedefeDuser(t *testing.T) {
 	s := &Service{}
 

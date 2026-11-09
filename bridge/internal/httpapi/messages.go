@@ -17,7 +17,7 @@ import (
 )
 
 // historyWait bounds how long a request blocks waiting for WhatsApp history
-// when the buffer is COMPLETELY empty — the only case where waiting can still
+// when the buffer is COMPLETELY empty - the only case where waiting can still
 // produce an answer that is not already in hand.
 const historyWait = 10 * time.Second
 
@@ -26,7 +26,7 @@ const historyWait = 10 * time.Second
 // ÖLÇÜM GEREKÇESİ: historyWait (10 sn) ile tetikleyicinin çift gönderim
 // denetimindeki bakış bütçesi (8 sn) ÇELİŞİYORDU. Çağıran 8 saniyede
 // vazgeçiyor, sunucu 10 saniye bekliyor: istek her seferinde zaman aşımına
-// uğruyor ve denetim "geçmiş alınamadı" deyip bastırmadan geçiyordu — yani
+// uğruyor ve denetim "geçmiş alınamadı" deyip bastırmadan geçiyordu - yani
 // koruma sessizce ÖLÜYDÜ.
 //
 // Tampon doluysa beklemeye değer çok az: elde mesaj var, soru "daha eskisi
@@ -77,7 +77,7 @@ func (s *Server) messagesHandler(w http.ResponseWriter, r *http.Request) {
 // Bu parametre YENİDEN SORMAYLA değil, ZAMANLA İLGİLİ: varsayılan olarak
 // uç, tampon yetmiyorsa WhatsApp'a gider ve 10 saniye bekleyebilir. 10 sn,
 // çağıranın (tetikleyicinin çift gönderim denetimi) kendi baktığı 8 saniyeden
-// uzun — yani varsayılan davranış, o denetimi TIKAN bir cevap üretir.
+// uzun - yani varsayılan davranış, o denetimi TIKAN bir cevap üretir.
 func topUpIstekVar(r *http.Request) bool {
 	switch strings.ToLower(strings.TrimSpace(r.URL.Query().Get("topup"))) {
 	case "off", "0", "hayir", "no":

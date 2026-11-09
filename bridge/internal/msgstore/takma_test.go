@@ -54,7 +54,7 @@ func TestTakmaAdLidGorunumundeGidenMesajiGosterir(t *testing.T) {
 		t.Fatalf("LID görünümünde %d mesaj, want 1", len(got))
 	}
 	if !got[0].IsFromMe {
-		t.Error("LID görünümündeki mesaj fromMe DEĞİL — çift gönderim denetimi yine çalışmaz")
+		t.Error("LID görünümündeki mesaj fromMe DEĞİL - çift gönderim denetimi yine çalışmaz")
 	}
 }
 

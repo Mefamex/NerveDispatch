@@ -3,8 +3,8 @@
 // /mute, /star ve /chat-state: sohbet durumu uçları.
 //
 // Bu uçlar mesaj gönderMEZ, WhatsApp'ın kendi ayarlarını değiştirir. Testte
-// ölçülen şey: doğru servise doğru değerlerle gidip gitmediği ve — daha
-// önemlisi — yazma işleminin OKUNABİLİR bir kanıtı olup olmadığı.
+// ölçülen şey: doğru servise doğru değerlerle gidip gitmediği ve - daha
+// önemlisi - yazma işleminin OKUNABİLİR bir kanıtı olup olmadığı.
 //
 // "ok:true" tek başına kanıt DEĞİLDİR. Bu proje kuralı: gönderim başarısı
 // teslimat kanıtı değildir. /chat-state bunu okunur kılar; testler de tam
@@ -162,7 +162,7 @@ func TestMuteCiftBayrakCeliskisindeKaldirir(t *testing.T) {
 		t.Fatalf("kod = %d", rec.Code)
 	}
 	if wa.muteMuted {
-		t.Error("çelişkide susturuldu — kaldırması bekleniyordu")
+		t.Error("çelişkide susturuldu - kaldırması bekleniyordu")
 	}
 }
 
@@ -323,7 +323,7 @@ func TestChatStateOkunurDurumuDoner(t *testing.T) {
 // YANIT KANONİK KİMLİĞİ YANKILAMALI, ham girdiyi değil.
 //
 // Canlı denemede görüldü: istek "?jid=905550000001" idi, yanıt da
-// "jid":"905550000001" diyordu — oysa durum "905550000001@s.whatsapp.net"
+// "jid":"905550000001" diyordu - oysa durum "905550000001@s.whatsapp.net"
 // üzerinden okunmuştu. Bir kanıt endpoint'i başka sohbeti gösterip kendi
 // girdisini yankılarsa, kanıt hangi sohbete ait belirsizdir.
 func TestChatStateKanonikJidYankilar(t *testing.T) {
@@ -399,7 +399,7 @@ func TestMuteSonrasiOkumaSusturulmusGosterir(t *testing.T) {
 	srv.chatState(oku, httptest.NewRequest(http.MethodGet, "/chat-state?jid=a@s.whatsapp.net", nil))
 
 	if cevap(t, oku)["muted"] != true {
-		t.Error("yazdıktan sonra okuma susturulmuş göstermedi — kanıt okunamıyor")
+		t.Error("yazdıktan sonra okuma susturulmuş göstermedi - kanıt okunamıyor")
 	}
 }
 

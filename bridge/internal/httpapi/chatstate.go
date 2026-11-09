@@ -71,7 +71,7 @@ func (s *Server) mute(w http.ResponseWriter, r *http.Request) {
 			"ok":    true,
 			"muted": true,
 			// Süre OKUNABİLİR metin olarak döner, ham nanosaniye olarak değil.
-			// Canlı denemede görüldü: "until":3600000000000 — 1 saat, ama
+			// Canlı denemede görüldü: "until":3600000000000 - 1 saat, ama
 			// kimse bunu okuyamaz. Süre metni aynı zamanda "kalıcı" ile
 			// ayırt edilir (özel bir değer).
 			"until": sureMetni(sure),
@@ -146,7 +146,7 @@ func (s *Server) star(w http.ResponseWriter, r *http.Request) {
 // sureMetni, süreyi insanın okuyabileceği biçime çevirir.
 //
 // NEDEN: time.Duration bir sayı olarak JSON'a girdiğinde 1 saat "3600000000000"
-// olur. Bu doğru ama kullanılamaz — kimse 1 saatin nanosaniye olduğunu
+// olur. Bu doğru ama kullanılamaz - kimse 1 saatin nanosaniye olduğunu
 // tanımaz. Yanıtta insan biçimi döner: "8h0m0s", "168h0m0s".
 //
 // Kalıcı susturma 0 gelir ve "kalıcı" yazılır; ayrım önemli çünkü kullanıcı

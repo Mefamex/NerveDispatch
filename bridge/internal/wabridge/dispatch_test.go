@@ -31,7 +31,7 @@ type recordedEvent struct {
 }
 
 // newTestService builds a Service wired to a real event bus whose relay feeds
-// the recorder — closes the loop Dispatch → bus without needing the HTTP layer.
+// the recorder - closes the loop Dispatch → bus without needing the HTTP layer.
 func newTestService() (*Service, *testRecorder) {
 	bus := eventbus.New()
 	rec := &testRecorder{}

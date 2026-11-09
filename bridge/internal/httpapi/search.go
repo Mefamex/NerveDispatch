@@ -11,7 +11,7 @@ import (
 const maxSearchResults = 50
 
 // search scans the buffered message log for a case-insensitive text query and
-// returns matches newest first. Store-backed only — no WhatsApp round trip.
+// returns matches newest first. Store-backed only - no WhatsApp round trip.
 func (s *Server) search(w http.ResponseWriter, r *http.Request) {
 	if s.messages == nil {
 		http.Error(w, `{"error":"mesaj deposu yok"}`, http.StatusInternalServerError)

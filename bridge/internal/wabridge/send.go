@@ -126,7 +126,7 @@ type lidResolver interface {
 //
 // An unresolvable LID is passed through unchanged. That is deliberate: a
 // missing mapping should not block sending, and the server may still accept
-// the raw LID — it just may not be visible to the user.
+// the raw LID - it just may not be visible to the user.
 func resolveTarget(ctx context.Context, lids lidResolver, to string) (types.JID, error) {
 	target, err := parseTarget(to)
 	if err != nil {

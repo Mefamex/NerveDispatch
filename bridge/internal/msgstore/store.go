@@ -44,13 +44,13 @@ type Message struct {
 	// TakmaAd, bu mesajın AYRICA ait olduğu kimlikler.
 	//
 	// NEDEN VAR (2026-10-06 canlı ölçümü): bir sohbet iki kimlikle
-	// bilinebilir — gelen mesaj `12345678901234@lid` ile gelir, giden
+	// bilinebilir - gelen mesaj `12345678901234@lid` ile gelir, giden
 	// mesaj ise çözülmüş `905…@s.whatsapp.net` olarak kaydedilir. Tam
 	// eşleşme arayan store, LID'li görünümde giden mesajları GÖRMEDİ.
 	//
 	// Bunun bedeli sessizdi: çift gönderim denetimi hiç tetiklenmiyordu ve
 	// ajan kendi önceki cevabını göremiyordu. Kimlik eşleştirme yapılmadığı
-	// için hata yoktu — sadece mesaj yoktu.
+	// için hata yoktu - sadece mesaj yoktu.
 	//
 	// Bu alan JSON'a da çıkar: dışarıdaki istemci de (tetikleyici) hangi
 	// kimliklerin aynı sohbete gittiğini görebilir.
@@ -173,7 +173,7 @@ func (s *Store) Close() error {
 //
 // KAPASİTE 0 KORUMASI: sıfır kapasite, "her şeyi hemen sil" demektir.
 // `&Store{}` ile kurulan bir depo sessizce HİÇBİR mesajı tutmaz ve hata da
-// vermez — /messages boş döner, geçmiş alınamaz, çift gönderim denetimi
+// vermez - /messages boş döner, geçmiş alınamaz, çift gönderim denetimi
 // çalışmaz, ajan geçmişi görmez. Hepsi aynı belirti, hiçbiri nedenini
 // söylemez. Bu tuzak test yazarken bir kez yakalandı; burada kapatılıyor.
 func (s *Store) Add(msg Message) {
@@ -210,11 +210,11 @@ func (s *Store) appendLocked(msg Message) {
 	}
 	b, err := json.Marshal(msg)
 	if err != nil {
-		log.Printf("msgstore: marshall hatası (%v) — loga yazılmadı", err)
+		log.Printf("msgstore: marshall hatası (%v) - loga yazılmadı", err)
 		return
 	}
 	if _, err := s.file.Write(append(b, '\n')); err != nil {
-		log.Printf("msgstore: log yazma hatası (%v) — bellek devam", err)
+		log.Printf("msgstore: log yazma hatası (%v) - bellek devam", err)
 	}
 }
 
@@ -256,7 +256,7 @@ func (s *Store) compactLocked() {
 	}
 	nf, err := os.OpenFile(s.path, os.O_WRONLY|os.O_APPEND, 0o600)
 	if err != nil {
-		log.Printf("msgstore: compact yeniden açamadı (%v) — log askıda", err)
+		log.Printf("msgstore: compact yeniden açamadı (%v) - log askıda", err)
 		s.file = nil
 		return
 	}
@@ -334,7 +334,7 @@ func (s *Store) LastAnchor(jid string) (Anchor, bool) {
 }
 
 // ApplyEdit replaces the text of the message with the given ID and marks it
-// edited. It returns false when the original is not buffered — the edit then
+// edited. It returns false when the original is not buffered - the edit then
 // has nothing to attach to, and the caller should store it as its own record
 // instead of silently dropping it.
 func (s *Store) ApplyEdit(id, text, kind string, media *Media, editedAt int64) bool {
@@ -357,7 +357,7 @@ func (s *Store) ApplyEdit(id, text, kind string, media *Media, editedAt int64) b
 // belongsTo, mesajın bu sohbete ait olup olmadığını söyler.
 //
 // Üç kimlik denenir: From, Sender ve TakmaAd. TakmaAd olmadan LID'li
-// sohbetlerde giden mesajlar görünmez — bkz. Message.TakmaAd yorumu.
+// sohbetlerde giden mesajlar görünmez - bkz. Message.TakmaAd yorumu.
 func (s *Store) belongsTo(m *Message, jid string) bool {
 	if jid == "" {
 		return false

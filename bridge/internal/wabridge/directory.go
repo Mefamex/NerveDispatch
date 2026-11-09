@@ -77,7 +77,7 @@ type ChatState struct {
 	// Neden ayrı alan: istek "905550000001" (serversız) ile gelirse
 	// normalize edip "905550000001@s.whatsapp.net" üzerinde çalışılır.
 	// Yanıt ham girdiyi yankılarsa kullanıcı "hangi sohbet?" diye
-	// durur — halbuki kanıt başka bir sohbeti gösteriyor. Bir kanıt
+	// durur - halbuki kanıt başka bir sohbeti gösteriyor. Bir kanıt
 	// endpoint'i kimliğini kendisi doğrulayamıyorsa işe yaramaz.
 	JID string
 	// MutedUntil, susturmanın bitiş zamanı. Sıfır değilse susturulmuş demektir.
@@ -230,7 +230,7 @@ func (s *Service) MuteChat(ctx context.Context, jid string, muted bool, duration
 // YÖNLENDİRME: mesajın gönderen JID'i gerekir. LID sohbetlerinde gönderen
 // alanı boş olabilir; bu durumda mesajın From'u kullanılır. İkisi de
 // normalize edilir, aksi hâlde telefon uygulamasında yıldız görünmez
-// (sessiz başarısızlık — okunmuyor, hata da vermiyor).
+// (sessiz başarısızlık - okunmuyor, hata da vermiyor).
 func (s *Service) StarMessage(ctx context.Context, jid, senderJID, messageID string, fromMe, starred bool) error {
 	target, err := sohbetJID(jid)
 	if err != nil {

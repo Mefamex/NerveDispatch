@@ -15,7 +15,7 @@ import (
 
 // A history sync can hand us an event whose payload never arrived. Whatsmeow
 // recovers the panic, but the whole batch dies with it, so every message in
-// that sync is lost — not just the broken entry.
+// that sync is lost - not just the broken entry.
 func TestTranslateSurvivesMissingPayload(t *testing.T) {
 	cases := []struct {
 		name  string
