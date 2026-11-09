@@ -27,6 +27,7 @@ YARDIMCI KOMUTLAR
 /ekran [sn]             → masaüstü ekran görüntüsünü çekip gönderir (Wayland Plasma)
 /get <dosya_yolu>       → bilgisayardaki dosyayı WhatsApp'a belge olarak gönderir
 /durum                  → tetikleyici + köprü anlık durumu (PID, uptime, kural, tampon)
+/compact (veya /ozet)   → uzun süren AI oturum bağlamını sıkıştırıp hafifletir
 /root [dizin]           → aktif çalışma dizinini göster / değiştir
 /clip [metin]           → Wayland panosunu oku / yaz
 /apps                   → en çok CPU tüketen kullanıcı süreçlerini listele

@@ -181,6 +181,12 @@ def ana(metin: str, gonderen_numara: str, gonderen_isim: str) -> str:
     if sonuc.komut_turu == "ping":
         return "pong 🏓"
 
+    # /compact veya /ozet - bağlam sıkıştırma
+    if sonuc.komut_turu == "compact":
+        from compact import compact_calistir
+
+        return compact_calistir()
+
     # /root [dizin] - çalışma dizini
     if sonuc.komut_turu == "root":
         from sistem import root_yonet

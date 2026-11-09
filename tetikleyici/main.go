@@ -242,6 +242,10 @@ func run(ctx context.Context, raw args) error {
 		}
 	}
 
+	// ── Geliştirme 2.10: Proaktif Sistem Bekçisi ──
+	bekci := newBekci(client, set.Notify.To)
+	go bekci.start(ctx)
+
 	backoff := 2 * time.Second
 	for ctx.Err() == nil {
 		// Köprü sağlığı önce: düşüş/kalkış bildirimleri yalnız BUNDAN

@@ -63,6 +63,7 @@ CAMERA_PATTERN = re.compile(r"^/camera\s*$", re.IGNORECASE)
 EKRAN_PATTERN = re.compile(r"^/ekran(?:\s+(?P<saniye>\d+))?\s*$", re.IGNORECASE)
 DURUM_PATTERN = re.compile(r"^/durum\s*$", re.IGNORECASE)
 PING_PATTERN = re.compile(r"^/ping\s*$", re.IGNORECASE)
+COMPACT_PATTERN = re.compile(r"^/(?:compact|ozet)\s*$", re.IGNORECASE)
 ROOT_PATTERN = re.compile(r"^/root(?:\s+(?P<arg>.+))?$", re.IGNORECASE)
 CLIP_PATTERN = re.compile(r"^/clip(?:\s+(?P<arg>.+))?$", re.IGNORECASE)
 APPS_PATTERN = re.compile(r"^/apps\s*$", re.IGNORECASE)
@@ -101,6 +102,10 @@ def parse_cmd(metin: str) -> CmdParseResult:
     # /ping - bağlantı/tetikleme sağlığı (ajan turuna gerek yok)
     if PING_PATTERN.match(metin):
         return CmdParseResult(komut_turu="ping")
+
+    # /compact veya /ozet - bağlam sıkıştırma
+    if COMPACT_PATTERN.match(metin):
+        return CmdParseResult(komut_turu="compact")
 
     # /root [dizin]
     root_match = ROOT_PATTERN.match(metin)
