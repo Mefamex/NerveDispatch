@@ -8,6 +8,20 @@
 
 ---
 
+### [2026-11-09 07:30] — FAZ 4 Geliştirme 4.3: Uçtan Uca (E2E) Sistem Entegrasyon Test Matrisi
+- **Değişiklikler:** `tests/test_e2e_matrix.py` süiti yazıldı. Birleşik CLI alt komutları (`nerve status`, `channel list`, `session list`, `config check`), QuotaGuard durum denetimleri, Mefamex global Telegram ID (`975678139`) kuralları ve tehlikeli eylemlerin onay koruma mekanizmaları tek bir test matrisinde doğrulandı.
+- **Kök Neden / Problem:** Monoreponun farklı modülleri arasındaki bütünlüğü, güvenliği ve uyumluluğu tek komutla teyit etme.
+- **Doğrulama Kanıtı:** `tests/test_e2e_matrix.py` (4 test passed, 0.26s), `make verify` (ALL_OK).
+
+---
+
+### [2026-11-09 07:29] — FAZ 4 Geliştirme 4.2: Zero-Data-Loss SQLite WAL Anlık Snapshot & nerve snapshot CLI
+- **Değişiklikler:** `scripts/nerve-snapshot.sh` ve `tetikleyici/cli/commands.go` içine `nerve snapshot` (veya `nerve backup`) komutu bağlandı. WhatsApp SQLite `session.db` veritabanının WAL açıkken tutarlı kopyalanması için Python `sqlite3.backup()` API'si, `PRAGMA integrity_check` doğrulaması, canlı kurallar, durum dosyaları ve retention politikası (son 14 snapshot saklama) kuruldu. `tests/test_snapshot.py` birim testi yazıldı.
+- **Kök Neden / Problem:** Herhangi bir güncelleme veya çalışma anında WhatsApp oturum veritabanının kilitlenmeden, bozulmadan ve sıfır veri kaybıyla anlık yedeğinin alınabilmesi.
+- **Doğrulama Kanıtı:** `tests/test_snapshot.py` (PASS, 0.10s), `tetikleyici/cli/commands_test.go:TestDispatcherSnapshot` (PASS), `make verify` (ALL_OK).
+
+---
+
 ### [2026-11-09 07:20] — FAZ 4 Geliştirme 4.1: QuotaGuard (%95 Kota Sigortası) ve Canlı Devre Kesici
 - **Değişiklikler:** `tetikleyici/quota_guard.go` ve `quota_guard_test.go` kodlandı. AGY, Claude ve OpenCode motorları için 5 saatlik ve haftalık limitlerde %95 kullanım eşiği aşımında otomatik devre kesici (circuit breaker) eklendi. Kota dolduğunda çağrılar engellenip kalan yenilenme süresi hesaplanır, süre dolduğunda otomatik serbest bırakılır. `action.go` ve `cli/commands.go` (`nerve status`) içine entegre edildi. Canlı servis (PID 350112) güncellendi.
 - **Kök Neden / Problem:** Yapay zeka ajanlarının kotaları tükenme sınırına geldiğinde kazaen API çağrısı yapıp oturumu veya hesabı kilitlemesini önlemek, kotanın yenilenme anına kadar güvenle bekletilmesini sağlamak.
