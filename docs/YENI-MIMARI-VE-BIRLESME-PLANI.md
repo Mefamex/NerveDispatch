@@ -173,7 +173,7 @@ users:
 
 ## 5. `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` - Modüler Monorepo Dizin Hiyerarşisi
 
-Mevcut testlerin (`realkonfig_test.go`, `shipped_config_test.go`, `tests/test_*.py`) beklediği göreli dosya yollarını (`../tetikleyici.yaml`, `parent.parent.parent`) hiç bozmayan, aynı zamanda çok kanallı genişlemeye hazır dizin yapısı:
+Mevcut testlerin (`realkonfig_test.go`, `shipped_config_test.go`, `tests/test_*.py`) beklediği göreli dosya yollarını (`../tetikleyici.yaml`, `../config.readme.md`, `Path(__file__).parent.parent`) hiç bozmayan, aynı zamanda çok kanallı genişlemeye hazır dizin yapısı:
 
 ```text
 /mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/
@@ -203,14 +203,14 @@ Mevcut testlerin (`realkonfig_test.go`, `shipped_config_test.go`, `tests/test_*.
 │   ├── cli/                        # [YENİ - Faz 2.2] Birleşik CLI (status, qr, pair, logs, session, channel)
 │   ├── cmd/                        # Python: Sistem komutları (/cmd, /cmdhub, /camera, /ekran, /durum, /zamanla...)
 │   ├── go.mod & go.sum             # module tetikleyici
-│   └── *_test.go                   # 27 Go birim ve entegrasyon test dosyası
+│   └── *_test.go                   # 30 Go test dosyası (köprüde ayrıca 19)
 │
 ├── mcp_server/                     # Python: FastMCP STDIO Sunucusu (`mcp` kütüphanesiyle çakışmaz)
 │   ├── __main__.py                 # python -m mcp_server
 │   ├── api/client.py               # Bridge HTTP REST istemcisi
 │   ├── config/                     # Yapılandırma yükleyici
 │   ├── server/                     # FastMCP sunucu tanımı
-│   └── tools/                      # 16+ MCP aracı (WhatsApp + Çok Kanallı bildirim araçları)
+│   └── tools/                      # 17 MCP aracı (WhatsApp + Çok Kanallı bildirim araçları)
 │
 ├── gorsel/                         # Python: Görsel, Belge (PDF/DOCX/XLSX), OCR, Video ve Sticker Paketi
 ├── gorsel_pipeline.py              # Görsel analiz boru hattı (Ollama Qwen2.5-VL + OCR)
@@ -226,7 +226,7 @@ Mevcut testlerin (`realkonfig_test.go`, `shipped_config_test.go`, `tests/test_*.
 │   ├── 30-channels-mcp.sh          # WhatsApp (ve Faz 3 Telegram/Discord/Instagram) kanal dizinleri, MCP sunucusu ve VoIP sidecar kurulumu
 │   ├── 40-voice-modules.sh         # STT (faster-whisper + CUDA 12 venv + large-v3-tr model) ve TTS (Piper TTS + Türkçe ses modeli) kurulumu
 │   ├── 50-vision-modules.sh        # Ollama servis kontrolü, görsel/metin modelleri (qwen2.5vl:3b, qwen3:4b) ve OCR (tur+eng) kurulumu
-│   ├── 60-agents-config.sh         # AI Ajanları (Antigravity, Claude Code, OpenCode) MCP, 16 araç izni, SKILL.md ve INDEX.md otomatik kurulumu
+│   ├── 60-agents-config.sh         # AI Ajanları (Antigravity, Claude Code, OpenCode) MCP, 17 araç izni, SKILL.md ve INDEX.md otomatik kurulumu
 │   └── 70-configs-services.sh      # Config şablonları (mevcudu ezmeden) ve systemd (--user + sistem) servislerinin kurulumu
 │
 ├── upgrade/                        # [YENİ] Modüler Yükseltme Orkestratörü (make upgrade -> ./upgrade/upgrade.sh)
@@ -404,6 +404,13 @@ Canlı çalışan bir sistemi veri kaybı veya çift süreç (double-instance) r
 
 ### FAZ 1: Doğrudan `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` Monoreposuna Geçiş, Modüler `install/` & `upgrade/` Kurulumu ve Ekosistem Onarımı [SIRADA #1 🎯]
 
+#### Adım 1.0: Kaynak Repolardaki Commitlenmemiş İşin Kaydı [2026-11-09 doğrulamasıyla eklendi]
+- [ ] `whatsapp-bridge-mcp` (28 değişiklik; `sidecar/`, `docs/`, `.agents/` izlenmiyor) ve `whatsapp-tetikleyici` (91 değişiklik) çalışma ağaçları granüler Conventional Commit'lerle kaynak repolarda kaydedilir (PII kapısı: `pre_commit_checklist.md`; push yok).
+- [ ] Bu adım bitmeden Adım 1.2 başlamaz: birleşim yalnız commitlenmiş geçmişten yapılır.
+
+> **Yöntem (2026-11-09 kararı):** Adım 1.2'deki "kopyalanır" ifadeleri **dosya kopyası değil**, geçmiş korunarak yol yeniden yazımıdır (`git filter-branch --index-filter` geçici klonda + `git merge --allow-unrelated-histories`). Kaynak repoların tüm geçmişi PII taramasından temiz geçti.
+> **Kısıt:** Yeni tetikleyici, eski servis durdurulmadan canlı köprüye bağlanmaz (ayrı `seen.txt` → çift cevap).
+
 #### Adım 1.1: `NerveDispatch` Repo Çatısının Hazırlanması
 - [x] `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch` dizini, Git deposu (`origin: https://github.com/Mefamex/NerveDispatch.git`), `NERVE-DISPATCH-THE-STORY.md`, `YENI-MIMARI-VE-BIRLESME-PLANI.md`, `TODO.md` ve `README.md` oluşturuldu.
 - [ ] Kök dizinde `go.work` (`use ./bridge`, `use ./tetikleyici`) oluşturulur.
@@ -416,15 +423,16 @@ Canlı çalışan bir sistemi veri kaybı veya çift süreç (double-instance) r
 - [ ] `/mnt/DiskD/SOFTWARE/Github-repos/whatsapp-tetikleyici/tetikleyici/` → `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/tetikleyici/` olarak kopyalanır.
 - [ ] `/mnt/DiskD/SOFTWARE/Github-repos/whatsapp-tetikleyici/gorsel/`, `gorsel_pipeline.py`, `voice_pipeline.py`, `tetikleyici.sh` → `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` kök dizinine kopyalanır.
 - [ ] `whatsapp-bridge-mcp/tests/test_mcp_handlers.py` ve `whatsapp-tetikleyici/tests/test_*.py` (10 dosya) → `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/tests/` altında birleştirilir (dosya adı çakışması yoktur).
+- [ ] Kapsam dışı: `bridge/whatsapp-bridge` (derlenmiş ikili), boş `bridge/cmd/`, `sidecar/node_modules/` (59 MB), `sidecar/rsrc-dump.txt` (316 KB), tetikleyicinin ölü `config.yaml`'ı (hiçbir kod okumuyor; kökteki `config.yaml` köprünün `appcfg.ProjectDir()` işaretidir).
 - [ ] `config.yaml`, `tetikleyici.example.yaml`, `pasif-kurallar.example.yaml`, `config.readme.md`, `LICENSE` kök dizine yerleştirilir.
 
 #### Adım 1.3: Canlı Kuralların, Durum Dosyalarının ve WhatsApp Oturumunun Aktarımı
 - [ ] Canlı `tetikleyici.yaml` ve `pasif-kurallar.yaml` dosyaları `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` köküne kopyalanır.
-- [ ] Canlı `.tetikleyici/` dizini (`seen.txt`, `bildirim.txt`, `bekleyen_cevaplar.txt*`, `zamanlanmis/`, `tetikleyici.log`) `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/.tetikleyici/` altına kopyalanır; hatalı iç içe `.tetikleyici/.tetikleyici` klasörü temizlenir.
+- [ ] Canlı `.tetikleyici/` dizini (`seen.txt`, `bildirim.txt`, `bekleyen_cevaplar.txt*`, `zamanlanmis/`, `tetikleyici.log`) `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/.tetikleyici/` altına kopyalanır; hatalı iç içe `.tetikleyici/.tetikleyici` klasörü **taşınmaz ve silinmez** (içinde yalnız orada bulunan `aktif_motor.txt`, `tunel_durumu.json`, `son_sessionlar.json` var - bkz. `NOTES.md` §6, `ASK.md` 2026-11-09 04:00).
 - [ ] `~/.local/share/whatsapp-bridge/session.db` ve `messages.jsonl` dosyalarının yerinde olduğu doğrulanır (QR eşleşmesi bozulmadan korunur).
 
 #### Adım 1.4: Belge Birleştirme, PII Temizliği ve TODO Sadeleştirmesi (TODO #8 Dahil)
-- [ ] `docs/` altındaki tüm belgelerde PII taraması (`grep -rnE "9054|9053|475759|148657|194519"`) yapılır; gerçek telefon ve LID numaraları `905551234567` ve `12345678901234@lid` ile maskelenir ve `docs/` dizini `.gitignore`'dan çıkarılarak versiyon kontrolüne alınır.
+- [ ] `docs/` altındaki tüm belgelerde PII taraması (`grep -rnE '90[0-9]{10}|[0-9]{14}@lid'` + `905551234567`/`12345678901234@lid` hariç tutulur) yapılır; gerçek telefon ve LID numaraları `905551234567` ve `12345678901234@lid` ile maskelenir ve `docs/` dizini `.gitignore`'dan çıkarılarak versiyon kontrolüne alınır.
 - [ ] `README.md` Nerve Dispatch vizyonuyla güncellenir; `NOTES.md`, `ASK.md` ve `TODO.DONE.md` birleştirilir.
 - [ ] `TODO.md` içindeki `[TAMAMLANDI ✅]` olan maddeler (Sprint #1–#6 ve eski bitmiş başlıklar) `TODO.DONE.md`'ye taşınır; kalıcı kurallar `NOTES.md`'ye aktarılır; `TODO.md` içinde yalnız açık işler bırakılır.
 
@@ -433,7 +441,7 @@ Canlı çalışan bir sistemi veri kaybı veya çift süreç (double-instance) r
 - [ ] Tekil `requirements.txt` ve ince yönlendirici `Makefile` (`make install` -> `./install/install.sh`, `make upgrade` -> `./upgrade/upgrade.sh`, `make build`, `make test`, `make lint`, `make verify`, `make clean`) oluşturulur.
 - [ ] `install/` klasörü altındaki modüler kurulum betikleri (`install.sh`, `lib.sh`, `00-system-deps.sh`, `10-core-go.sh`, `20-python-env.sh`, `30-channels-mcp.sh`, `40-voice-modules.sh`, `50-vision-modules.sh`, `60-agents-config.sh`, `70-configs-services.sh`) oluşturulur.
 - [ ] `upgrade/` klasörü altındaki modüler yükseltme betikleri (`upgrade.sh`, `00-backup-snapshot.sh`, `10-upgrade-core.sh`, `20-upgrade-channels-mcp.sh`, `30-upgrade-media-models.sh`, `40-migrate-configs.sh`, `50-verify-and-restart.sh`) oluşturulur.
-- [ ] `make install` çalıştırılarak tek `.venv` kurulur; `bin/whatsapp-bridge` ve `bin/tetikleyici` (`bin/nerve`) derlenir; ses ve görüntü modülleri doğrulanır.
+- [ ] `make install` çalıştırılarak test/MCP için `.venv` kurulur (canlı hatlar FAZ 1'de sistem `python3` + `test_ASR/venv` ile çalışmaya devam eder, `NOTES.md` §6); `bin/whatsapp-bridge` ve `bin/tetikleyici` (`bin/nerve`) derlenir; ses ve görüntü modülleri doğrulanır.
 - [ ] `make verify` çalıştırılarak hem `bridge` Go testlerinin, hem `tetikleyici` Go testlerinin, hem de 11 Python test dosyasının **%100 yeşil geçtiği** kanıtlanır.
 
 #### Adım 1.6: Canlı Systemd Servislerinin `NerveDispatch` Reposuna Yönlendirilmesi (`install/70-configs-services.sh`)
@@ -443,9 +451,9 @@ Canlı çalışan bir sistemi veri kaybı veya çift süreç (double-instance) r
 
 #### Adım 1.7: Ajan Ekosistemi (MCP, Skill, INDEX) Bağlantılarının Güncellenmesi (`install/60-agents-config.sh`)
 - [ ] **Antigravity (`~/.gemini/config/mcp_config.json`):** `whatsapp-bridge` → `PYTHONPATH` değeri `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch` yapılır.
-- [ ] **OpenCode (`~/.config/opencode/opencode.json`):** `whatsapp-bridge` → `cwd` değeri `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch` yapılır; `wp-sahip` ve `wp-misafir` araç listelerine 5 yeni MCP aracı (`whatsapp_react`, `whatsapp_revoke`, `whatsapp_send_location`, `whatsapp_send_contact`, `whatsapp_vote_poll`) eklenir.
+- [ ] **OpenCode (`~/.config/opencode/opencode.json`):** `whatsapp-bridge` → `cwd` değeri `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch` yapılır; `wp-sahip` ve `wp-misafir` araç listelerine 5 yeni MCP aracı (`whatsapp_reaction`, `whatsapp_revoke`, `whatsapp_send_location`, `whatsapp_send_contact`, `whatsapp_vote_poll`) eklenir.
 - [ ] **Claude Code (`~/.claude.json`):** `whatsapp-bridge` → `PYTHONPATH` değeri `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch` yapılır.
-- [ ] **Skill & Fihrist:** `~/.gemini/config/skills/whatsapp-bridge/SKILL.md`, `~/.config/opencode/skills/whatsapp-bridge/SKILL.md` ve `~/.config/opencode/INDEX.md` dosyaları `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch` yoluyla ve 16 MCP aracıyla güncellenir.
+- [ ] **Skill & Fihrist:** `~/.gemini/config/skills/whatsapp-bridge/SKILL.md`, `~/.config/opencode/skills/whatsapp-bridge/SKILL.md` ve `~/.config/opencode/INDEX.md` dosyaları `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch` yoluyla ve 17 MCP aracıyla güncellenir.
 - [ ] `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch` reposunda ilk temiz commit oluşturulur (eski iki repo, geçiş canlıda tamamen doğrulandıktan sonra arşivlenir/kaldırılır).
 
 ---

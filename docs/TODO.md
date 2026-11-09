@@ -14,8 +14,8 @@
 
 > **🚨 STRATEJİK KARAR VE YENİ SOHBET DEVİR-TESLİM NOTU (2026-11-09 - NerveDispatch):**
 > - **Hedef Konum:** `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/`
-> - **Master Mimari ve Geçiş Planı:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md) (ve [`docs/YENI-MIMARI-VE-BIRLESME-PLANI.md`](./docs/YENI-MIMARI-VE-BIRLESME-PLANI.md))
-> - **Evrim Hikayesi:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md)
+> - **Master Mimari ve Geçiş Planı:** [`docs/YENI-MIMARI-VE-BIRLESME-PLANI.md`](./YENI-MIMARI-VE-BIRLESME-PLANI.md) 
+> - **Evrim Hikayesi:** [`docs/NERVE-DISPATCH-THE-STORY.md`](./NERVE-DISPATCH-THE-STORY.md)
 > - **Sıradaki İlk Adım (FAZ 1):** Eski iki repoda (`whatsapp-bridge-mcp` ve `whatsapp-tetikleyici`) yeni özellik kodlanmayacak; doğrudan `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` içine birleştirme yapılacak (**Madde 22**).
 > - **FAZ 2:** `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` üzerinde **önce WhatsApp hattı ve tüm çekirdek yetenekler** (**Madde 7'den itibaren**) sırayla tamamlanacak.
 > - **FAZ 3:** Çekirdek tamamlandıktan sonra **Telegram (`975678139`), Discord ve Instagram** kanalları eklenecek.
@@ -23,7 +23,7 @@
 ### 1. 🎭 Emoji Tepkileri (Reactions) [TAMAMLANDI ✅]
 - [x] **Bridge Go (`bridge-go/`):** Whatsmeow `BuildReaction(chat, sender, messageID, emoji)` metodunu saran `POST /reaction` HTTP handler'ı eklendi.
 - [x] **SSE / Eventbus:** Gelen tepkileri (`ReactionMessage`) SSE akışına `reaction` türüyle yayınlama.
-- [x] **MCP Server (`mcp_server/`):** Ajanların mesaja tepki bırakması için `whatsapp_react(to, message_id, emoji)` aracı eklendi.
+- [x] **MCP Server (`mcp_server/`):** Ajanların mesaja tepki bırakması için `whatsapp_reaction(to, message_id, emoji)` aracı eklendi.
 - [x] **Tetikleyici (`tetikleyici/`):** Ajan oturumu reaksiyon entegrasyonu (`allow_reaction: true`).
 - [x] **Kullanıcı Canlı Testi:** Kullanıcı mesajına emoji tepkisi basılması ve botun tepkiyi algılayıp oturuma iletmesi doğrulandı.
 
@@ -229,8 +229,8 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
 
 ### 22. 🦁 NerveDispatch - Çok Kanallı Modüler Monorepo Birleşmesi [SIRADA #1 - İLK ADIM 🎯]
 > **Proje Adı & Hedef Konum:** `NerveDispatch` (`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/`)  
-> **Master Blueprint:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/YENI-MIMARI-VE-BIRLESME-PLANI.md) · [`docs/YENI-MIMARI-VE-BIRLESME-PLANI.md`](./docs/YENI-MIMARI-VE-BIRLESME-PLANI.md)  
-> **Mimari Hikaye:** [`/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md`](file:///mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/NERVE-DISPATCH-THE-STORY.md)  
+> **Master Blueprint:** [`docs/YENI-MIMARI-VE-BIRLESME-PLANI.md`](./YENI-MIMARI-VE-BIRLESME-PLANI.md)  
+> **Mimari Hikaye:** [`docs/NERVE-DISPATCH-THE-STORY.md`](./NERVE-DISPATCH-THE-STORY.md)  
 > **Vizyon:** `whatsapp-bridge-mcp` ve `whatsapp-tetikleyici` projelerini `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` çatısında birleştirmek; önce WhatsApp hattını ve tüm çekirdek özellikleri kusursuzlaştırmak (FAZ 1 & FAZ 2), ardından aynı sabit AI oturumları ve kural motoru üzerine **Telegram, Discord ve Instagram** kanallarını tak-çıkar adaptörler olarak eklemek (FAZ 3).
 
 - [ ] **1. Sıfır-Kırılmalı Dizin, Modüler `install/` & `upgrade/` ve Paket Mimarisi (`go.work` + Çok Kanallı Çekirdek):**
@@ -267,6 +267,7 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
   ├── Makefile                         # İnce görev yönlendiricisi (make install -> install/, make upgrade -> upgrade/, verify)
   └── README.md & TODO.md              # Tekil dokümantasyon ve yalnızca açık işleri tutan sprint listesi
   ```
+- [ ] **1.0 (2026-11-09 eklendi) - Kaynak repolardaki commitlenmemiş işin kaydı:** `whatsapp-bridge-mcp` 28, `whatsapp-tetikleyici` 91 değişiklik granüler commitlenir (push yok). Taşıma dosya kopyası değil, geçmiş korunarak yol yeniden yazımı. Ayrıntı: plan Adım 1.0, `NOTES.md` §6, `ASK.md` 2026-11-09 04:00.
 - [ ] **2. FAZ 1 - Doğrudan `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` Reposuna Geçiş, `install/` & `upgrade/` İnşası ve Ekosistem Onarımı (Adım 1.1 – 1.7):**
   - `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` içinde Git başlatılması, kodların ve testlerin birleştirilmesi.
   - Canlı `tetikleyici.yaml`, `pasif-kurallar.yaml` ve `.tetikleyici/` durum dizininin (iç içe `.tetikleyici/.tetikleyici` temizlenerek) aktarılması; `~/.local/share/whatsapp-bridge/session.db` ve `messages.jsonl` oturumunun QR bozulmadan korunması.
