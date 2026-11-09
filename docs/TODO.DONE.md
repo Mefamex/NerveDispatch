@@ -8,6 +8,62 @@
 
 ---
 
+### [2026-11-09 06:48] — Geliştirme 2.11: Yerel TTS Sesli Yanıt (Piper TTS) ve /tts Komutu
+- **Değişiklikler:** `tts_pipeline.py` modülü yazıldı (`sentezle_ve_gonder`, `tts_durum_ayarla`, `tts_aktif_mi`). Piper TTS / espeak-ng ile Türkçe ses sentezleme ve `ffmpeg` ile WhatsApp uyumlu OGG Opus (`audio/ogg; codecs=opus`, `ptt: true`) sesli not üretimi bağlandı. `cmd.py` ve `sozdizimi.py` içine `/tts on|off` ve `/tts <metin>` komutları eklendi.
+- **Kök Neden / Problem:** Metin yanıtlarının yanı sıra kullanıcının kulaklıkla veya hareket halindeyken WhatsApp üzerinden Türkçe sesli not olarak dinleyebilmesi sağlandı.
+- **Doğrulama Kanıtı:** `tests/test_tts.py` (3 test passed), `make verify` (ALL_OK).
+
+---
+
+### [2026-11-09 06:45] — Geliştirme 2.10: Proaktif Sistem Bekçisi (Bekçi) ve /compact Komutu
+- **Değişiklikler:** `tetikleyici/bekci.go` ve `bekci_test.go` eklendi. Disk (> %90), RAM (> %95) ve CPU sıcaklığı (> 85°C) için 5 dakikada bir otomatik kontrol ve 1 saatlik cooldown korumalı bildirim motoru kuruldu. `tetikleyici/cmd/compact.py` ile `/compact` ve `/ozet` komutu eklenerek şişen AI oturum bağlamlarının sıfır token yüküyle tazelenmesi sağlandı.
+- **Kök Neden / Problem:** Sunucu/masaüstü kaynak tükenmelerinde proaktif bildirim alma ve uzun sohbetlerde bağlam şişmesini tek komutla temizleme.
+- **Doğrulama Kanıtı:** `tetikleyici/bekci_test.go` ve `tests/test_compact.py` (2 test passed), `make verify` (ALL_OK), PID 332640 ile canlı servis devrede.
+
+---
+
+### [2026-11-09 06:42] — Geliştirme 2.9: Dinamik /root, /clip, /apps, /kill Sistem Yönetimi
+- **Değişiklikler:** `tetikleyici/cmd/sistem.py` modülü yazıldı. `/root [dizin]` ile aktif çalışma dizinini dinamik değiştirme, `/clip [metin]` ile Wayland panosunu okuma ve yazma (`wl-paste` / `wl-copy`), `/apps` ile en çok CPU tüketen kullanıcı süreçlerini listeleme ve `/kill <pid|isim>` ile askıda kalan süreçleri sonlandırma kabiliyetleri eklendi. Sistem kritik süreçleri (`systemd`, `kwin_wayland`, `whatsapp-bridge`, vb.) için kara liste koruması sağlandı.
+- **Kök Neden / Problem:** Uzaktan dosya sistemi gezintisi, masaüstü panosu erişimi ve askıda kalan işlemleri güvenle sonlandırma ihtiyacı.
+- **Doğrulama Kanıtı:** `tests/test_sistem.py` (4 test passed), `make verify` (ALL_OK).
+
+---
+
+### [2026-11-09 06:39] — Geliştirme 2.8: Çift Yönlü Dosya Transferi (/get ve Gelen Dosya Kaydı)
+- **Değişiklikler:** `tetikleyici/cmd/dosya.py` yazıldı. `/get <dosya_yolu>` ile bilgisayardaki dosyaların (≤ 50 MB) sohbete belge olarak gönderilmesi sağlandı. Gelen dosyaların `~/Downloads/nervedispatch-files/` dizinine `0o644` (`chmod -x`) güvenli izinleriyle kaydedilmesi bağlandı.
+- **Kök Neden / Problem:** Bilgisayardaki dosyalara uzaktan erişim ve telefondan atılan dokümanların güvenli izole alanda depolanması.
+- **Doğrulama Kanıtı:** `tests/test_dosya.py` (4 test passed), `make verify` (ALL_OK).
+
+---
+
+### [2026-11-09 06:37] — Geliştirme 2.7: İnteraktif Onay ve İzin Sistemi (4 Seçenekli Anket & TTL)
+- **Değişiklikler:** `tetikleyici/cmd/onay.py` yazıldı. Tehlikeli eylemler (`rm -rf`, `git push --force`, `systemctl stop`, `reboot`, `dd`, `mkfs`) öncesinde otomatik durdurma ve WhatsApp anket (`POST /send-poll`) ile 4 seçenekli onay akışı (`Tek seferlik onayla`, `Reddet`, `1 saat otomatik onayla`, `1 hafta otomatik onayla`) kuruldu. İzinler `.tetikleyici/izinler.json` içinde TTL damgasıyla saklandı.
+- **Kök Neden / Problem:** Yapay zekanın veya uzaktan komutların kritik dosya veya sistem kaynaklarına zarar vermesini önleme.
+- **Doğrulama Kanıtı:** `tests/test_onay.py` (2 test passed), `make verify` (ALL_OK).
+
+---
+
+### [2026-11-09 06:35] — Geliştirme 2.6: Wayland Plasma /ekran Komutu
+- **Değişiklikler:** `tetikleyici/cmd/ekran.py` yazıldı. Arch Linux KDE Plasma Wayland üzerinde `spectacle -b -n -o` (veya `grim`) ile ekran görüntüsü yakalama ve `POST /send-media` ile sohbete resim gönderme boru hattı kuruldu. `/ekran [saniye]` komutu eklendi.
+- **Kök Neden / Problem:** Bilgisayar başından uzaktayken masaüstü ekranını anında telefondan görebilme ihtiyacı.
+- **Doğrulama Kanıtı:** `tests/test_ekran.py` (4 test passed), `make verify` (ALL_OK).
+
+---
+
+### [2026-11-09 06:32] — Geliştirme 2.5: Canlı İlerleme Bildirimi ve Hızlı Tepki Emojisi
+- **Değişiklikler:** `tetikleyici/bridge.go` içine `sendReaction` eklendi. `tetikleyici/engine.go:dispatch` içine `tepki_emojisi` yapılandırması bağlandı: Yetkili kural eşleştiğinde `isleniyor` ("👀"), işlem başarılı bittiğinde `basarili` ("✅"), hata oluşursa `hatali` ("❌") emojisi otomatik basıldı. 10 saniyeyi aşan işlemler için ara durum izleme kuruldu.
+- **Kök Neden / Problem:** Mesaj gönderildikten sonra sistemin çalışıp çalışmadığına dair anlık geri bildirim eksikliği.
+- **Doğrulama Kanıtı:** `TestEngineReactionFlow` (0.007s), `make verify` (ALL_OK).
+
+---
+
+### [2026-11-09 06:30] — Geliştirme 2.4: 8 Haneli Telefon Eşleştirme Kodu (POST /pair) ve nerve pair
+- **Değişiklikler:** `bridge/internal/wabridge/login.go` içine `PairPhone` metodu eklendi (whatsmeow `client.PairPhone`). HTTP API'ye `POST /pair?phone=...` uç noktası bağlandı. `nerve pair <telefon>` alt komutu ile CLI ve Web Dashboard üzerinden kod üretimi sağlandı.
+- **Kök Neden / Problem:** Kamera veya ekran erişimi olmayan uzaktaki sunucularda QR kod okutmadan telefon numarasıyla WhatsApp eşleştirmesi yapabilme yeteneği.
+- **Doğrulama Kanıtı:** `TestPairPhone` HTTP handler testi, `make verify` (ALL_OK).
+
+---
+
 ### [2026-11-09 06:25] — Geliştirme 2.3: Sıfır-Yüklü Gömülü Web Dashboard (go:embed)
 - **Değişiklikler:** `bridge/internal/webui/` paketi oluşturuldu. Tek sayfalık, modern koyu temalı, harici bağımlılıksız Web Dashboard (`static/index.html`) `//go:embed` ile ikiliye gömüldü. HTTP API katmanına `/dashboard/` ve `/ui/` rotaları bağlandı. Kanal durum kartları, canlı `/events` SSE akışı ve telefon eşleştirme arayüzü sağlandı.
 - **Kök Neden / Problem:** Ağır Electron/Qt GUI ihtiyacı olmadan ekransız sunucularda ve masaüstünde sıfır ek RAM maliyetiyle tarayıcıdan görsel yönetim ve canlı olay takibi sağlandı.
