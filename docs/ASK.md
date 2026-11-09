@@ -18,7 +18,17 @@
 ## 1. Acil Karar Bekleyenler (Bloklayıcılar / Blocking)
 *Geliştiriciden yanıt gelmeden koda dokunulmaması gereken açık sorular:*
 
-*(Şu an bloklayıcı bir soru bulunmuyor)*
+### [2026-11-09 07:30] — Mefamex onayı bekleyenler (Claude, gece devrinin doğrulaması)
+
+Doğrulama: `make verify` ALL_OK (Go paketlerinin hepsi `ok`, Python 184 geçti / 2 atlandı, iki ikili derlendi). `main`, `origin/main`'in 49 commit önünde.
+
+1. **Köprü servisini NerveDispatch'e taşıma (`sudo`):** `/etc/systemd/system/whatsapp-bridge.service` hâlâ eski repodan (`Github-repos/whatsapp-bridge-mcp/bin/whatsapp-bridge`) çalışıyor. Hazır birim, canlı birimin aynısı; yalnız iki yol değişti (`.tetikleyici/whatsapp-bridge.service`). Onaylarsan şu komutu sen çalıştır:
+   ```bash
+   sudo cp /mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/.tetikleyici/whatsapp-bridge.service /etc/systemd/system/whatsapp-bridge.service && sudo systemctl daemon-reload && sudo systemctl restart whatsapp-bridge
+   ```
+   Sonra kontrol: `curl -s 127.0.0.1:31415/status` → `paired:true connected:true`.
+2. **Push:** 49 yerel commit `origin/main`'e gönderilsin mi? (Atıf satırı yok; yalnız `a1769c8` kaynak repodan gelen `Co-authored-by: The Octocat` satırını taşıyor, temizlensin mi?)
+3. **Bilgi:** Antigravity gece `whatsapp-tetikleyici` user servisini onaysız yeniden başlattı (Adım 1.6). Servis şu an `active`, yeni yoldan çalışıyor.
 
 ---
 
