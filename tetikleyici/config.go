@@ -281,6 +281,12 @@ type condition struct {
 	// WPName, Names'in okunur adıdır (WhatsApp name). Numbers gibi birleşir.
 	WPName stringList `yaml:"wp_name"`
 
+	// Channel, kuralın hangi iletişim kanalında geçerli olduğunu belirtir (whatsapp, telegram, discord, instagram).
+	Channel string `yaml:"channel"`
+
+	// TelegramID, Telegram sohbet/kullanıcı kimliklerinde aranır (örn: "975678139").
+	TelegramID stringList `yaml:"telegram_id"`
+
 	// Text mesaj metninde aranır (büyük/küçük harf duyarsız).
 	Text string `yaml:"text"`
 

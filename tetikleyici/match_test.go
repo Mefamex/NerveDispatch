@@ -372,3 +372,36 @@ func TestTipKisitliKuralMetinsizMesajiYakalar(t *testing.T) {
 		t.Error("type: text + not_text kuralı boş metinli sticker'ı tuttu")
 	}
 }
+
+func TestOmnichannelMatch(t *testing.T) {
+	// 1. Kanal filtre testi
+	tgKurali := condition{
+		Channel: "telegram",
+		Text:    "selam",
+	}
+
+	waMsg := message{Channel: "whatsapp", Text: "selam"}
+	tgMsg := message{Channel: "telegram", Text: "selam"}
+
+	if tgKurali.contentHolds(waMsg) {
+		t.Errorf("telegram kuralı whatsapp mesajını tutmamalıydı")
+	}
+	if !tgKurali.contentHolds(tgMsg) {
+		t.Errorf("telegram kuralı telegram mesajını tutmalıydı")
+	}
+
+	// 2. Telegram ID filtre testi
+	mefamexKurali := condition{
+		TelegramID: stringList{"975678139"},
+	}
+
+	idMsg := message{From: "975678139", Text: "komut"}
+	otherMsg := message{From: "111222333", Text: "komut"}
+
+	if res := mefamexKurali.resolve(idMsg); !res.matched || res.via != "telegram_id" {
+		t.Errorf("telegram_id eşleşmedi: %+v", res)
+	}
+	if res := mefamexKurali.resolve(otherMsg); res.matched {
+		t.Errorf("farklı telegram_id tutmamalıydı: %+v", res)
+	}
+}

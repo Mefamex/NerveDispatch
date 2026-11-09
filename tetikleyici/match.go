@@ -44,13 +44,19 @@ func (c condition) resolve(m message) identity {
 		}
 	}
 
+	if len(c.TelegramID) > 0 {
+		if want, hit := firstHit(c.TelegramID, m.From, m.Sender); hit {
+			return identity{matched: true, via: "telegram_id", detail: want}
+		}
+	}
+
 	if len(c.Names) > 0 {
 		if want, hit := firstHit(c.Names, m.PushName); hit {
 			return identity{matched: true, via: "name", detail: want}
 		}
 	}
 
-	if len(c.Numbers) == 0 && len(c.Names) == 0 {
+	if len(c.Numbers) == 0 && len(c.TelegramID) == 0 && len(c.Names) == 0 {
 		return identity{matched: true, via: "everyone"}
 	}
 
@@ -60,6 +66,9 @@ func (c condition) resolve(m message) identity {
 // contentHolds, içerik koşullarını değerlendirir: metin, tip, grup ve önek birlikte
 // AND'lanır. Kimlik tutsa bile metin tutmuyorsa kural tutmaz.
 func (c condition) contentHolds(m message) bool {
+	if c.Channel != "" && !strings.EqualFold(c.Channel, m.channelName()) {
+		return false
+	}
 	if c.GroupsOnly && !m.IsGroup {
 		return false
 	}

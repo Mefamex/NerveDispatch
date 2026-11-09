@@ -19,6 +19,7 @@ import (
 // şekline** bağlıdır; köprü alan eklerse bu araç etkilenmez, alan çıkarırsa
 // ilgili alan boş gelir.
 type message struct {
+	Channel   string `json:"channel,omitempty"` // "whatsapp", "telegram", "discord", "instagram"
 	ID        string `json:"id"`
 	Type      string `json:"type"`
 	Direction string `json:"direction"`
@@ -31,6 +32,14 @@ type message struct {
 	PushName  string         `json:"push_name"`
 	Media     *media         `json:"media"`
 	Quoted    *quotedMessage `json:"quoted,omitempty"`
+}
+
+// channelName, mesajın hangi kanaldan geldiğini döndürür (varsayılan: whatsapp).
+func (m message) channelName() string {
+	if m.Channel != "" {
+		return m.Channel
+	}
+	return "whatsapp"
 }
 
 // quotedMessage, alıntılanan (sağa kaydırılarak yanıtlanan) mesajın özeti.
