@@ -1,6 +1,6 @@
 # TODO - NerveDispatch (Omnichannel AI Gateway & Dispatcher)
 
-> **Son güncelleme: 2026-11-09 16:05 +03**
+> **Son güncelleme: 2026-11-09 16:08 +03**
 >
 > Not: Bu dosya yalnız **açık işleri** listeler. Biten her şey `TODO.DONE.md`'ye taşınır.
 > Köprü: `paired:true connected:true` (systemd :31415) · Tetikleyici: PID **357170** (systemd user)
@@ -143,6 +143,18 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
 - [ ] Ajan çıktısında oy yönergesi: ör. `[[oy: <poll_id> | seçenek]]` → `/poll-vote`.
 - [ ] Ajana giden istem notuna bu yönergelerin kısa tarifi eklensin (motor bağımsız).
 - [ ] Testler: yönerge ayrıştırma (geçersiz/eksik seçenek, tek seçenek), metinden temizleme, canlı test (Mefamex'e anket + oy).
+
+### 26. ⏱️ Art Arda Gelen Mesajları Tek Çağrıda Birleştirme (Debounce) [AÇIK]
+> Tespit (2026-11-09, WhatsApp testi, Claude): Mefamex `2`, `3`, `4`'ü art arda attı. Tetikleyici her mesaj için ayrı ajan çağrısı açtı (3 çağrı). İlk çağrı üçünü de görüp cevapladı, sonraki ikisi aynı geçmişle boşuna çalıştı ("yeni mesaj yok" cevapları). Sonsuz döngü değil; kullanıcı durunca çağrılar da durdu.
+- [ ] Kişi başına kısa bekleme penceresi (ör. son mesajdan sonra 3-5 sn, `tetikleyici.yaml`'dan ayarlanır); pencere içindeki mesajlar tek çağrıda işlensin.
+- [ ] Ajan çalışırken gelen mesajlar kuyrukta birikip bitince **tek** çağrıyla verilsin; bir önceki çağrının zaten gördüğü mesajlar için yeni çağrı açılmasın.
+- [ ] Testler: art arda 3 mesaj → 1 çağrı; çağrı sürerken gelen 2 mesaj → 1 ek çağrı.
+
+### 27. 🎙️ Sesli Not Hattı Çalışmıyor (`voice_pipeline.py` bulunamıyor) [AÇIK]
+> Tespit (2026-11-09 16:07, Claude): Mefamex'in sesli notu (ogg/opus, 90.8 KB) `ses hattı`na düştü ama komut `zsh:1: command not found: voice_pipeline.py` (exit 127) ile çöktü; kullanıcıya "İş tamamlanamadı" gitti. Kök neden: `tetikleyici.yaml:234` → `ses: voice_pipeline.py` göreli ad, `./` ya da tam yol yok, PATH'te de değil. Dosya proje kökünde mevcut (`voice_pipeline.py`, çalıştırılabilir). Birleşme (madde 22) sonrası eski tam yol (`~/Desktop/whatsapp-bridge-project/…`) kısaltılmış olabilir.
+- [ ] Hat komutları proje köküne göre çözülsün (ya da yaml'da `./voice_pipeline.py`); `tetikleyici.example.yaml` ve `config.readme.md:149` (eski yol) güncellensin.
+- [ ] Açılışta yapılandırma denetimi: hatlardaki komut bulunamazsa günlüğe ve `/durum`'a uyarı.
+- [ ] Canlı test: Mefamex'ten sesli not → yazıya dökülüp ajana gidiyor mu.
 
 ---
 
