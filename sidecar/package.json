@@ -1,0 +1,20 @@
+{
+  "name": "wa-voip-sidecar",
+  "version": "1.0.0",
+  "description": "WhatsApp Web VoIP WASM sidecar for whatsmeow bridge",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "fetch-wasm": "node fetch-wasm.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^7.0.0-rc14",
+    "node-fetch": "^3.3.2",
+    "ws": "^8.16.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
