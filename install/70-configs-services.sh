@@ -56,20 +56,38 @@ BRIDGE_SERVICE_TMP="${PROJECT_ROOT}/.tetikleyici/whatsapp-bridge.service"
 mkdir -p "${PROJECT_ROOT}/.tetikleyici"
 cat <<EOF > "${BRIDGE_SERVICE_TMP}"
 [Unit]
-Description=NerveDispatch WhatsApp Köprüsü (Bridge Daemon)
-After=network.target
+Description=NerveDispatch WhatsApp Köprüsü (whatsmeow Go)
+Documentation=https://github.com/tulir/whatsmeow
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 Type=simple
-User=mfmx
-Group=mfmx
+User=${USER}
+Group=${USER}
 WorkingDirectory=${PROJECT_ROOT}
 ExecStart=${PROJECT_ROOT}/bin/whatsapp-bridge
-Restart=on-failure
-RestartSec=5
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=whatsapp-bridge
+
+# Güvenlik sertleştirmesi: canlı birimle aynı, yalnız yollar NerveDispatch'e taşındı
+NoNewPrivileges=yes
+PrivateTmp=yes
 ProtectSystem=strict
 ProtectHome=read-only
-ReadWritePaths=/home/mfmx/.local/share/whatsapp-bridge
+ReadWritePaths=${HOME}/.local/share/whatsapp-bridge
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictNamespaces=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
 
 [Install]
 WantedBy=multi-user.target
