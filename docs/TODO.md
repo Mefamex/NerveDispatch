@@ -19,40 +19,8 @@
 > - **Sıradaki İlk Adım (FAZ 1):** Eski iki repoda (`whatsapp-bridge-mcp` ve `whatsapp-tetikleyici`) yeni özellik kodlanmayacak; doğrudan `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` içine birleştirme yapılacak (**Madde 22**).
 > - **FAZ 2:** `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` üzerinde **önce WhatsApp hattı ve tüm çekirdek yetenekler** (**Madde 7'den itibaren**) sırayla tamamlanacak.
 > - **FAZ 3:** Çekirdek tamamlandıktan sonra **Telegram (`975678139`), Discord ve Instagram** kanalları eklenecek.
-
-### 1. 🎭 Emoji Tepkileri (Reactions) [TAMAMLANDI ✅]
-- [x] **Bridge Go (`bridge-go/`):** Whatsmeow `BuildReaction(chat, sender, messageID, emoji)` metodunu saran `POST /reaction` HTTP handler'ı eklendi.
-- [x] **SSE / Eventbus:** Gelen tepkileri (`ReactionMessage`) SSE akışına `reaction` türüyle yayınlama.
-- [x] **MCP Server (`mcp_server/`):** Ajanların mesaja tepki bırakması için `whatsapp_reaction(to, message_id, emoji)` aracı eklendi.
-- [x] **Tetikleyici (`tetikleyici/`):** Ajan oturumu reaksiyon entegrasyonu (`allow_reaction: true`).
-- [x] **Kullanıcı Canlı Testi:** Kullanıcı mesajına emoji tepkisi basılması ve botun tepkiyi algılayıp oturuma iletmesi doğrulandı.
-
-### 2. 🗑️ Mesaj Silme / Geri Çekme (Revoke / Delete for Everyone) [TAMAMLANDI ✅]
-- [x] **Bridge Go:** Whatsmeow `BuildRevoke(chat, sender, messageID)` metodunu saran `POST /revoke` handler'ı eklendi.
-- [x] **MCP Server:** `whatsapp_revoke(to, message_id)` aracı eklendi.
-- [x] **Tetikleyici:** `/sil` veya `/revoke` komutuyla botun alıntılanan mesajını silme desteği eklendi.
-- [x] **Kullanıcı Canlı Testi:** Kullanıcı `/sil` komutuyla botun mesajını herkesten sildi, doğrulandı.
-
-### 3. 📊 Anket Oylarını Tetikleyiciye Bağlama (Poll Vote Event) [TAMAMLANDI ✅]
-- [x] **Bridge Go:** Gelen `PollUpdateMessage` stanzasını `DecryptPollVote` ile deşifre edip SHA-256 hash'leriyle orijinal anket mesajındaki seçenek adlarını çözen ve `/events` SSE akışına `poll_vote` olayı basan altyapı kodlandı.
-- [x] **Tetikleyici:** Gelen `poll_vote` olayını oturum hattına yönlendirme ve prompt içine `[Anket Oyu: <seçenek>]` ekleme tamamlandı.
-- [x] **Kullanıcı Canlı Testi:** Kullanıcıya anket yollandı, kullanıcı `"🚀 Harika, akıyoruz"` şıkkını oyladı, bot oyu anında deşifre edip mavi tik attı ve oturumdan cevabını başarıyla gönderdi. Canlı doğrulandı.
-
-### 4. 📍 Konum (Location) & 📇 Kişi Kartı (vCard) [TAMAMLANDI ✅]
-- [x] **Bridge Go:** Whatsmeow `LocationMessage` ve `ContactMessage` ile `POST /send-location` ve `POST /send-contact` eklendi. Gelen konumlar Google Maps linkine, gelen kişi kartları vCard formatına dönüştürülüyor.
-- [x] **MCP Server:** `whatsapp_send_location` ve `whatsapp_send_contact` araçları eklendi ve birim testleri yazıldı.
-- [x] **Tetikleyici:** `location`, `live_location`, `contact`, `contact_array` mesaj türleri oturum hattına dahil edildi.
-- [x] **Kullanıcı Canlı Testi:** Bot Ayasofya konum pinini ve Antigravity kişi kartını başarıyla iletti; kullanıcının gönderdiği resimle teslimat canlı doğrulandı.
-
-### 5. 🗳️ Gelen Ankette Oy Kullanma (Outbound Poll Vote) [TAMAMLANDI ✅]
-- [x] **Bridge Go:** Whatsmeow `BuildPollVote` ile `POST /poll-vote` handler'ı eklendi.
-- [x] **MCP Server:** `whatsapp_vote_poll(to, poll_id, options)` aracı eklendi ve test edildi.
-- [x] **Kullanıcı Canlı Testi:** Kullanıcının attığı "cevap ver bakim işaretleyebiliyon mu" anketine bot tarafından "evet" oyu verildi ve sunucuya iletildi.
-
-### 6. 🔄 Tetikleyici Otomatik Başlatma (Systemd User Autostart Service) [TAMAMLANDI ✅]
-- [x] **Systemd User Servisi:** `~/.config/systemd/user/whatsapp-tetikleyici.service` oluşturuldu (`WorkingDirectory=/mnt/DiskD/SOFTWARE/Github-repos/whatsapp-tetikleyici`).
-- [x] **Kullanıcı Oturumuna Bağlama:** `systemctl --user enable --now whatsapp-tetikleyici.service` ile bilgisayar açılışında otomatik başlama aktif edildi.
-- [x] **Canlı Doğrulama:** `systemctl --user status whatsapp-tetikleyici` ile PID 363706 aktif, bağlı ve çalışıyor.
+>
+> *(Not: Tamamlanan Sprint #1–#6 maddeleri ve arşivlenmiş işler [TODO.DONE.md](./TODO.DONE.md) kütüğüne taşınmıştır.)*
 
 ### 7. 🧵 Tek Kalıcı Oturum (Sabit Session ID) ve Ajan Adaptör Mimarisi [SIRADA 🎯]
 **Sorun:**

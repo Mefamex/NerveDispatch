@@ -8,6 +8,27 @@
 
 ---
 
+### [2026-11-09 06:03] — FAZ 1 Adım 1.1, 1.2, 1.3: Monorepo Kod Birleşimi, Geçmiş Korunumu ve Canlı Durum Aktarımı
+- **Değişiklikler:** `whatsapp-bridge-mcp` ve `whatsapp-tetikleyici` repoları `git-filter-repo` ile gereksiz kök dokümanlarından temizlenip, tüm commit geçmişleri korunarak `git merge --allow-unrelated-histories` ile `NerveDispatch` monoreposuna birleştirildi. `go.work` ve birleşik `.gitignore` kuruldu. Canlı `tetikleyici.yaml`, `pasif-kurallar.yaml` ve `.tetikleyici/` durum dosyaları (`aktif_motor.txt`, `tunel_durumu.json`, `son_sessionlar.json`, `seen.txt`, `bildirim.txt`) aktarıldı. `session.db` yerinde korundu. PII taraması %100 temizlendi.
+- **Kök Neden / Problem:** İki dağınık kaynak reponun tek bir monorepoda, geçmişi ve canlı çalışma verisi kaybolmaksızın toplanması.
+- **Doğrulama Kanıtı:** `git log --graph` ile iki ağacın birleşimi kanıtlandı. `bridge/`, `tetikleyici/`, `mcp_server/`, `sidecar/`, `gorsel/` ve 12 Python test dosyası tek ağaçta toplandı. PII regex taraması 0 sonuç verdi.
+
+---
+
+### [2026-11-08 05:00] — Tetikleyici Otomatik Başlatma (Systemd User Autostart Service)
+- **Değişiklikler:** `~/.config/systemd/user/whatsapp-tetikleyici.service` oluşturuldu (`WorkingDirectory=/mnt/DiskD/SOFTWARE/Github-repos/whatsapp-tetikleyici`). `systemctl --user enable --now whatsapp-tetikleyici.service` ile kullanıcı oturumuna bağlandı.
+- **Kök Neden / Problem:** Bilgisayar açıldığında tetikleyicinin terminal bağımsız arka planda otomatik başlaması.
+- **Doğrulama Kanıtı:** `systemctl --user status whatsapp-tetikleyici` ile PID 363706 aktif ve çalışır durumda doğrulandı.
+
+---
+
+### [2026-11-08 02:15] — Emoji Tepkileri (Reactions) Desteği
+- **Değişiklikler:** Bridge Go tarafında Whatsmeow `BuildReaction` saran `POST /reaction` handler'ı yazıldı. Gelen tepkiler SSE akışına `reaction` olayı olarak yayınlandı. MCP Server'a `whatsapp_reaction(to, message_id, emoji)` aracı eklendi. Tetikleyiciye `allow_reaction: true` işleyicisi tanımlandı.
+- **Kök Neden / Problem:** Mesajlara emoji tepkisi verme ve gelen tepkileri SSE üzerinden dinleyebilme kabiliyeti.
+- **Doğrulama Kanıtı:** Kullanıcı mesajına bot tarafından emoji tepkisi basıldı; kullanıcının tepkisi SSE üzerinden algılandı ve canlı doğrulandı.
+
+---
+
 ### [2026-11-09 04:05] — FAZ 1 Ön Doğrulaması ve Plan Düzeltmeleri
 - **Değişiklikler:** Plan FAZ 1 adımları iki kaynak repo ve canlı systemd unit'leriyle karşılaştırıldı. Plana Adım 1.0 eklendi; yanlış sayı/isimler düzeltildi (17 MCP aracı, `whatsapp_reaction`, 30 Go test dosyası, `parent.parent`); iç içe `.tetikleyici` silme talimatı kaldırıldı; `.venv` iddiası daraltıldı; PII tarama kalıbı genel regex'e çevrildi. `NOTES.md` §6 bulgular, `ASK.md` kararlar. `NOTES.md:25` gerçek LID maskelendi. `TODO.md` kırık `file:///` linkleri düzeltildi.
 - **Kök Neden / Problem:** Plan kopyalama tabanlıydı; commitlenmemiş 119 değişikliği, iç içe state verisini ve `config.yaml` çakışmasını hesaba katmıyordu.

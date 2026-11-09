@@ -75,7 +75,7 @@
 Mefamex'in uyku öncesi verdiği doğrudan direktifler:
 1. **Claude'u Rahatsız Etmeme:** Claude'un limiti yenilenene kadar ona hiçbir şey sorulmayacak, kotası (%91) yakılmayacak.
 2. **NerveDispatch Odaklı Kesintisiz Geliştirme:** Tamamen NerveDispatch ile ilgilenilecek. "Bu projeyi bitirene kadar durma; takıldığın yer olursa projenin başka bir işine geç."
-3. **Canlı WhatsApp Test İzni:** Testler için Mefamex'in WhatsApp'ı (`12345678901234@lid`) kullanılabilir. Telefon sessizde, internet açık.
+3. **Canlı WhatsApp Test İzni:** Testler için Mefamex'in şahsi WhatsApp LID'si (`tetikleyici.yaml` içindeki mefamex LID / `12345678901234@lid`) kullanılabilir. Telefon sessizde, internet açık.
 4. **Tetikleyici Betiği:** `ai-agents-bridge` altında geliştirilen tetikleyici betiği bittiğinde kurulacak; süreç takılıp kalmayacak.
 5. **Kota Yönetimi & Uyku Ayarı:** Limit bitmeye gelirse (%95) yenilene kadar durulacak. İkimizin limiti de biterse tetikleyici yenileneceği zamana ayarlanacak.
 6. **ask.md Kuralı:** Verilen cevaplara göre sorulacak başka bir şey yoksa planlanıp ilgili md dosyalarına (`TODO.md`, `TODO.DONE.md`, `NOTES.md` vb.) aktarılacak, `ask.md` daima temiz kalacak.
