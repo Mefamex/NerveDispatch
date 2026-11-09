@@ -215,11 +215,43 @@ func (e *engine) dispatch(ctx context.Context, client *bridgeClient, seen *seenS
 		return len(hits)
 	}
 
+	// ── Geliştirme 2.5: Canlı İlerleme Bildirimi ve Hızlı Tepki Emojisi ──
+	var reactionActive = set.TepkiEmojisi.Aktif && client != nil && m.ID != ""
+	if reactionActive {
+		isleniyor := set.TepkiEmojisi.Isleniyor
+		if isleniyor == "" {
+			isleniyor = "👀"
+		}
+		reactCtx, cancel := context.WithTimeout(ctx, 4*time.Second)
+		if err := client.sendReaction(reactCtx, m.From, m.ID, isleniyor, m.Sender); err != nil {
+			logf("  tepki emojisi gönderilemedi (%s): %v", isleniyor, err)
+		} else {
+			logf("  tepki emojisi bırakıldı: %s", isleniyor)
+		}
+		cancel()
+	}
+
+	// 10 saniyeyi aşan işlemler için ara durum izleme
+	doneChan := make(chan struct{})
+	if reactionActive {
+		go func() {
+			select {
+			case <-doneChan:
+				return
+			case <-time.After(10 * time.Second):
+				logf("  ⏳ işlem 10 saniyeyi aştı (%s) — arka plan çalışması devam ediyor", m.From)
+			}
+		}()
+	}
+
 	// Paralel eylem çalıştırma: her action ayrı goroutine.
 	// Session kilidi (oturumKilidiAl) runAction içinde - aynı session
 	// kullanan action'lar kendiliğinden sıralanır, farklı session'lar
 	// paralelde çalışır. sync.WaitGroup ile hepsi bitene kadar bekleriz.
 	var wg sync.WaitGroup
+	var errMu sync.Mutex
+	var anyErr bool
+
 	for _, r := range hits {
 		for _, a := range r.Actions {
 			wg.Add(1)
@@ -231,6 +263,9 @@ func (e *engine) dispatch(ctx context.Context, client *bridgeClient, seen *seenS
 				reply, err := runAction(ctx, e.opts, act, p, client, e.aiEtiEkle, e.debugCikti)
 				if err != nil {
 					logf("  eylem BAŞARISIZ: %s → %s: %v", ruleName, act.label(), err)
+					errMu.Lock()
+					anyErr = true
+					errMu.Unlock()
 
 					// Rate limit korumasını KUR: aynı sohbette bir daha
 					// denemek kotayı bitirir. Kullanıcıya zaten bildirildi
@@ -254,6 +289,29 @@ func (e *engine) dispatch(ctx context.Context, client *bridgeClient, seen *seenS
 		}
 	}
 	wg.Wait()
+	close(doneChan)
+
+	// Eylemler tamamlandıktan sonra nihai tepki emojisi güncellemesi
+	if reactionActive {
+		finalEmoji := set.TepkiEmojisi.Basarili
+		if anyErr {
+			finalEmoji = set.TepkiEmojisi.Hatali
+			if finalEmoji == "" {
+				finalEmoji = "❌"
+			}
+		} else {
+			if finalEmoji == "" {
+				finalEmoji = "✅"
+			}
+		}
+		reactCtx, cancel := context.WithTimeout(ctx, 4*time.Second)
+		if err := client.sendReaction(reactCtx, m.From, m.ID, finalEmoji, m.Sender); err != nil {
+			logf("  nihai tepki emojisi gönderilemedi (%s): %v", finalEmoji, err)
+		} else {
+			logf("  nihai tepki emojisi güncellendi: %s", finalEmoji)
+		}
+		cancel()
+	}
 
 	logf("  tamam (%d kural çalıştı)", len(hits))
 	return len(hits)

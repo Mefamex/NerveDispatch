@@ -215,6 +215,40 @@ func (c *bridgeClient) markRead(ctx context.Context, jid string, messageIDs []st
 	return nil
 }
 
+// sendReaction, bir mesaja emoji tepkisi bırakır.
+func (c *bridgeClient) sendReaction(ctx context.Context, to, messageID, emoji, senderJID string) error {
+	payload := map[string]string{
+		"to":         to,
+		"message_id": messageID,
+		"emoji":      emoji,
+	}
+	if senderJID != "" {
+		payload["sender_jid"] = senderJID
+	}
+	body, err := jsonMarshal(payload)
+	if err != nil {
+		return fmt.Errorf("reaction gövdesi hazırlanamadı: %w", err)
+	}
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, c.base+"/reaction", strings.NewReader(body))
+	if err != nil {
+		return fmt.Errorf("istek kurulamadı: %w", err)
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := c.http.Do(req)
+	if err != nil {
+		return fmt.Errorf("reaction gönderilemedi: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		detail, _ := io.ReadAll(io.LimitReader(resp.Body, 300))
+		return fmt.Errorf("köprü reddetti (HTTP %d): %s", resp.StatusCode, strings.TrimSpace(string(detail)))
+	}
+	return nil
+}
+
 // health, köprünün bağlı olup olmadığını bildirir.
 func (c *bridgeClient) health(ctx context.Context) error {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.base+"/health", nil)

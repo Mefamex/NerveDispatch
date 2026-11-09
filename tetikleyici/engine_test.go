@@ -1,6 +1,10 @@
 package main
 
 import (
+	"context"
+	"encoding/json"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"strings"
@@ -431,4 +435,67 @@ rules:
 		}
 	}()
 	wg.Wait()
+}
+
+func TestEngineReactionFlow(t *testing.T) {
+	var reactions []string
+	var mu sync.Mutex
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/reaction" {
+			var body map[string]string
+			_ = json.NewDecoder(r.Body).Decode(&body)
+			mu.Lock()
+			reactions = append(reactions, body["emoji"])
+			mu.Unlock()
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+		if strings.HasPrefix(r.URL.Path, "/messages/") {
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(`{"ok": true, "messages": []}`))
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer ts.Close()
+
+	path := writeRules(t, `tepki_emojisi:
+  aktif: true
+  isleniyor: "👀"
+  basarili: "✅"
+  hatali: "❌"
+rules:
+- name: test-reaction
+  match: { everyone: true }
+  do: [ { type: command, code: "echo ok" } ]`)
+
+	opts := testOptions()
+	e := newEngine(path, opts)
+	client := newBridgeClient(ts.URL, 2*time.Second)
+	seen := newSeenStore(filepath.Join(t.TempDir(), "seen.txt"))
+
+	m := message{
+		ID:        "test-msg-123",
+		From:      "user@s.whatsapp.net",
+		Text:      "merhaba",
+		Timestamp: time.Now().Unix(),
+	}
+
+	count := e.dispatch(context.Background(), client, seen, m)
+	if count != 1 {
+		t.Fatalf("beklenen 1 kural, got %d", count)
+	}
+
+	mu.Lock()
+	defer mu.Unlock()
+	if len(reactions) < 2 {
+		t.Fatalf("en az 2 reaksiyon bekleniyordu (isleniyor + basarili), got %v", reactions)
+	}
+	if reactions[0] != "👀" {
+		t.Errorf("ilk reaksiyon '👀' olmalı, got %q", reactions[0])
+	}
+	if reactions[1] != "✅" {
+		t.Errorf("ikinci reaksiyon '✅' olmalı, got %q", reactions[1])
+	}
 }
