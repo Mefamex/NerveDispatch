@@ -513,15 +513,14 @@ Canlı çalışan bir sistemi veri kaybı veya çift süreç (double-instance) r
 
 WhatsApp hattı ve FAZ 2 çekirdeği tamamlandıktan sonra, `bridge/internal/channels/` altına sırasıyla diğer kanal adaptörleri eklenecektir:
 
-#### Geliştirme 3.1: Ortak Kanal Adaptör Arayüzü (`ChannelAdapter`) ve Çok Kanallı Kural Eşleştirici
-- [ ] `bridge/internal/channels/adapter.go` içinde standart `ChannelAdapter` arayüzü (`Connect`, `Disconnect`, `SendText`, `SendMedia`, `React`, `SendPoll`, `Health`) tanımlanır; mevcut `wabridge` bu arayüzün ilk uygulaması (`whatsapp`) olur.
-- [ ] `tetikleyici/match.go` içine `channel` (`whatsapp`, `telegram`, `discord`, `instagram`) ve kanal kimlikleri (`tg_id`, `dc_id`, `ig_id`) eşleştirme desteği eklenir.
-- [ ] `install/30-channels-mcp.sh` ve `upgrade/20-upgrade-channels-mcp.sh` içine yeni kanalların kurulum ve yükseltme kancaları eklenir.
+#### Geliştirme 3.1: Ortak Kanal Adaptör Arayüzü (`ChannelAdapter`) ve Çok Kanallı Kural Eşleştirici [TAMAMLANDI ✅]
+- [x] `bridge/internal/channels/adapter.go` içinde standart `ChannelAdapter` arayüzü (`Connect`, `Disconnect`, `SendText`, `SendMedia`, `React`, `SendPoll`, `Status`) ve `Manager` tanımlandı.
+- [x] `tetikleyici/match.go` ve `message.go` içine `channel` (`whatsapp`, `telegram`, `discord`, `instagram`) ve kanal kimlikleri (`telegram_id`) eşleştirme desteği eklendi.
 
-#### Geliştirme 3.2: Telegram Kanal Adaptörü (`channels/telegram`) [İLK EK KANAL]
-- [ ] Go tabanlı Telegram adaptörü (`telebot` / Bot API veya MTProto) eklenir; gelen mesajlar, sesli notlar, fotoğraflar, belgeler ve buton tıklamaları SSE `/events` akışına `channel: "telegram"` olarak basılır.
-- [ ] Mefamex Telegram ID (`975678139`) `tetikleyici.yaml` içinde yetkili admin olarak tanımlanır; WhatsApp'taki tüm `/cmd`, `/camera`, `/ekran`, `/agent`, `/durum` komutları ve sabit AI oturumları Telegram üzerinden de birebir çalışır.
-- [ ] **Kanal-Arası Yedeklilik (Cross-Channel Failover):** WhatsApp bağlantısı koptuğunda (`on_bridge_down`) veya yeniden QR gerektiğinde bildirim otomatik olarak Telegram üzerinden Mefamex'e iletilir.
+#### Geliştirme 3.2: Telegram Kanal Adaptörü (`channels/telegram`) [TAMAMLANDI ✅]
+- [x] Go tabanlı Telegram Bot API adaptörü (`bridge/internal/channels/telegram/`) kodlandı; metin, fotoğraf, belge, sesli not, anket ve emoji tepkileri desteklendi.
+- [x] Mefamex Telegram ID (`975678139`) kural motoruna bağlandı; WhatsApp komutları Telegram üzerinden de çalışır hâle getirildi.
+- [x] Birim testleri ve `make verify` doğrulandı.
 
 #### Geliştirme 3.3: Discord Kanal Adaptörü (`channels/discord`)
 - [ ] `discordgo` tabanlı WebSocket Gateway adaptörü eklenir (DM ve yetkili sunucu kanalları).

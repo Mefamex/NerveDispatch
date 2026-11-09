@@ -8,6 +8,13 @@
 
 ---
 
+### [2026-11-09 07:01] — FAZ 3 Geliştirme 3.1 & 3.2: Çok Kanallı Adaptör Mimarisi ve Telegram Adaptörü
+- **Değişiklikler:** `bridge/internal/channels/` paketi oluşturuldu (`ChannelAdapter` arayüzü, `Manager`, `MediaPayload`, `IncomingEvent`). `bridge/internal/channels/telegram/` adaptörü kodlandı (`sendMessage`, `sendPhoto`, `sendDocument`, `sendVoice`, `sendPoll`, `setMessageReaction` ve long polling döngüsü). `tetikleyici/config.go`, `match.go` ve `message.go` içine `channel` ve `telegram_id` eşleştirme desteği eklendi. Mefamex Telegram ID (`975678139`) kural motoruna bağlandı.
+- **Kök Neden / Problem:** Sistemin tek kanala bağımlı kalmasını önlemek, WhatsApp haricinde Telegram üzerinden de kesintisiz iletişim, komut yönetimi ve yedeklilik sağlamak.
+- **Doğrulama Kanıtı:** `channels` ve `telegram` Go birim testleri (0.007s), `TestOmnichannelMatch` (0.003s), `make verify` (ALL_OK).
+
+---
+
 ### [2026-11-09 06:48] — Geliştirme 2.11: Yerel TTS Sesli Yanıt (Piper TTS) ve /tts Komutu
 - **Değişiklikler:** `tts_pipeline.py` modülü yazıldı (`sentezle_ve_gonder`, `tts_durum_ayarla`, `tts_aktif_mi`). Piper TTS / espeak-ng ile Türkçe ses sentezleme ve `ffmpeg` ile WhatsApp uyumlu OGG Opus (`audio/ogg; codecs=opus`, `ptt: true`) sesli not üretimi bağlandı. `cmd.py` ve `sozdizimi.py` içine `/tts on|off` ve `/tts <metin>` komutları eklendi.
 - **Kök Neden / Problem:** Metin yanıtlarının yanı sıra kullanıcının kulaklıkla veya hareket halindeyken WhatsApp üzerinden Türkçe sesli not olarak dinleyebilmesi sağlandı.
