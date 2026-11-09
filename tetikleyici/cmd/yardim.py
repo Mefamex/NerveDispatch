@@ -27,6 +27,10 @@ YARDIMCI KOMUTLAR
 /ekran [sn]             → masaüstü ekran görüntüsünü çekip gönderir (Wayland Plasma)
 /get <dosya_yolu>       → bilgisayardaki dosyayı WhatsApp'a belge olarak gönderir
 /durum                  → tetikleyici + köprü anlık durumu (PID, uptime, kural, tampon)
+/root [dizin]           → aktif çalışma dizinini göster / değiştir
+/clip [metin]           → Wayland panosunu oku / yaz
+/apps                   → en çok CPU tüketen kullanıcı süreçlerini listele
+/kill <pid|isim>        → askıda kalan süreci güvenle sonlandır (kara liste korumalı)
 /ping                   → pong (sağlık kontrolü)
 /agent [motor]          → aktif ajan motorunu göster/değiştir (agy, claude, opencode)
 /session list [n]       → son n session listesi (varsayılan 10)

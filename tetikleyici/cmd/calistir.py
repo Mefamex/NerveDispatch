@@ -72,7 +72,12 @@ def calistir(
     """
     # Çalışma dizini
     if calisma_dizini is None:
-        calisma_dizini = str(Path.cwd())
+        try:
+            from sistem import aktif_root_al
+
+            calisma_dizini = str(aktif_root_al())
+        except Exception:
+            calisma_dizini = str(Path.cwd())
 
     # Ortam değişkenleri
     env = os.environ.copy()

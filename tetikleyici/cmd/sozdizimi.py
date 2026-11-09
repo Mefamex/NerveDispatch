@@ -63,6 +63,10 @@ CAMERA_PATTERN = re.compile(r"^/camera\s*$", re.IGNORECASE)
 EKRAN_PATTERN = re.compile(r"^/ekran(?:\s+(?P<saniye>\d+))?\s*$", re.IGNORECASE)
 DURUM_PATTERN = re.compile(r"^/durum\s*$", re.IGNORECASE)
 PING_PATTERN = re.compile(r"^/ping\s*$", re.IGNORECASE)
+ROOT_PATTERN = re.compile(r"^/root(?:\s+(?P<arg>.+))?$", re.IGNORECASE)
+CLIP_PATTERN = re.compile(r"^/clip(?:\s+(?P<arg>.+))?$", re.IGNORECASE)
+APPS_PATTERN = re.compile(r"^/apps\s*$", re.IGNORECASE)
+KILL_PATTERN = re.compile(r"^/kill\s+(?P<arg>.+)$", re.IGNORECASE)
 GET_PATTERN = re.compile(r"^/get\s+(?P<yol>.+)$", re.IGNORECASE)
 REVOKE_PATTERN = re.compile(r"^/(?:sil|revoke)\b", re.IGNORECASE)
 AGENT_PATTERN = re.compile(r"^/agent(?:\s+(?P<arg>.+))?$", re.IGNORECASE)
@@ -97,6 +101,27 @@ def parse_cmd(metin: str) -> CmdParseResult:
     # /ping - bağlantı/tetikleme sağlığı (ajan turuna gerek yok)
     if PING_PATTERN.match(metin):
         return CmdParseResult(komut_turu="ping")
+
+    # /root [dizin]
+    root_match = ROOT_PATTERN.match(metin)
+    if root_match:
+        arg = (root_match.group("arg") or "").strip()
+        return CmdParseResult(komut_turu="root", kod=arg)
+
+    # /clip [metin]
+    clip_match = CLIP_PATTERN.match(metin)
+    if clip_match:
+        arg = (clip_match.group("arg") or "").strip()
+        return CmdParseResult(komut_turu="clip", metin=arg)
+
+    # /apps
+    if APPS_PATTERN.match(metin):
+        return CmdParseResult(komut_turu="apps")
+
+    # /kill <pid|isim>
+    kill_match = KILL_PATTERN.match(metin)
+    if kill_match:
+        return CmdParseResult(komut_turu="kill", hedef=kill_match.group("arg").strip())
 
     # /get <yol> - dosya transferi
     get_match = GET_PATTERN.match(metin)

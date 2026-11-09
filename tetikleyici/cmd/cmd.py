@@ -181,6 +181,30 @@ def ana(metin: str, gonderen_numara: str, gonderen_isim: str) -> str:
     if sonuc.komut_turu == "ping":
         return "pong 🏓"
 
+    # /root [dizin] - çalışma dizini
+    if sonuc.komut_turu == "root":
+        from sistem import root_yonet
+
+        return root_yonet(sonuc.kod)
+
+    # /clip [metin] - pano okuma/yazma
+    if sonuc.komut_turu == "clip":
+        from sistem import clip_yonet
+
+        return clip_yonet(sonuc.metin)
+
+    # /apps - kullanıcı süreçleri
+    if sonuc.komut_turu == "apps":
+        from sistem import apps_listele
+
+        return apps_listele()
+
+    # /kill <pid|isim> - süreç sonlandırma
+    if sonuc.komut_turu == "kill":
+        from sistem import kill_yonet
+
+        return kill_yonet(sonuc.hedef)
+
     # /get <dosya_yolu> - uzaktan dosya çekme
     if sonuc.komut_turu == "get":
         from dosya import dosya_gonder
