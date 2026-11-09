@@ -10,8 +10,11 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"time"
+
+	"tetikleyici/drivers"
 )
 
 // payload, bir mesaj için hazırlanan ve eylemlere teslim edilen bağlamdır.
@@ -667,6 +670,7 @@ func aktifMotorAl() string {
 }
 
 // runAgent, seçili motoru (agy, claude, opencode) çalıştırır.
+// runAgent, seçili motoru (agy, claude, opencode) sabit oturum desteğiyle çalıştırır.
 func runAgent(ctx context.Context, opts options, act action, p payload, araMesaj func(string)) (string, error) {
 	// Test ortamında veya özel yolda opts.opencode geçilmişse doğrudan onu kullan.
 	if opts.opencode != "" &&
@@ -687,89 +691,43 @@ func runAgent(ctx context.Context, opts options, act action, p payload, araMesaj
 		prompt = t
 	}
 
-	var bin string
-	var args []string
-
-	switch motor {
-	case "agy":
-		bin = expandHome("~/.local/bin/agy")
-		if !filepathIsAbs(bin) {
-			if resolved, err := exec.LookPath(bin); err == nil {
-				bin = resolved
-			}
-		}
-		if _, err := os.Stat(bin); err != nil {
-			if resolved, err := exec.LookPath("agy"); err == nil {
-				bin = resolved
-			} else {
-				return "", fmt.Errorf("agy bulunamadı: %s", bin)
-			}
-		}
-		args = []string{"-p", prompt, "--dangerously-skip-permissions"}
-
-	case "claude":
-		bin = expandHome("~/.local/bin/claude")
-		if !filepathIsAbs(bin) {
-			if resolved, err := exec.LookPath(bin); err == nil {
-				bin = resolved
-			}
-		}
-		if _, err := os.Stat(bin); err != nil {
-			if resolved, err := exec.LookPath("claude"); err == nil {
-				bin = resolved
-			} else {
-				return "", fmt.Errorf("claude bulunamadı: %s", bin)
-			}
-		}
-		args = []string{"-p", prompt, "--dangerously-skip-permissions"}
+	// Sabit oturum çözümü
+	stateDir := filepath.Dir(defaultState("seen.txt"))
+	store := drivers.NewSessionStore(stateDir)
+	sessionID := act.SessionID
+	if sessionID == "" {
+		sessionID = store.Get(motor)
 	}
 
-	serbestBirak, err := oturumKilidiAl(ctx, act.SessionID)
+	lockID := sessionID
+	if lockID == "" {
+		lockID = motor
+	}
+	serbestBirak, err := oturumKilidiAl(ctx, lockID)
 	if err != nil {
-		return "", fmt.Errorf("oturum kilidi alınamadı (%s): %w", act.SessionID, err)
+		return "", fmt.Errorf("oturum kilidi alınamadı (%s): %w", lockID, err)
 	}
 	defer serbestBirak()
 
 	ctx, cancel := context.WithTimeout(ctx, act.sure(opts))
 	defer cancel()
 
-	cmd := exec.CommandContext(ctx, bin, args...)
-	cmd.Dir = projectDir()
-	cmd.Env = p.env()
-	var buf bytes.Buffer
-	ajanHatasi := &hataCiktisi{}
-	cmd.Stdout = &buf
-	cmd.Stderr = ajanHatasi.cikti()
-
-	if err := cmd.Start(); err != nil {
-		return "", fmt.Errorf("başlatılamadı: %w", err)
+	var driver drivers.Driver
+	switch motor {
+	case "agy":
+		driver = drivers.NewAgyDriver("")
+	case "claude":
+		driver = drivers.NewClaudeDriver("")
+	default:
+		return "", fmt.Errorf("bilinmeyen ajan motoru: %s", motor)
 	}
 
-	done := make(chan error, 1)
-	go func() { done <- cmd.Wait() }()
-
-	select {
-	case err := <-done:
-		metin := sonCevap(buf.String(), araMesaj)
-		if err != nil {
-			if ek := ajanHatasi.sonek(); ek != "" {
-				logf("  ajan hata çıktısı:%s", truncate(ek, 300))
-			}
-			return metin, cikisHatasi(fmt.Errorf("çıkış hatası: %w", err), ajanHatasi)
-		}
-		return metin, nil
-
-	case <-ctx.Done():
-		_ = cmd.Process.Kill()
-
-		if kismi := strings.TrimSpace(sonCevap(buf.String(), araMesaj)); kismi != "" {
-			logf("  zaman aşımı: %d karakterlik kısmi çıktı kurtarıldı", len(kismi))
-			return kismi, fmt.Errorf("%w: %s sonunda zaman aşımı (kısmi cevap gönderildi)",
-				context.DeadlineExceeded, act.sure(opts))
-		}
-		return "", fmt.Errorf("%w: %s sonunda zaman aşımı, ajan hiçbir şey yazmadı",
-			context.DeadlineExceeded, act.sure(opts))
+	rawOut, err := driver.Run(ctx, sessionID, prompt, p.env(), projectDir())
+	metin := sonCevap(rawOut, araMesaj)
+	if err != nil {
+		return metin, fmt.Errorf("%s çalıştırma hatası: %w", motor, err)
 	}
+	return metin, nil
 }
 
 // runOpencodeDirect, doğrudan opencode binary'sini çalıştırır.
