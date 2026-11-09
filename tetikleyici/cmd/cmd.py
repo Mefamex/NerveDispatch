@@ -112,6 +112,21 @@ def _aktif_motor_yolu() -> Path:
     return Path(__file__).resolve().parent.parent.parent / ".tetikleyici" / "aktif_motor.txt"
 
 
+def _motor_sohbetleri(yol: Path) -> dict:
+    """oturumlar.json'dan motor -> sohbet kimliği eşlemesini okur (yoksa boş)."""
+    try:
+        veri = json.loads(yol.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    sonuc = {}
+    for motor, kayit in (veri or {}).items():
+        if isinstance(kayit, dict):
+            sid = (kayit.get("session_id") or kayit.get("conversation_id") or "").strip()
+            if sid:
+                sonuc[motor] = sid
+    return sonuc
+
+
 def agent_yonet(kod: str) -> str:
     yol = _aktif_motor_yolu()
     yol.parent.mkdir(parents=True, exist_ok=True)
@@ -122,12 +137,15 @@ def agent_yonet(kod: str) -> str:
             icerik = yol.read_text(encoding="utf-8").strip().lower()
             if icerik in ("agy", "claude", "opencode"):
                 motor = icerik
+        sohbetler = _motor_sohbetleri(yol.parent / "oturumlar.json")
+        satirlar = []
+        for m in ("agy", "claude", "opencode"):
+            sid = sohbetler.get(m) or "yok - ilk mesajda yeni sohbet açılır"
+            isaret = " (aktif) ✅" if motor == m else ""
+            satirlar.append(f"  • {m}{isaret}\n      sohbet: {sid}")
         return (
             f"🤖 Aktif Ajan Motoru: *{motor}*\n\n"
-            f"Desteklenen motorlar:\n"
-            f"  • agy {'(aktif) ✅' if motor == 'agy' else ''}\n"
-            f"  • claude {'(aktif) ✅' if motor == 'claude' else ''}\n"
-            f"  • opencode {'(aktif) ✅' if motor == 'opencode' else ''}\n\n"
+            f"Motorlar ve bağlı sohbetleri:\n" + "\n".join(satirlar) + "\n\n"
             f"Değiştirmek için: /agent <motor>\n"
             f"Örnek: /agent agy"
         )
