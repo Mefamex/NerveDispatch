@@ -8,6 +8,13 @@
 
 ---
 
+### [2026-11-09 06:23] — Geliştirme 2.2: Birleşik nerve CLI ve Alt Komut Yönlendiricisi
+- **Değişiklikler:** `tetikleyici/cli/` paketi kodlandı (`commands.go`, `commands_test.go`). `nerve` / `tetikleyici` ikilisine alt komut yönlendiricisi (`Dispatcher`) entegre edildi. `status`, `session list/reset`, `channel list`, `config check`, `logs [-f]`, `restart`, `qr`, `pair` alt komutları tamamlandı.
+- **Kök Neden / Problem:** Dağınık bash alias'ları ve doğrudan systemctl/journalctl komutları yerine tek birleşik CLI ile tüm sistemin yönetilmesi sağlandı.
+- **Doğrulama Kanıtı:** `cli` birim testleri (0.004s), `make verify` (627+ test ALL_OK), canlı terminalde `nerve status`, `nerve channel list`, `nerve config check` komutları çalıştırılarak doğrulandı.
+
+---
+
 ### [2026-11-09 06:17] — Geliştirme 2.1: Tek Kalıcı Oturum (Sabit Session ID) ve Ajan Adaptör Mimarisi
 - **Değişiklikler:** `tetikleyici/drivers/` paketi oluşturuldu (`AgentDriver` arayüzü, `AgyDriver`, `ClaudeDriver`, `OpencodeDriver`, `SessionStore`). `action.go:runAgent` doğrudan drivers katmanına bağlandı; motor başına sabit oturum ID'si (`.tetikleyici/oturumlar.json`) ve oturum bazlı eşzamanlı kilit mekanizması devreye alındı.
 - **Kök Neden / Problem:** Agy ve Claude'un her WhatsApp mesajında sıfır bağlamlı yeni süreç açması ve konuşma geçmişini unutması engellendi.
