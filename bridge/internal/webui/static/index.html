@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NerveDispatch — Çok Kanallı Kontrol Paneli</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #238636;
+      --green-light: #3fb950;
+      --yellow: #d29922;
+      --red: #f85149;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      padding: 24px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand h1 { font-size: 22px; color: #fff; font-weight: 600; }
+    .badge {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .badge-live { background: rgba(63, 185, 80, 0.2); color: var(--green-light); border: 1px solid var(--green-light); }
+    .badge-wait { background: rgba(210, 153, 34, 0.2); color: var(--yellow); border: 1px solid var(--yellow); }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .card-title {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-value { font-size: 20px; font-weight: 600; color: #fff; }
+    .card-desc { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+    
+    .layout-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .layout-2col { grid-template-columns: 1fr; }
+    }
+    
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      height: 480px;
+      display: flex;
+      flex-direction: column;
+    }
+    .panel-header {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .stream-box {
+      flex: 1;
+      background: #090d13;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 8px;
+    }
+    .stream-item {
+      padding: 6px 10px;
+      border-radius: 4px;
+      background: #161b22;
+      border-left: 3px solid var(--accent);
+      word-break: break-all;
+    }
+    .stream-time { color: var(--text-muted); font-size: 10px; margin-right: 6px; }
+    
+    .pairing-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      text-align: center;
+      gap: 16px;
+    }
+    .qr-container {
+      background: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      width: 180px;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-size: 12px;
+    }
+    .pair-input-group {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      max-width: 320px;
+    }
+    input[type="text"] {
+      flex: 1;
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: #fff;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+    button {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: var(--green-light); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <h1>Nerve Dispatch</h1>
+      <span class="badge badge-live">v2.1 Omnichannel Daemon</span>
+    </div>
+    <div id="connection-status" class="badge badge-live">Bağlantı Kuruldu</div>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-title">WhatsApp <span class="badge badge-live" id="wa-badge">AKTİF</span></div>
+      <div class="card-value" id="wa-status">Bağlı</div>
+      <div class="card-desc">Whatsmeow Socket :31415</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Telegram <span class="badge badge-wait">FAZ 3.2</span></div>
+      <div class="card-value">ID: 975678139</div>
+      <div class="card-desc">Failover & Olay Hattı</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Discord <span class="badge badge-wait">FAZ 3.3</span></div>
+      <div class="card-value">Hazırlanıyor</div>
+      <div class="card-desc">Gateway WebSocket</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Instagram <span class="badge badge-wait">FAZ 3.4</span></div>
+      <div class="card-value">Beklemede</div>
+      <div class="card-desc">Graph Messaging API</div>
+    </div>
+  </div>
+
+  <div class="layout-2col">
+    <!-- Sol Panel: Eşleştirme ve Ajan Özeti -->
+    <div class="panel">
+      <div class="panel-header">
+        <span>Cihaz ve Eşleştirme Merkezi</span>
+      </div>
+      <div class="pairing-box">
+        <div id="qr-wrapper" class="qr-container">
+          <span id="qr-text">WhatsApp Bağlı ✅</span>
+        </div>
+        <p class="card-desc">Telefonunuzdan Bağlı Cihazlar menüsünü kullanarak QR okutabilir veya kod üretebilirsiniz.</p>
+        <div class="pair-input-group">
+          <input type="text" id="phone-input" placeholder="905551234567">
+          <button onclick="requestPairCode()">Eşleştir</button>
+        </div>
+        <div id="pair-result" style="font-size: 13px; color: var(--accent); font-weight: 600;"></div>
+      </div>
+    </div>
+
+    <!-- Sağ Panel: Canlı SSE Olay Akışı -->
+    <div class="panel">
+      <div class="panel-header">
+        <span>Canlı Olay Akışı (SSE /events)</span>
+        <span id="stream-counter" style="font-size: 12px; color: var(--text-muted);">0 olay</span>
+      </div>
+      <div class="stream-box" id="stream-box">
+        <div class="stream-item">
+          <span class="stream-time">Sistem:</span> SSE dinleyici aktif. Olaylar bekleniyor...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let eventCount = 0;
+    const streamBox = document.getElementById("stream-box");
+    const streamCounter = document.getElementById("stream-counter");
+
+    // SSE Dinleyicisi
+    function initSSE() {
+      const evtSource = new EventSource("/events");
+      evtSource.onmessage = function(event) {
+        eventCount++;
+        streamCounter.innerText = eventCount + " olay";
+        const item = document.createElement("div");
+        item.className = "stream-item";
+        const time = new Date().toLocaleTimeString();
+        item.innerHTML = `<span class="stream-time">[${time}]</span> ${event.data}`;
+        streamBox.prepend(item);
+      };
+      evtSource.onerror = function() {
+        document.getElementById("connection-status").className = "badge badge-wait";
+        document.getElementById("connection-status").innerText = "Yeniden Bağlanıyor...";
+      };
+      evtSource.onopen = function() {
+        document.getElementById("connection-status").className = "badge badge-live";
+        document.getElementById("connection-status").innerText = "Bağlantı Kuruldu";
+      };
+    }
+
+    // Sağlık Kontrolü
+    async function checkHealth() {
+      try {
+        const res = await fetch("/health");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.connected && data.paired) {
+            document.getElementById("wa-status").innerText = "Bağlı & Eşleşti";
+            document.getElementById("qr-text").innerText = "WhatsApp Bağlı ✅";
+          } else {
+            document.getElementById("wa-status").innerText = "Eşleşme Bekleniyor";
+            document.getElementById("qr-text").innerText = "QR Bekleniyor...";
+          }
+        }
+      } catch (e) {
+        document.getElementById("wa-status").innerText = "Köprü Çevrimdışı";
+      }
+    }
+
+    // Telefon ile Eşleştirme Kodu
+    async function requestPairCode() {
+      const phone = document.getElementById("phone-input").value.trim();
+      if (!phone) return;
+      const resEl = document.getElementById("pair-result");
+      resEl.innerText = "Kod üretiliyor...";
+      try {
+        const res = await fetch("/pair?phone=" + phone, { method: "POST" });
+        const text = await res.text();
+        resEl.innerText = "Kod: " + text;
+      } catch (e) {
+        resEl.innerText = "Hata: " + e.message;
+      }
+    }
+
+    window.onload = function() {
+      initSSE();
+      checkHealth();
+      setInterval(checkHealth, 10000);
+    };
+  </script>
+</body>
+</html>
