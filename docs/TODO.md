@@ -1,6 +1,6 @@
 # TODO - NerveDispatch (Omnichannel AI Gateway & Dispatcher)
 
-> **Son güncelleme: 2026-11-09 16:18 +03**
+> **Son güncelleme: 2026-11-09 16:19 +03**
 >
 > Not: Bu dosya yalnız **açık işleri** listeler. Biten her şey `TODO.DONE.md`'ye taşınır.
 > Köprü: `paired:true connected:true` (systemd :31415) · Tetikleyici: PID **357170** (systemd user)
@@ -160,14 +160,20 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
 - [ ] Açılışta yapılandırma denetimi: hatlardaki komut bulunamazsa günlüğe ve `/durum`'a uyarı.
 - [ ] Canlı test: Mefamex'ten sesli not, fotoğraf ve belge (.sql/.pdf) → işlenip ajana gidiyor mu.
 
-### 28. 🗂️ Claude ve agy Sohbetlerini WhatsApp'tan Listeleme [AÇIK]
-> İstek (2026-11-09, Mefamex, WhatsApp): Claude ve agy'deki sohbetleri daha iyi görebilmek ve anlayabilmek için sohbet listesi, aktif sohbetler ve son mesaj yazılan sohbetler listelensin. Bugün `/agent durum` yalnız WhatsApp'a bağlı sohbet kimliğini gösteriyor; başlık, son mesaj zamanı ve diğer sohbetler görünmüyor.
-- [ ] Kaynaklar: Claude → `~/.claude/projects/<proje>/*.jsonl` (sohbet başına dosya; başlık/özet, son mesaj zamanı, proje dizini); agy → `~/.gemini/antigravity/conversations/*.db` (SQLite; şema incelenecek).
-- [ ] Komut (ör. `/sohbetler [claude|agy] [n]`): son mesaj zamanına göre sıralı ilk N sohbet; her satırda kısa kimlik, başlık/ilk mesaj özeti, proje, son mesaj zamanı.
-- [ ] Ayrım: 🟢 şu an çalışan (açık süreç / son birkaç dakikada yazılmış), ⭐ WhatsApp'a bağlı (`oturumlar.json`), diğerleri.
-- [ ] Listeden seçip bağlama: `/agent <motor> <sohbet-id>` (madde 23'teki açık alt iş) ile birleşsin; ör. `/sohbetler` çıktısındaki numarayla.
-- [ ] Gizlilik: yalnız sahibe (Mefamex) açık; içerikten sadece kısa özet, sır/token içeren satırlar gösterilmez.
-- [ ] Testler: örnek jsonl/db fikstürleriyle sıralama, özet çıkarma, boş/bozuk dosya.
+### 28. 🗂️ Ajan Sohbet Kataloğu: Ortak Yapı + MCP Aracı (Claude / agy / OpenCode) [AÇIK]
+> İstek (2026-11-09, Mefamex, WhatsApp): Claude ve agy'deki sohbetleri daha iyi görebilmek ve anlayabilmek için sohbet listesi, aktif sohbetler ve son mesaj yazılan sohbetler listelensin. **Ajan her seferinde dosyaları kendisi aramasın; bunun için kalıcı bir yapı geliştirilsin ve MCP'de araç olarak sunulsun.** Bugün `/agent durum` yalnız WhatsApp'a bağlı sohbet kimliğini gösteriyor; ajan sorulunca `ps` ve `oturumlar.json` ile elle bakıyor.
+- [ ] **Ortak katalog modülü** (motor bağımsız, ör. `tetikleyici/katalog/`): her motor için bir okuyucu → tek tip kayıt: `motor, id, baslik/ozet, proje_dizini, ilk_mesaj, son_mesaj_zamani, mesaj_sayisi, durum (calisiyor/bagli/bos)`.
+  - Claude → `~/.claude/projects/<proje>/*.jsonl` (sohbet başına dosya).
+  - agy → `~/.gemini/antigravity/conversations/*.db` (SQLite; şema incelenecek).
+  - OpenCode → kendi oturum veritabanı (yeri `~/.config/opencode/INDEX.md`'den bakılacak).
+- [ ] **MCP araçları** (`mcp_server/tools/definitions.py` + `handlers.py`):
+  - `agents_list_sessions(motor?, limit?, sadece_aktif?)` → son mesaj zamanına göre sıralı liste.
+  - `agents_get_session(motor, id, son_n_mesaj?)` → tek sohbetin özeti ve son mesajları.
+  - `agents_active_sessions()` → şu an çalışan + WhatsApp'a bağlı (`oturumlar.json`) sohbetler.
+- [ ] Aynı modül WhatsApp komutunu da beslesin: `/sohbetler [claude|agy|opencode] [n]` (🟢 çalışan, ⭐ bağlı); listeden numarayla `/agent <motor> <sohbet-id>` bağlama (madde 23 açık alt işi).
+- [ ] Hız: dosya değişim zamanına göre önbellek; her çağrıda tüm jsonl'ler baştan okunmasın.
+- [ ] Gizlilik: yalnız sahip (Mefamex); içerikten kısa özet, sır/token içeren satırlar maskelenir.
+- [ ] Testler: örnek jsonl/db fikstürleriyle sıralama, özet çıkarma, boş/bozuk dosya; MCP araç sözleşme testi.
 
 ---
 
