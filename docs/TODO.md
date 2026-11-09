@@ -22,7 +22,11 @@
 >
 > *(Not: Tamamlanan Sprint #1–#6 maddeleri ve arşivlenmiş işler [TODO.DONE.md](./TODO.DONE.md) kütüğüne taşınmıştır.)*
 
-### 7. 🧵 Tek Kalıcı Oturum (Sabit Session ID) ve Ajan Adaptör Mimarisi [SIRADA 🎯]
+### 7. 🧵 Tek Kalıcı Oturum (Sabit Session ID) ve Ajan Adaptör Mimarisi [TAMAMLANDI ✅]
+- [x] **Ortak `AgentDriver` Arayüzü (`tetikleyici/drivers/`):** `Driver`, `SessionStore`, `AgyDriver`, `ClaudeDriver`, `OpencodeDriver` implementasyonu tamamlandı.
+- [x] **Kalıcı Oturum Deposu:** `.tetikleyici/oturumlar.json` üzerinden her motorun sabit konuşma ID'si okundu/yazıldı.
+- [x] **Eşzamanlılık Kilidi:** Oturum ve motor bazlı `oturumKilidiAl` kilit mekanizması bağlandı.
+- [x] **Doğrulama:** Birim testleri ve `make verify` yeşil geçti, canlı sistemd servisi devreye alındı.
 **Sorun:**
 1. `runAgent` (`tetikleyici/action.go`) agy ve claude için her mesajda `agy -p "<prompt>"` / `claude -p "<prompt>"` çalıştırıyor → her mesaj SIFIR bağlamlı yeni konuşma; önceki mesajı hatırlamıyor.
 2. `opencode`, `agy` ve `claude` CLI'larının oturum listeleme (`session list`), oturum formatları (`ses_...` vs UUID), bayrakları ve girdi/çıktı yöntemleri tamamen birbirinden farklı. Tek bir fonksiyon içine gömülen `if/else` blokları sürdürülemez hâle geliyor.

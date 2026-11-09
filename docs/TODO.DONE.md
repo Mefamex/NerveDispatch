@@ -8,6 +8,13 @@
 
 ---
 
+### [2026-11-09 06:17] — Geliştirme 2.1: Tek Kalıcı Oturum (Sabit Session ID) ve Ajan Adaptör Mimarisi
+- **Değişiklikler:** `tetikleyici/drivers/` paketi oluşturuldu (`AgentDriver` arayüzü, `AgyDriver`, `ClaudeDriver`, `OpencodeDriver`, `SessionStore`). `action.go:runAgent` doğrudan drivers katmanına bağlandı; motor başına sabit oturum ID'si (`.tetikleyici/oturumlar.json`) ve oturum bazlı eşzamanlı kilit mekanizması devreye alındı.
+- **Kök Neden / Problem:** Agy ve Claude'un her WhatsApp mesajında sıfır bağlamlı yeni süreç açması ve konuşma geçmişini unutması engellendi.
+- **Doğrulama Kanıtı:** `tetikleyici/drivers` birim testleri (0.004s), `make verify` (627+ test ALL_OK), canlı `systemctl --user restart whatsapp-tetikleyici` (PID 312062) ile canlı akış bağlantısı doğrulandı.
+
+---
+
 ### [2026-11-09 06:03] — FAZ 1 Adım 1.1, 1.2, 1.3: Monorepo Kod Birleşimi, Geçmiş Korunumu ve Canlı Durum Aktarımı
 - **Değişiklikler:** `whatsapp-bridge-mcp` ve `whatsapp-tetikleyici` repoları `git-filter-repo` ile gereksiz kök dokümanlarından temizlenip, tüm commit geçmişleri korunarak `git merge --allow-unrelated-histories` ile `NerveDispatch` monoreposuna birleştirildi. `go.work` ve birleşik `.gitignore` kuruldu. Canlı `tetikleyici.yaml`, `pasif-kurallar.yaml` ve `.tetikleyici/` durum dosyaları (`aktif_motor.txt`, `tunel_durumu.json`, `son_sessionlar.json`, `seen.txt`, `bildirim.txt`) aktarıldı. `session.db` yerinde korundu. PII taraması %100 temizlendi.
 - **Kök Neden / Problem:** İki dağınık kaynak reponun tek bir monorepoda, geçmişi ve canlı çalışma verisi kaybolmaksızın toplanması.
