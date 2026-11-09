@@ -175,6 +175,25 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
 - [ ] Gizlilik: yalnız sahip (Mefamex); içerikten kısa özet, sır/token içeren satırlar maskelenir.
 - [ ] Testler: örnek jsonl/db fikstürleriyle sıralama, özet çıkarma, boş/bozuk dosya; MCP araç sözleşme testi.
 
+#### 28.A — agy: Antigravity Desktop sohbetine doğrudan bağlanma (araştırma, 2026-11-09 Claude)
+**Sorun:** Tetikleyici agy'yi CLI olarak çağırıyor (`agy -p --conversation <id>`). CLI sohbetleri `~/.gemini/antigravity-cli/` altında, Desktop sohbetleri `~/.gemini/antigravity/` altında; CLI Desktop sohbetini bulamıyor (`trajectory not found`). Denendi: `8372b68f…`, `270cacd4…` ("Turkish Greeting"), `--project NerveDispatch` ile de aynı hata. Hata anında döndü, sohbete bir şey yazılmadı.
+
+**Yol 1 (önerilen): Desktop `language_server` ConnectRPC** - `ai-agents-bridge` zaten bulup kullanıyor (`internal/agents/desktop_sender.go`: `pgrep resources/bin/language_server` → `/proc/<pid>/cmdline`'dan `--csrf_token`, `ss -ltnp`'den port, başlık `X-Codeium-Csrf-Token`, JSON gövde, `https://127.0.0.1:<port>/exa.language_server_pb.LanguageServerService/<Yöntem>`).
+- Gönderme: `SendUserCascadeMessage` (köprüde çalışıyor).
+- Cevap okuma: `GetCascadeTrajectory {"cascadeId": …}` → `trajectory.steps[]`. **Doğrulandı** (salt okunur, "Turkish Greeting"): adım 0 `CORTEX_STEP_TYPE_USER_INPUT` → `userInput.userResponse` = "selam"; adım 1 `CORTEX_STEP_TYPE_PLANNER_RESPONSE` → `plannerResponse.response` = asistan cevabı; her adımda `status` (`CORTEX_STEP_STATUS_DONE`) ve `metadata.createdAt`.
+- Bitti mi?: `GetAllCascadeTrajectories` özetinde sohbet başına `status` (`CASCADE_RUN_STATUS_IDLE` / çalışırken farklı), `stepCount`, `lastModifiedTime`, `lastUserInputStepIndex`, `latestExecutorTerminationReason`. **Doğrulandı.**
+- Akış: `StreamCascadeReactiveUpdates`, `StreamCascadeSummariesReactiveUpdates`, `StreamAgentStateUpdates` (yoklama yerine canlı izleme; sözleşmesi incelenmedi).
+- Diğer: `GetCascadeTrajectorySteps`, `GetTrajectoryTurns`, `ConvertTrajectoryToMarkdown`, `CancelCascadeInvocation`, `StartCascade` (yeni Desktop sohbeti), `DeleteCascadeTrajectory`.
+- **Akış tasarımı:** gönder → `stepCount`/`lastUserInputStepIndex` ile kendi mesajının adımını bul → durum `IDLE`'a dönene kadar (ya da akışla) bekle → o adımdan sonraki `PLANNER_RESPONSE` metin(ler)ini topla → WhatsApp'a gönder. Sohbet ekranda canlı görünür, Desktop'tan devam edilebilir.
+- **Riskler:** Desktop kapalıysa sunucu yok (CLI'ya ya da hata mesajına düşmeli); port ve token her açılışta değişir (her çağrıda yeniden bul); iç API, Antigravity güncellemesinde değişebilir (sözleşme testi + açık hata mesajı); araç onayı isteyen adımlar (`HandleCascadeUserInteraction`) beklemede kalabilir.
+- [ ] `tetikleyici/drivers/agydesktop.go`: `Driver` arayüzü (Result döndürür); `language_server` keşfi `ai-agents-bridge` ile ortak kalsın ya da küçük bir kopya.
+- [ ] Motor seçimi: `/agent agy` → Desktop sunucusu varsa Desktop, yoksa CLI (yapılandırılabilir: `agy_mod: desktop|cli|oto`).
+- [ ] Sahte `language_server` ile birim testi (gönder → adım ekle → IDLE → cevap).
+
+**Yol 2 (riskli, denenmedi): CLI'yı Desktop veri dizinine yönlendirmek.** `agy acp --help` bir `--app-data-dir` bayrağı gösteriyor (varsayılan `antigravity-cli`). `antigravity` verilirse CLI Desktop sohbetlerini görebilir. **Ancak** Desktop açıkken iki süreç aynı SQLite sohbet veritabanına yazar; veri bozulma riski var. Ana `agy` komutunun bu bayrağı kabul edip etmediği de doğrulanmadı. Yalnız Desktop kapalıyken ve yedekle denenebilir.
+
+**Yol 3: `agy acp`** (Agent Client Protocol, stdio). Programatik oturum arayüzü; yine CLI veri dizinini kullanır. Desktop'a bağlanmaz ama `-p` yerine kalıcı süreçle daha hızlı ve olay akışlı bir CLI sürücüsü için aday.
+
 ---
 
 ## Kritik / Bloke
