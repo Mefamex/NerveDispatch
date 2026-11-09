@@ -150,14 +150,15 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
 - [ ] Ajan çalışırken gelen mesajlar kuyrukta birikip bitince **tek** çağrıyla verilsin; bir önceki çağrının zaten gördüğü mesajlar için yeni çağrı açılmasın.
 - [ ] Testler: art arda 3 mesaj → 1 çağrı; çağrı sürerken gelen 2 mesaj → 1 ek çağrı.
 
-### 27. 🎙️🖼️ Ses ve Görsel Hatları Çalışmıyor (`voice_pipeline.py` / `gorsel_pipeline.py` bulunamıyor) [AÇIK - sonra]
+### 27. 🎙️🖼️📄 Ses, Görsel ve Belge Hatları Çalışmıyor (`voice_pipeline.py` / `gorsel_pipeline.py` bulunamıyor) [AÇIK - sonra]
 > Tespit (2026-11-09 16:07, Claude): Mefamex'in sesli notu (ogg/opus, 90.8 KB) `ses hattı`na düştü ama komut `zsh:1: command not found: voice_pipeline.py` (exit 127) ile çöktü; kullanıcıya "İş tamamlanamadı" gitti. Kök neden: `tetikleyici.yaml:234` → `ses: voice_pipeline.py` göreli ad, `./` ya da tam yol yok, PATH'te de değil. Dosya proje kökünde mevcut (`voice_pipeline.py`, çalıştırılabilir). Birleşme (madde 22) sonrası eski tam yol (`~/Desktop/whatsapp-bridge-project/…`) kısaltılmış olabilir.
 > Görsel (2026-11-09 16:08): Mefamex'in fotoğrafı (jpeg, 343.6 KB) `image hattı`nda aynı şekilde çöktü: `command not found: gorsel_pipeline.py` (exit 127), `tetikleyici.yaml:233` → `gorsel: gorsel_pipeline.py`. Ek sorun: hata bildirimi "çift gönderim bastırıldı (86 sn önce aynı metin gitti)" ile yutuldu, kullanıcıya görselin işlenmediği hiç söylenmedi (yalnız ❌ tepkisi).
+> Belge (2026-11-09 16:10): Mefamex'in `.sql` dosyası (application/x-sql, 1.3 KB) `belge hattı`nda aynı hatayla çöktü (belge hattı da `gorsel_pipeline.py` kullanıyor). `gorsel/belge.py` bilinmeyen uzantıyı düz metin olarak okuyor, yani yol düzelince `.sql` de okunur.
 - [ ] Aynı kök neden: `gorsel:` ve `ses:` ikisi de göreli ad. `cmd: tetikleyici/cmd/cmd.py` de göreli ama `/` içerdiği için çalışıyor.
 - [ ] Hata bildirimi çift gönderim bastırmasına takılmasın (ya da metne hat adı eklensin: "Görsel işlenemedi" / "Sesli not işlenemedi").
 - [ ] Hat komutları proje köküne göre çözülsün (ya da yaml'da `./voice_pipeline.py`); `tetikleyici.example.yaml` ve `config.readme.md:149` (eski yol) güncellensin.
 - [ ] Açılışta yapılandırma denetimi: hatlardaki komut bulunamazsa günlüğe ve `/durum`'a uyarı.
-- [ ] Canlı test: Mefamex'ten sesli not ve fotoğraf → işlenip ajana gidiyor mu.
+- [ ] Canlı test: Mefamex'ten sesli not, fotoğraf ve belge (.sql/.pdf) → işlenip ajana gidiyor mu.
 
 ---
 
