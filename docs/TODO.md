@@ -192,6 +192,13 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
 
 **Yol 2 (riskli, denenmedi): CLI'yı Desktop veri dizinine yönlendirmek.** `agy acp --help` bir `--app-data-dir` bayrağı gösteriyor (varsayılan `antigravity-cli`). `antigravity` verilirse CLI Desktop sohbetlerini görebilir. **Ancak** Desktop açıkken iki süreç aynı SQLite sohbet veritabanına yazar; veri bozulma riski var. Ana `agy` komutunun bu bayrağı kabul edip etmediği de doğrulanmadı. Yalnız Desktop kapalıyken ve yedekle denenebilir.
 
+**Karar bekleyen öneriler (Claude, 2026-11-09; Mefamex: "sonra düşünelim, sonra karar verip test ederiz"):**
+- [ ] **Öneri 1 - Yol 1'i seç:** agy için Desktop `language_server` sürücüsü (yukarıdaki akış tasarımı). Desktop kapalıysa CLI'ya düşsün.
+- [ ] **Öneri 2 - Geçici önlem:** O zamana kadar `.tetikleyici/oturumlar.json`'daki agy kaydı (`8372b68f…`, Desktop sohbeti) CLI'dan ulaşılamıyor; `/agent agy`'ye geçilirse her mesaj "trajectory not found" döner. Ya kayıt boşaltılsın (ilk mesajda CLI sohbeti açılıp kaydedilir) ya da agy'ye geçilmesin.
+- [ ] **Öneri 3 - Otomatik geçiş:** Kayıtlı sohbet bulunamazsa (`not_found`) yeni sohbet açılsın ve kayıt güncellensin, kullanıcıya bir satır bilgi verilsin (madde 23 açık alt işi).
+- [ ] **Öneri 4 - Desktop kataloğu (agy + Claude):** Madde 28 kataloğu CLI dosyalarına ek olarak Desktop sohbetlerini de listelesin. agy: `GetAllCascadeTrajectories` (başlık, `status`, `stepCount`, `lastModifiedTime`, `workspaces`). Claude: `~/.config/Claude/claude-code-sessions/*/*/local_*.json` (başlık, `cwd`, `cliSessionId`, `bridgeSessionIds`, `lastActivityAt`) + `~/.claude/projects/<proje>/<cliSessionId>.jsonl`. Hangi alanların gösterileceği ve nasıl test edileceği sonra kararlaştırılacak.
+- [ ] **Öneri 5 - Sözleşme testi:** Desktop iç API'si güncellemeyle değişebileceği için `GetCascadeTrajectory` / özet alanlarını kontrol eden küçük bir "canlı sözleşme" testi (Desktop açıksa çalışır, değilse atlanır).
+
 **Yol 3: `agy acp`** (Agent Client Protocol, stdio). Programatik oturum arayüzü; yine CLI veri dizinini kullanır. Desktop'a bağlanmaz ama `-p` yerine kalıcı süreçle daha hızlı ve olay akışlı bir CLI sürücüsü için aday.
 
 ---
