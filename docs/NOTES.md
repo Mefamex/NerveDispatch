@@ -67,3 +67,16 @@
 - **Sayılar:** Go test dosyası tetikleyici 30 / köprü 19; `func Test` 333 + 157; Python `def test_` 167 (11 dosya). MCP aracı 17 (`whatsapp_reaction`, `whatsapp_react` değil).
 - **Git geçmişi PII:** İki kaynak reponun tüm commitlerinde gerçek telefon/LID kalıbı **yok** (`git grep` tüm `rev-list --all`) → geçmiş korunarak taşınabilir.
 - **Eski kök `Makefile` hatası:** `lint/test/build` hedefleri `2>/dev/null || true` ile hatayı yutuyordu → `verify` her koşulda ALL_OK basıyordu.
+
+---
+
+## 7. Mefamex Gece Geliştirme Talimatları ve Devir Kuralları (2026-11-09)
+
+Mefamex'in uyku öncesi verdiği doğrudan direktifler:
+1. **Claude'u Rahatsız Etmeme:** Claude'un limiti yenilenene kadar ona hiçbir şey sorulmayacak, kotası (%91) yakılmayacak.
+2. **NerveDispatch Odaklı Kesintisiz Geliştirme:** Tamamen NerveDispatch ile ilgilenilecek. "Bu projeyi bitirene kadar durma; takıldığın yer olursa projenin başka bir işine geç."
+3. **Canlı WhatsApp Test İzni:** Testler için Mefamex'in WhatsApp'ı (`12345678901234@lid`) kullanılabilir. Telefon sessizde, internet açık.
+4. **Tetikleyici Betiği:** `ai-agents-bridge` altında geliştirilen tetikleyici betiği bittiğinde kurulacak; süreç takılıp kalmayacak.
+5. **Kota Yönetimi & Uyku Ayarı:** Limit bitmeye gelirse (%95) yenilene kadar durulacak. İkimizin limiti de biterse tetikleyici yenileneceği zamana ayarlanacak.
+6. **ask.md Kuralı:** Verilen cevaplara göre sorulacak başka bir şey yoksa planlanıp ilgili md dosyalarına (`TODO.md`, `TODO.DONE.md`, `NOTES.md` vb.) aktarılacak, `ask.md` daima temiz kalacak.
+

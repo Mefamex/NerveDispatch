@@ -1,15 +1,73 @@
-# Derleme çıktıları
+# Binaries and build outputs
 bin/
+dist/
+build/
+whatsapp-bridge
+bridge/whatsapp-bridge
+tetikleyici/tetikleyici
+tetikleyici.bin
 *.exe
 
-# Ortam ve bağımlılıklar
-.venv/
-vendor/
+# WhatsApp session data (CRITICAL - NEVER COMMIT)
+whatsmeow.db*
+*.db
+*.db-shm
+*.db-wal
 
-# Geçici ve önbellek dosyaları
+# Runtime tunnel & dynamic states (CRITICAL)
+.tetikleyici/
+*.state
+*.json.tmp
+
+# Output & temp media
+whatsapp-cmd/
+tmp/
+*.tmp
+*.wav
+*.ogg
+*.opus
+*.mp4
+*.jpg
+*.jpeg
+*.png
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+tetikleyici.yaml
+pasif-kurallar.yaml
+*.local.yaml
+
+# Python cache & venv
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+.venv/
+venv/
+vendor/
 .pytest_cache/
+.ruff_cache/
 
-# Graphify çıktıları
+# Node & Sidecar dependencies / cache
+node_modules/
+sidecar/node_modules/
+sidecar/cache/
+sidecar/rsrc-dump.txt
+*.wasm
+
+# Logs and runtime files
+logs/
+*.log
+*.pid
+
+# IDE and OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+.directory
+
+# Generated graph cache
 graphify-out/
