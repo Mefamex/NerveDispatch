@@ -3,7 +3,7 @@
 # =============================================================================
 
 .DEFAULT_GOAL := help
-.PHONY: help install reinstall update upgrade remove run dev lint test verify build clean graphify snapshot
+.PHONY: help install reinstall update upgrade remove run dev lint test verify build clean graphify snapshot e2e
 
 help: ## Mevcut komutları ve açıklamalarını listeler
 	@echo "Kullanım: make [komut]"
@@ -59,6 +59,9 @@ test: ## Go ve Python testlerini koşturur (hataları yutmaz)
 
 verify: lint test build ## Tam doğrulama zinciri (lint + test + build)
 	@echo "==> TÜM KONTROLLER VE TESTLER BAŞARIYLA GEÇTİ (ALL_OK) <=="
+
+e2e: build ## Uçtan uca test matrisi: gerçek tetikleyici ikilisi + sahte köprü (FAZ 4.3)
+	@pytest -v tests/e2e/
 
 snapshot: ## session.db ve durum dosyalarının WAL-güvenli anlık yedeğini alır (FAZ 4.2)
 	@./scripts/nerve-snapshot.sh
