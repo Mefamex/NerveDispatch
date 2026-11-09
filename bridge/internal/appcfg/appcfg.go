@@ -24,15 +24,15 @@ const (
 	MessagesFileName = "messages.jsonl"
 
 	// VoIP sidecar layout (Node.js process driving WhatsApp Web call code).
-	SidecarHomeSubDir = "Desktop/whatsapp-bridge-project/wa-voip-sidecar"
+	SidecarHomeSubDir = "sidecar"
 	SidecarEntry      = "index.js"
 	SidecarStateDir   = ".wa-voip-sidecar"
 	SidecarWAMSubDir  = "cache"
 	SidecarLogFile    = "sidecar.log"
 	SidecarLoaderFile = "WAWebVoipWebWasmLoader.js"
 
-	// ProjectSubDir is the whatsapp-bridge checkout.
-	ProjectSubDir = "Desktop/whatsapp-bridge-project"
+	// ProjectDefaultDir is the primary NerveDispatch monorepo directory.
+	ProjectDefaultDir = "/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch"
 
 	// StateDirName holds everything the helper commands write: trigger state,
 	// payload dumps, logs. Kept inside the project so nothing litters $HOME
@@ -99,6 +99,12 @@ func SidecarDir() string {
 			}
 		}
 	}
+	if project, err := ProjectDir(); err == nil {
+		candidate := filepath.Join(project, "sidecar")
+		if fi, err := os.Stat(candidate); err == nil && fi.IsDir() {
+			return candidate
+		}
+	}
 	home, _ := os.UserHomeDir()
 	return filepath.Join(home, filepath.FromSlash(SidecarHomeSubDir))
 }
@@ -112,12 +118,20 @@ func ProjectDir() (string, error) {
 		if fi, err := os.Stat(filepath.Join(cwd, "config.yaml")); err == nil && !fi.IsDir() {
 			return cwd, nil
 		}
+		if fi, err := os.Stat(filepath.Join(cwd, "..", "config.yaml")); err == nil && !fi.IsDir() {
+			if parent, err := filepath.Abs(filepath.Join(cwd, "..")); err == nil {
+				return parent, nil
+			}
+		}
+	}
+	if fi, err := os.Stat(ProjectDefaultDir); err == nil && fi.IsDir() {
+		return ProjectDefaultDir, nil
 	}
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, filepath.FromSlash(ProjectSubDir)), nil
+	return filepath.Join(home, "NerveDispatch"), nil
 }
 
 // StateDir returns the project-local directory for helper command output,
