@@ -3,7 +3,7 @@
 # =============================================================================
 
 .DEFAULT_GOAL := help
-.PHONY: help install reinstall update upgrade remove run dev lint test verify build clean graphify
+.PHONY: help install reinstall update upgrade remove run dev lint test verify build clean graphify snapshot
 
 help: ## Mevcut komutları ve açıklamalarını listeler
 	@echo "Kullanım: make [komut]"
@@ -59,6 +59,9 @@ test: ## Go ve Python testlerini koşturur (hataları yutmaz)
 
 verify: lint test build ## Tam doğrulama zinciri (lint + test + build)
 	@echo "==> TÜM KONTROLLER VE TESTLER BAŞARIYLA GEÇTİ (ALL_OK) <=="
+
+snapshot: ## session.db ve durum dosyalarının WAL-güvenli anlık yedeğini alır (FAZ 4.2)
+	@./scripts/nerve-snapshot.sh
 
 clean: ## Geçici dosyaları ve önbellekleri temizler
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
