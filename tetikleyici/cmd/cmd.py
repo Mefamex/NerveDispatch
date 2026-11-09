@@ -339,6 +339,14 @@ def ana(metin: str, gonderen_numara: str, gonderen_isim: str) -> str:
         pass
 
     if sonuc.komut_turu == "once":
+        # ── Geliştirme 2.7: Tehlikeli komut onay denetimi ──
+        from onay import tehlikeli_mi, izinli_mi, onay_anketi_gonder
+
+        tehlikeli, aciklama = tehlikeli_mi(kod)
+        if tehlikeli and not izinli_mi(kod):
+            ok, onay_mesaj = onay_anketi_gonder(kod, gonderen_numara, aciklama)
+            return onay_mesaj
+
         # Tek seferlik çalıştır
         calistir_sonuc = calistir(kod, debug_cikti=debug_cikti)
 
