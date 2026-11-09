@@ -37,7 +37,7 @@ func (d *OpencodeDriver) Name() string {
 }
 
 // Run executes opencode with persistent session support.
-func (d *OpencodeDriver) Run(ctx context.Context, sessionID string, prompt string, env []string, dir string) (string, error) {
+func (d *OpencodeDriver) Run(ctx context.Context, sessionID string, prompt string, env []string, dir string) (Result, error) {
 	args := []string{"run"}
 	if sessionID != "" {
 		args = append(args, "-s", sessionID)
@@ -59,10 +59,10 @@ func (d *OpencodeDriver) Run(ctx context.Context, sessionID string, prompt strin
 	if err := cmd.Run(); err != nil {
 		errOut := strings.TrimSpace(stderr.String())
 		if errOut != "" {
-			return stdout.String(), fmt.Errorf("opencode error: %w (stderr: %s)", err, errOut)
+			return Result{Text: stdout.String(), SessionID: sessionID}, fmt.Errorf("opencode error: %w (stderr: %s)", err, errOut)
 		}
-		return stdout.String(), err
+		return Result{Text: stdout.String(), SessionID: sessionID}, err
 	}
 
-	return stdout.String(), nil
+	return Result{Text: stdout.String(), SessionID: sessionID}, nil
 }

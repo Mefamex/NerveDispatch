@@ -19,10 +19,22 @@ type Session struct {
 	UpdatedAt string `json:"updated_at,omitempty"`
 }
 
+// Result is what a driver run produced: the reply text and the conversation
+// it ran in. SessionID is the ID to resume next time; when the run opened a
+// brand-new conversation it is that new ID, so the caller can persist it.
+type Result struct {
+	Text      string
+	SessionID string
+}
+
 // Driver is the common interface implemented by all AI agent CLI adapters.
+//
+// sessionID empty means "open a new conversation"; non-empty means "resume
+// exactly this conversation". The returned Result.SessionID is the
+// conversation actually used (empty only if the driver cannot tell).
 type Driver interface {
 	Name() string
-	Run(ctx context.Context, sessionID string, prompt string, env []string, dir string) (string, error)
+	Run(ctx context.Context, sessionID string, prompt string, env []string, dir string) (Result, error)
 }
 
 // SessionEntry stores the persistent session mapping in oturumlar.json.

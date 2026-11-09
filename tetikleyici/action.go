@@ -682,7 +682,15 @@ func runAgent(ctx context.Context, opts options, act action, p payload, araMesaj
 	motor := aktifMotorAl()
 	logf("  aktif motor: %s", motor)
 
+	stateDir := filepath.Dir(defaultState("seen.txt"))
+	store := drivers.NewSessionStore(stateDir)
+
 	if motor == "opencode" {
+		// Kuraldaki session: (veya /session go tüneli) OpenCode'a aittir ve
+		// önceliklidir; boşsa oturumlar.json'daki opencode kaydı kullanılır.
+		if strings.TrimSpace(act.SessionID) == "" {
+			act.SessionID = store.Get("opencode")
+		}
 		return runOpencodeDirect(ctx, opts, act, p, araMesaj)
 	}
 
@@ -691,24 +699,24 @@ func runAgent(ctx context.Context, opts options, act action, p payload, araMesaj
 		prompt = t
 	}
 
-	// Sabit oturum çözümü
-	stateDir := filepath.Dir(defaultState("seen.txt"))
 	guard := NewQuotaGuard(stateDir)
 	if ok, sebep := guard.CanExecute(motor); !ok {
 		logf("  ⏸ KOTA KORUYUCU DEVREDE: %s", sebep)
 		return fmt.Sprintf("⚠️ %s", sebep), nil
 	}
 
-	store := drivers.NewSessionStore(stateDir)
-	sessionID := act.SessionID
+	// Motor başına sabit sohbet: yalnız o motorun oturumlar.json kaydı.
+	// Kuraldaki session: bir OpenCode kimliğidir (ses_…); agy/claude'a
+	// verilmez. Kayıt yoksa sürücü yeni sohbet açar ve kimliği aşağıda
+	// kaydedilir; sonraki mesajlar o sohbete gider.
+	sessionID := store.Get(motor)
 	if sessionID == "" {
-		sessionID = store.Get(motor)
+		logf("  %s: kayıtlı sohbet yok → yeni sohbet açılacak", motor)
+	} else {
+		logf("  %s sohbeti: %s", motor, sessionID)
 	}
 
-	lockID := sessionID
-	if lockID == "" {
-		lockID = motor
-	}
+	lockID := motor + ":" + sessionID
 	serbestBirak, err := oturumKilidiAl(ctx, lockID)
 	if err != nil {
 		return "", fmt.Errorf("oturum kilidi alınamadı (%s): %w", lockID, err)
@@ -718,22 +726,36 @@ func runAgent(ctx context.Context, opts options, act action, p payload, araMesaj
 	ctx, cancel := context.WithTimeout(ctx, act.sure(opts))
 	defer cancel()
 
-	var driver drivers.Driver
-	switch motor {
-	case "agy":
-		driver = drivers.NewAgyDriver("")
-	case "claude":
-		driver = drivers.NewClaudeDriver("")
-	default:
+	driver := yeniSurucu(motor)
+	if driver == nil {
 		return "", fmt.Errorf("bilinmeyen ajan motoru: %s", motor)
 	}
 
-	rawOut, err := driver.Run(ctx, sessionID, prompt, p.env(), projectDir())
-	metin := sonCevap(rawOut, araMesaj)
+	sonuc, err := driver.Run(ctx, sessionID, prompt, p.env(), projectDir())
+	if yeni := strings.TrimSpace(sonuc.SessionID); yeni != "" && yeni != sessionID {
+		if serr := store.Set(motor, yeni); serr != nil {
+			logf("  ⚠️ %s sohbet kimliği kaydedilemedi: %v", motor, serr)
+		} else {
+			logf("  %s yeni sohbeti kaydedildi: %s", motor, yeni)
+		}
+	}
+	metin := sonCevap(sonuc.Text, araMesaj)
 	if err != nil {
 		return metin, fmt.Errorf("%s çalıştırma hatası: %w", motor, err)
 	}
 	return metin, nil
+}
+
+// yeniSurucu, motor adına göre ajan sürücüsünü kurar. Testler sahte sürücü
+// vermek için değiştirir.
+var yeniSurucu = func(motor string) drivers.Driver {
+	switch motor {
+	case "agy":
+		return drivers.NewAgyDriver("")
+	case "claude":
+		return drivers.NewClaudeDriver("")
+	}
+	return nil
 }
 
 // runOpencodeDirect, doğrudan opencode binary'sini çalıştırır.
