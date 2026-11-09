@@ -1,6 +1,6 @@
 # TODO - NerveDispatch (Omnichannel AI Gateway & Dispatcher)
 
-> **Son güncelleme: 2026-11-09 07:38 +03**
+> **Son güncelleme: 2026-11-09 16:05 +03**
 >
 > Not: Bu dosya yalnız **açık işleri** listeler. Biten her şey `TODO.DONE.md`'ye taşınır.
 > Köprü: `paired:true connected:true` (systemd :31415) · Tetikleyici: PID **357170** (systemd user)
@@ -135,6 +135,14 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
 - [ ] Varsayılan CPU eşiği 95°C.
 - [ ] Alarm yalnız sınır art arda birkaç ölçümde aşılırsa gitsin (ör. 3 ölçüm = 15 dk); tek anlık sıçrama bildirim üretmesin.
 - [ ] Testler + `tetikleyici.example.yaml` belgelemesi.
+
+### 25. 📊 Ajanın Anket Göndermesi ve Gelen Ankete Oy Vermesi [AÇIK]
+> Tespit (2026-11-09, WhatsApp testi, Claude): Köprüde altyapı hazır (`/send-poll`, `/poll-vote`, `poll_vote` olayı; MCP `whatsapp_send_poll` / `whatsapp_vote_poll`). Ama tetikleyici hattında ajan yalnız düz metin üretiyor: Mefamex'in anketi ajana `📊 başlık + • seçenekler` metni olarak geliyor (poll_id yok), ajan oy veremiyor ve cevabındaki anket de düz metin gidiyor.
+- [ ] Gelen anket metnine `poll_id` (mesaj kimliği) eklensin ki ajan hangi ankete oy vereceğini bilsin.
+- [ ] Ajan çıktısında anket yönergesi: ör. `[[anket: Soru | seçenek1 | seçenek2]]` → tetikleyici `/send-poll` ile gerçek anket gönderir, yönerge metinden çıkarılır.
+- [ ] Ajan çıktısında oy yönergesi: ör. `[[oy: <poll_id> | seçenek]]` → `/poll-vote`.
+- [ ] Ajana giden istem notuna bu yönergelerin kısa tarifi eklensin (motor bağımsız).
+- [ ] Testler: yönerge ayrıştırma (geçersiz/eksik seçenek, tek seçenek), metinden temizleme, canlı test (Mefamex'e anket + oy).
 
 ---
 
