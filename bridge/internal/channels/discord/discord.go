@@ -91,7 +91,7 @@ func (a *Adapter) Connect(ctx context.Context) error {
 
 	if a.cfg.Token == "" {
 		a.connected = false
-		return fmt.Errorf("discord bot token bulunamadı (DISCORD_BOT_TOKEN veya config.yaml)")
+		return fmt.Errorf("discord bot token bulunamadı (DISCORD_BOT_TOKEN ortam değişkeni)")
 	}
 
 	url := fmt.Sprintf("%s/users/@me", a.apiBase)

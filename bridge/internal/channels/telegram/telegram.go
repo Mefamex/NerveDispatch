@@ -78,7 +78,7 @@ func (a *Adapter) Connect(ctx context.Context) error {
 
 	if a.cfg.Token == "" {
 		a.connected = false
-		return fmt.Errorf("telegram bot token bulunamadı (TELEGRAM_BOT_TOKEN veya config.yaml)")
+		return fmt.Errorf("telegram bot token bulunamadı (TELEGRAM_BOT_TOKEN ortam değişkeni)")
 	}
 
 	// 1. getMe testi
