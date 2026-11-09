@@ -8,6 +8,13 @@
 
 ---
 
+### [2026-11-09 06:25] — Geliştirme 2.3: Sıfır-Yüklü Gömülü Web Dashboard (go:embed)
+- **Değişiklikler:** `bridge/internal/webui/` paketi oluşturuldu. Tek sayfalık, modern koyu temalı, harici bağımlılıksız Web Dashboard (`static/index.html`) `//go:embed` ile ikiliye gömüldü. HTTP API katmanına `/dashboard/` ve `/ui/` rotaları bağlandı. Kanal durum kartları, canlı `/events` SSE akışı ve telefon eşleştirme arayüzü sağlandı.
+- **Kök Neden / Problem:** Ağır Electron/Qt GUI ihtiyacı olmadan ekransız sunucularda ve masaüstünde sıfır ek RAM maliyetiyle tarayıcıdan görsel yönetim ve canlı olay takibi sağlandı.
+- **Doğrulama Kanıtı:** `webui` birim testi (0.005s), `httpapi` dashboard testi (0.006s), `make verify` (627+ test ALL_OK).
+
+---
+
 ### [2026-11-09 06:23] — Geliştirme 2.2: Birleşik nerve CLI ve Alt Komut Yönlendiricisi
 - **Değişiklikler:** `tetikleyici/cli/` paketi kodlandı (`commands.go`, `commands_test.go`). `nerve` / `tetikleyici` ikilisine alt komut yönlendiricisi (`Dispatcher`) entegre edildi. `status`, `session list/reset`, `channel list`, `config check`, `logs [-f]`, `restart`, `qr`, `pair` alt komutları tamamlandı.
 - **Kök Neden / Problem:** Dağınık bash alias'ları ve doğrudan systemctl/journalctl komutları yerine tek birleşik CLI ile tüm sistemin yönetilmesi sağlandı.
