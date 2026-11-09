@@ -164,10 +164,44 @@ func handleSession(args []string) error {
 
 func handleChannel(args []string) error {
 	fmt.Println("=== NerveDispatch İletişim Kanalları ===")
+
+	client := &http.Client{Timeout: 300 * time.Millisecond}
+	resp, err := client.Get("http://127.0.0.1:31415/channels")
+	if err == nil && resp.StatusCode == http.StatusOK {
+		defer resp.Body.Close()
+		var res struct {
+			Status   string `json:"status"`
+			Channels []struct {
+				Name      string `json:"name"`
+				Connected bool   `json:"connected"`
+				Paired    bool   `json:"paired"`
+				Account   string `json:"account"`
+			} `json:"channels"`
+		}
+		if err := json.NewDecoder(resp.Body).Decode(&res); err == nil && len(res.Channels) > 0 {
+			for _, ch := range res.Channels {
+				title := strings.Title(ch.Name)
+				durum := "\033[33mBEKLEMEDE\033[0m"
+				extra := ""
+				if ch.Connected {
+					durum = "\033[32mAKTİF\033[0m"
+				} else if ch.Paired {
+					durum = "\033[36mEŞLEŞTİ\033[0m"
+				}
+				if ch.Account != "" {
+					extra = fmt.Sprintf(" (%s)", ch.Account)
+				}
+				fmt.Printf("  %-12s : %s%s\n", title, durum, extra)
+			}
+			return nil
+		}
+	}
+
+	// Fallback yerel görünüm (Köprü çalışmıyorken veya ilk kurulumda)
 	fmt.Printf("  %-12s : \033[32mAKTİF\033[0m (Whatsmeow Soketi :31415)\n", "WhatsApp")
-	fmt.Printf("  %-12s : \033[33mBEKLEMEDE\033[0m (Faz 3.2 - Mefamex TG ID: 975678139)\n", "Telegram")
-	fmt.Printf("  %-12s : \033[33mBEKLEMEDE\033[0m (Faz 3.3 - Gateway WebSocket)\n", "Discord")
-	fmt.Printf("  %-12s : \033[33mBEKLEMEDE\033[0m (Faz 3.4 - DM Graph API)\n", "Instagram")
+	fmt.Printf("  %-12s : \033[33mBEKLEMEDE\033[0m (Mefamex TG ID: 975678139)\n", "Telegram")
+	fmt.Printf("  %-12s : \033[33mBEKLEMEDE\033[0m (Gateway WebSocket)\n", "Discord")
+	fmt.Printf("  %-12s : \033[33mBEKLEMEDE\033[0m (DM Graph API)\n", "Instagram")
 	return nil
 }
 

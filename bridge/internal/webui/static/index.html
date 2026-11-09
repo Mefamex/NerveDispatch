@@ -189,20 +189,20 @@
     </div>
 
     <div class="card">
-      <div class="card-title">Telegram <span class="badge badge-wait">FAZ 3.2</span></div>
-      <div class="card-value">ID: 975678139</div>
-      <div class="card-desc">Failover & Olay Hattı</div>
+      <div class="card-title">Telegram <span class="badge badge-wait" id="tg-badge">BEKLEMEDE</span></div>
+      <div class="card-value" id="tg-status">ID: 975678139</div>
+      <div class="card-desc">Failover & Bot API</div>
     </div>
 
     <div class="card">
-      <div class="card-title">Discord <span class="badge badge-wait">FAZ 3.3</span></div>
-      <div class="card-value">Hazırlanıyor</div>
+      <div class="card-title">Discord <span class="badge badge-wait" id="dc-badge">BEKLEMEDE</span></div>
+      <div class="card-value" id="dc-status">Entegre</div>
       <div class="card-desc">Gateway WebSocket</div>
     </div>
 
     <div class="card">
-      <div class="card-title">Instagram <span class="badge badge-wait">FAZ 3.4</span></div>
-      <div class="card-value">Beklemede</div>
+      <div class="card-title">Instagram <span class="badge badge-wait" id="ig-badge">BEKLEMEDE</span></div>
+      <div class="card-value" id="ig-status">Entegre</div>
       <div class="card-desc">Graph Messaging API</div>
     </div>
   </div>
@@ -286,6 +286,44 @@
       }
     }
 
+    // Kanal Durumları Kontrolü
+    async function checkChannels() {
+      try {
+        const res = await fetch("/channels");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.channels) {
+            data.channels.forEach(ch => {
+              let badgeId = "", statusId = "";
+              if (ch.name === "whatsapp") { badgeId = "wa-badge"; statusId = "wa-status"; }
+              else if (ch.name === "telegram") { badgeId = "tg-badge"; statusId = "tg-status"; }
+              else if (ch.name === "discord") { badgeId = "dc-badge"; statusId = "dc-status"; }
+              else if (ch.name === "instagram") { badgeId = "ig-badge"; statusId = "ig-status"; }
+
+              if (badgeId && document.getElementById(badgeId)) {
+                const bEl = document.getElementById(badgeId);
+                const sEl = document.getElementById(statusId);
+                if (ch.connected) {
+                  bEl.className = "badge badge-live";
+                  bEl.innerText = "AKTİF";
+                  sEl.innerText = ch.account || "Bağlı";
+                } else if (ch.paired) {
+                  bEl.className = "badge badge-live";
+                  bEl.innerText = "EŞLEŞTİ";
+                  sEl.innerText = ch.account || "Hazır";
+                } else {
+                  bEl.className = "badge badge-wait";
+                  bEl.innerText = "BEKLEMEDE";
+                }
+              }
+            });
+          }
+        }
+      } catch (e) {
+        // bridge sessizliği
+      }
+    }
+
     // Telefon ile Eşleştirme Kodu
     async function requestPairCode() {
       const phone = document.getElementById("phone-input").value.trim();
@@ -304,7 +342,11 @@
     window.onload = function() {
       initSSE();
       checkHealth();
-      setInterval(checkHealth, 10000);
+      checkChannels();
+      setInterval(() => {
+        checkHealth();
+        checkChannels();
+      }, 10000);
     };
   </script>
 </body>

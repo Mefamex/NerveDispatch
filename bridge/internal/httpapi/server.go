@@ -11,6 +11,7 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"whatsapp-bridge/internal/channels"
 	"whatsapp-bridge/internal/eventbus"
 	"whatsapp-bridge/internal/msgstore"
 	"whatsapp-bridge/internal/wabridge"
@@ -47,6 +48,7 @@ type Server struct {
 	wa       WhatsAppService
 	messages *msgstore.Store
 	bus      *eventbus.Bus
+	channels *channels.Manager
 	started  time.Time
 }
 
@@ -68,6 +70,7 @@ func (s *Server) Router() *mux.Router {
 // registerCoreRoutes wires health, sending and webhook endpoints.
 func (s *Server) registerCoreRoutes(r *mux.Router) {
 	r.HandleFunc("/health", s.health).Methods(http.MethodGet)
+	r.HandleFunc("/channels", s.channelsHandler).Methods(http.MethodGet)
 	r.PathPrefix("/dashboard").Handler(http.StripPrefix("/dashboard", webui.Handler()))
 	r.PathPrefix("/ui").Handler(http.StripPrefix("/ui", webui.Handler()))
 	r.HandleFunc("/send", s.sendText).Methods(http.MethodPost)
