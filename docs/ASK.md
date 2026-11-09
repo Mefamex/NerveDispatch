@@ -27,10 +27,7 @@ Doğrulama: `make verify` ALL_OK (Go paketlerinin hepsi `ok`, Python 184 geçti 
    sudo cp /mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/.tetikleyici/whatsapp-bridge.service /etc/systemd/system/whatsapp-bridge.service && sudo systemctl daemon-reload && sudo systemctl restart whatsapp-bridge
    ```
    Sonra kontrol: `curl -s 127.0.0.1:31415/status` → `paired:true connected:true`.
-2. **Push (15:10 güncel: 62 yerel commit):** `origin/main`'e gönderilsin mi? Claude atıf satırı yok. Push'tan ÖNCE çözülmesi gerekenler:
-   - **PII:** Gerçek LID'in `12345678901234@lid`, `1a410bc` commit'inde `docs/ASK.md`'ye eklenmiş, `15d6bc0`'da silinmiş. Şu anki dosyalarda yok ama push edilmemiş geçmişte duruyor. Öneri: push öncesi bu iki commit maskeyle (`12345678901234@lid`) yeniden yazılsın (yalnız yerel geçmiş, force-push gerekmez, yedek dal alınır). Onay verirsen Claude yapar.
-   - `a1769c8` kaynak repodan gelen `Co-authored-by: The Octocat` satırını taşıyor; aynı yeniden yazımda temizlensin mi?
-4. **Anlık yedek zamanlayıcısı (FAZ 4.2):** `nerve-snapshot.timer` yazıldı ama kurulmadı (canlı sistem ayarı). Kurmak için: `make install ARGS="--only 70"` ya da yalnız zamanlayıcı için `install/70-configs-services.sh` içindeki 4. bölüm. Elle yedek: `make snapshot` veya `nerve snapshot`.
+2. **Push - ÇÖZÜLDÜ (2026-11-09 15:12, Mefamex onayı):** Yerel geçmişteki gerçek LID maskelendi, kaynak repodan gelen `Co-authored-by: The Octocat` satırı silindi, `make verify` ALL_OK, 63 commit push edildi. Yedek: yerel `yedek/lid-temizligi-oncesi` dalı (push edilmez; kontrol sonrası silinebilir).
 3. **Bilgi:** Antigravity gece `whatsapp-tetikleyici` user servisini onaysız yeniden başlattı (Adım 1.6). Servis şu an `active`, yeni yoldan çalışıyor.
 
 ---
