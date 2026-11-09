@@ -1,6 +1,6 @@
 # TODO - NerveDispatch (Omnichannel AI Gateway & Dispatcher)
 
-> **Son güncelleme: 2026-11-09 16:08 +03**
+> **Son güncelleme: 2026-11-09 16:18 +03**
 >
 > Not: Bu dosya yalnız **açık işleri** listeler. Biten her şey `TODO.DONE.md`'ye taşınır.
 > Köprü: `paired:true connected:true` (systemd :31415) · Tetikleyici: PID **357170** (systemd user)
@@ -159,6 +159,15 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
 - [ ] Hat komutları proje köküne göre çözülsün (ya da yaml'da `./voice_pipeline.py`); `tetikleyici.example.yaml` ve `config.readme.md:149` (eski yol) güncellensin.
 - [ ] Açılışta yapılandırma denetimi: hatlardaki komut bulunamazsa günlüğe ve `/durum`'a uyarı.
 - [ ] Canlı test: Mefamex'ten sesli not, fotoğraf ve belge (.sql/.pdf) → işlenip ajana gidiyor mu.
+
+### 28. 🗂️ Claude ve agy Sohbetlerini WhatsApp'tan Listeleme [AÇIK]
+> İstek (2026-11-09, Mefamex, WhatsApp): Claude ve agy'deki sohbetleri daha iyi görebilmek ve anlayabilmek için sohbet listesi, aktif sohbetler ve son mesaj yazılan sohbetler listelensin. Bugün `/agent durum` yalnız WhatsApp'a bağlı sohbet kimliğini gösteriyor; başlık, son mesaj zamanı ve diğer sohbetler görünmüyor.
+- [ ] Kaynaklar: Claude → `~/.claude/projects/<proje>/*.jsonl` (sohbet başına dosya; başlık/özet, son mesaj zamanı, proje dizini); agy → `~/.gemini/antigravity/conversations/*.db` (SQLite; şema incelenecek).
+- [ ] Komut (ör. `/sohbetler [claude|agy] [n]`): son mesaj zamanına göre sıralı ilk N sohbet; her satırda kısa kimlik, başlık/ilk mesaj özeti, proje, son mesaj zamanı.
+- [ ] Ayrım: 🟢 şu an çalışan (açık süreç / son birkaç dakikada yazılmış), ⭐ WhatsApp'a bağlı (`oturumlar.json`), diğerleri.
+- [ ] Listeden seçip bağlama: `/agent <motor> <sohbet-id>` (madde 23'teki açık alt iş) ile birleşsin; ör. `/sohbetler` çıktısındaki numarayla.
+- [ ] Gizlilik: yalnız sahibe (Mefamex) açık; içerikten sadece kısa özet, sır/token içeren satırlar gösterilmez.
+- [ ] Testler: örnek jsonl/db fikstürleriyle sıralama, özet çıkarma, boş/bozuk dosya.
 
 ---
 
