@@ -106,6 +106,28 @@ func handleStatus() error {
 	}
 	fmt.Printf(" Aktif AI Motoru        : \033[36m%s\033[0m\n", motor)
 
+	// 4. Kota Sigortası (%95 Guard)
+	quotaFile := filepath.Join(projDir, ".tetikleyici", "quota_status.json")
+	if qData, err := os.ReadFile(quotaFile); err == nil {
+		var qMap map[string]struct {
+			FiveHourPct float64   `json:"five_hour_pct"`
+			Blocked     bool      `json:"blocked"`
+			ResetAt     time.Time `json:"reset_at"`
+		}
+		if err := json.Unmarshal(qData, &qMap); err == nil && len(qMap) > 0 {
+			for mName, q := range qMap {
+				durum := "\033[32mGÜVENLİ\033[0m"
+				if q.Blocked {
+					kalan := time.Until(q.ResetAt).Round(time.Minute)
+					durum = fmt.Sprintf("\033[31mBLOKE (%%%0.1f - Kalan %v)\033[0m", q.FiveHourPct, kalan)
+				} else {
+					durum = fmt.Sprintf("\033[32m%%%0.1f\033[0m", q.FiveHourPct)
+				}
+				fmt.Printf(" Kota [%-8s]        : %s\n", mName, durum)
+			}
+		}
+	}
+
 	return nil
 }
 

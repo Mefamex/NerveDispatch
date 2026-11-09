@@ -693,6 +693,12 @@ func runAgent(ctx context.Context, opts options, act action, p payload, araMesaj
 
 	// Sabit oturum çözümü
 	stateDir := filepath.Dir(defaultState("seen.txt"))
+	guard := NewQuotaGuard(stateDir)
+	if ok, sebep := guard.CanExecute(motor); !ok {
+		logf("  ⏸ KOTA KORUYUCU DEVREDE: %s", sebep)
+		return fmt.Sprintf("⚠️ %s", sebep), nil
+	}
+
 	store := drivers.NewSessionStore(stateDir)
 	sessionID := act.SessionID
 	if sessionID == "" {
@@ -732,6 +738,12 @@ func runAgent(ctx context.Context, opts options, act action, p payload, araMesaj
 
 // runOpencodeDirect, doğrudan opencode binary'sini çalıştırır.
 func runOpencodeDirect(ctx context.Context, opts options, act action, p payload, araMesaj func(string)) (string, error) {
+	guard := NewQuotaGuard(filepath.Dir(defaultState("seen.txt")))
+	if ok, sebep := guard.CanExecute("opencode"); !ok {
+		logf("  ⏸ KOTA KORUYUCU DEVREDE (opencode): %s", sebep)
+		return fmt.Sprintf("⚠️ %s", sebep), nil
+	}
+
 	bin := expandHome(opts.opencode)
 	if bin == "" {
 		return "", fmt.Errorf("config'de \"opencode\" yolu tanımlı değil")
