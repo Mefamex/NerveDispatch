@@ -201,3 +201,42 @@
 - **Değişiklikler:** Whatsmeow `BuildReaction` saran `POST /reaction` handler'ı yazıldı. SSE akışına `reaction` olayı eklendi. MCP `whatsapp_react(to, message_id, emoji)` aracı ve tetikleyici `allow_reaction: true` entegrasyonu tamamlandı.
 - **Kök Neden / Problem:** Mesajlara emoji tepkisi basma ve gelen tepkileri algılama yeteneği.
 - **Doğrulama Kanıtı:** Kullanıcı mesajına emoji tepkisi basıldı ve botun gelen tepkiyi oturuma iletmesi canlı doğrulandı.
+
+---
+
+### [2026-11-09 03:13] — FAZ 1: Monorepo Kod Birleşimi ve Modüler Orkestrasyon
+- **Değişiklikler:** `whatsapp-bridge-mcp` ve `whatsapp-tetikleyici` depolarının tüm git geçmişleri korunarak `/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch/` altında tek monorepoda birleştirildi. Modüler `install/` (10 betik) ve `upgrade/` (7 betik) altyapısı, ince kök `Makefile` ve `.tetikleyici/` çalışma zamanı kuruldu.
+- **Kök Neden / Problem:** İki bağımsız deponun sürdürülebilirliğini sağlamak, merkezi versiyonlama ve sıfır veri kaybı ile canlı WhatsApp oturumunu (`session.db`) taşımak.
+- **Doğrulama Kanıtı:** `make verify` ile tüm Go ve Python testleri (%100 yeşil) geçti, `whatsapp-tetikleyici.service` NerveDispatch üzerinden aktif çalıştırıldı.
+
+---
+
+### [2026-11-09 05:30] — FAZ 2: Çekirdek Dağıtıcı ve WhatsApp Yetenekleri
+- **Değişiklikler:** 
+  1. Kalıcı ajan oturum sürücüleri (`AgyDriver`, `ClaudeDriver`, `OpencodeDriver`) ve oturum deposu (`.tetikleyici/oturumlar.json`) kodlandı.
+  2. Tekilleştirilmiş `nerve` CLI aracı (`status`, `qr`, `pair`, `channel list`, `snapshot`, `logs`, `config check`) oluşturuldu.
+  3. Gömülü Web Dashboard (`//go:embed` ile `:31415/dashboard/`) sunuldu.
+  4. Wayland KDE Plasma `/ekran` yakalama, 4 seçenekli anket onay mekanizması (`/onay`), çift yönlü dosya transferi (`/get`), sistem yönetimi (`/root`, `/clip`, `/apps`, `/kill`), otomatik sistem bekçisi (`bekci.go`), oturum sıkıştırma (`/compact`) ve yerel Piper TTS ses hattı devreye alındı.
+- **Doğrulama Kanıtı:** Tüm birim ve entegrasyon testleri başarıyla geçti, canlı servis üzerinden doğrulandı.
+
+---
+
+### [2026-11-09 06:45] — FAZ 3: Çok Kanallı Genişleme (Omnichannel: Telegram, Discord, Instagram)
+- **Değişiklikler:** 
+  1. Ortak `ChannelAdapter` ve `Manager` arayüzü (`bridge/internal/channels/adapter.go`) ile gelen olaylar `IncomingEvent` standardına bağlandı.
+  2. Telegram Bot API adaptörü (`bridge/internal/channels/telegram/`) kodlandı (Mefamex TG ID: `975678139`).
+  3. Discord REST & Bot API adaptörü (`bridge/internal/channels/discord/`) kodlandı.
+  4. Instagram Graph API v19.0 adaptörü (`bridge/internal/channels/instagram/`) kodlandı.
+  5. Birleşik `/channels` REST API'si ve Web Dashboard kanal kartları entegre edildi.
+  6. **Cross-Channel Failover:** WhatsApp köprüsü kapandığında kritik alarmları doğrudan Telegram'a (`975678139`) ileten `sendTelegramAlert` mekanizması devreye alındı (`18f382d`).
+- **Doğrulama Kanıtı:** Go kanal birim testleri ve CLI entegrasyonu başarıyla geçti.
+
+---
+
+### [2026-11-09 07:45] — FAZ 4: Güvenlik, Yedekleme ve Üretim Sertleştirmesi
+- **Değişiklikler:** 
+  1. **QuotaGuard (%95 Kota Sigortası):** Ajan 5 saatlik veya haftalık kullanım limitleri ≥ %95 olduğunda komut yürütmeyi askıya alan ve geri sayım başlatan devre kesici (`tetikleyici/quota_guard.go`, `nerve status`) eklendi (`4fab62b`).
+  2. **Zero-Data-Loss SQLite WAL Snapshot:** `scripts/nerve-snapshot.sh` ve `nerve snapshot` CLI aracı ile Python `sqlite3.backup()` API'si üzerinden tutarlı, kilitlenmeyen veritabanı yedeği ve 14 snapshot saklama politikası uygulandı (`7636a8c`).
+  3. **Uçtan Uca Doğrulama Matrisi:** `tests/test_cli_and_safety_matrix.py` ve `tests/e2e/test_e2e_matrix.py` oluşturularak CLI, kotalar, tehlikeli komut bloklamaları ve failover senaryoları tam kapsamla test edildi.
+  4. **Snapshot Test Paketi Birleştirme:** Claude'un birim testleri ile Antigravity'nin fonksiyonel akış testi `tests/test_snapshot.py` üzerinde tek çatı altında toplandı (`072a9be`).
+- **Doğrulama Kanıtı:** Toplam 201 Python testi + 48 subtest ve tüm Go testleri eksiksiz geçmektedir (`make verify: ALL_OK`). Canlı `whatsapp-tetikleyici.service` PID 357170 ile aktif ve sağlıklı çalışmaktadır.

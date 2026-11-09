@@ -36,20 +36,20 @@
 - **opencode:** `-s/--session <id>` (yoksa oluşturur) · `opencode session list` komutu ile listelenir.
 
 **Tasarım kararı: Ajan Adaptör (Driver/Provider) Katmanı:**
-- [ ] **Ortak `AgentDriver` Arayüzü:**
+- [x] **Ortak `AgentDriver` Arayüzü:**
   - `ListSessions()` → `[{id, title, updated_at}]`
   - `Run(session_id, prompt)` → string reply
   - `NewSession(prompt)` → `(session_id, reply)`
-- [ ] **Ajan Sürücüleri (`drivers/` veya `agents/`):**
+- [x] **Ajan Sürücüleri (`drivers/` veya `agents/`):**
   - `opencode_driver.go`: `opencode session list` parse eder, `opencode run -s <id>` çağırır.
   - `agy_driver.go`: `~/.gemini/antigravity-cli/cache/` ve veritabanından oturumları çeker, `--conversation <id>` ile mesaj iletir.
   - `claude_driver.go`: JSONL kayıtlarından oturumları listeler, `--resume <id>` / `--session-id <uuid>` yönetir.
-- [ ] **Sanal Takma Ad (Alias / Sabit Kimlik):**
+- [x] **Sanal Takma Ad (Alias / Sabit Kimlik):**
   - `tetikleyici.yaml` içinde `session: "whatsapp-mefamex"` gibi sanal alias desteği.
   - Adaptör ilgili ajanda bu alias'a denk gelen oturumu yoksa bir kere açıp ID'sini `.tetikleyici/oturumlar.json`'a sabitler; sonraki tüm mesajlar o ID üzerinden akar.
-- [ ] **Eşzamanlılık ve Sıralama:** `oturumKilidiAl` mekanizması tüm ajan sürücülerine genişletilecek; aynı anda gelen WhatsApp mesajları aynı oturumu kilitleyip sırayla işleyecek.
-- [ ] **Bağlam Şişmesi Koruması:** Tek oturum sonsuz uzamaması için token/tur eşiği aşıldığında otomatik arşivleme/özetleme veya `/session yeni` komutu.
-- [ ] **Prompt Temizliği:** Kalıcı oturumda geçmiş mesaj penceresi tekrar tekrar prompt'a gömülmeyecek; yalnız yeni gelen mesaj gönderilecek.
+- [x] **Eşzamanlılık ve Sıralama:** `oturumKilidiAl` mekanizması tüm ajan sürücülerine genişletildi; aynı anda gelen WhatsApp mesajları aynı oturumu kilitleyip sırayla işleyecek.
+- [x] **Bağlam Şişmesi Koruması:** Tek oturum sonsuz uzamaması için token/tur eşiği aşıldığında otomatik arşivleme/özetleme veya `/compact` komutu.
+- [x] **Prompt Temizliği:** Kalıcı oturumda geçmiş mesaj penceresi tekrar tekrar prompt'a gömülmeyecek; yalnız yeni gelen mesaj gönderilecek.
 
 ### 8. 🧹 Eski Monorepo'dan Taşınan Dosyaların PII Taraması ve Pushlanması [BEKLİYOR - sonra]
 Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemiş** duran tek nüsha dosyalar (orijinal silindi, bu kopyalar kaybolmamalı):
@@ -114,11 +114,11 @@ Silinen eski `whatsapp-bridge-project` arşivinden kopyalanıp **commit'lenmemi�
 - [x] FAZ 2 (WhatsApp & Core Dispatcher Capabilities).
 - [x] FAZ 3 (Telegram `975678139`, Discord, Instagram adaptörleri ve Failover uyarısı).
 - [x] FAZ 4 (QuotaGuard %95 Devre Kesici, WAL Snapshot, E2E Test Matrisi).
-- [ ] **4. FAZ 3 - Çok Kanallı Genişleme: Telegram, Discord, Instagram (Geliştirme 3.1 – 3.4):**
-  - `3.1` Ortak `ChannelAdapter` arayüzü ve `ChimeraEvent` (`channel: "whatsapp" | "telegram" | "discord" | "instagram"`) zarf standardı.
+- [x] **4. FAZ 3 - Çok Kanallı Genişleme: Telegram, Discord, Instagram (Geliştirme 3.1 – 3.4):**
+  - `3.1` Ortak `ChannelAdapter` arayüzü ve `IncomingEvent` (`channel: "whatsapp" | "telegram" | "discord" | "instagram"`) zarf standardı.
   - `3.2` **Telegram Kanalı (`channels/telegram`):** Mefamex Telegram ID (`975678139`) entegrasyonu, tüm `/cmd`, `/camera`, `/ekran`, `/agent` komutlarının ve sabit AI oturumunun Telegram'dan da çalışması + WhatsApp düştüğünde Telegram üzerinden otomatik yedek bildirim (**Cross-Channel Failover**).
-  - `3.3` **Discord Kanalı (`channels/discord`):** WebSocket Gateway, DM/Sunucu komutları ve zengin Embed yanıtları.
-  - `3.4` **Instagram Kanalı (`channels/instagram`):** DM metin/görsel/ses otomasyonu ve tüm kanalların Web Dashboard üzerinde tek ekrandan izlenmesi.
+  - `3.3` **Discord Kanalı (`channels/discord`):** REST API / Bot, DM/Kanal mesajları ve zengin yanıtlar.
+  - `3.4` **Instagram Kanalı (`channels/instagram`):** Graph API v19.0 entegrasyonu ve tüm kanalların Web Dashboard üzerinde tek ekrandan izlenmesi.
 
 ---
 
