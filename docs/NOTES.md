@@ -57,7 +57,24 @@
 > Kaynak: `whatsapp-bridge-mcp` (HEAD `65ffc33`) ve `whatsapp-tetikleyici` (HEAD `7954c34`) repolarının satır satır incelenmesi + canlı systemd unit çıktıları.
 
 - **Canlı servisler (kullanıcıdan alınan `systemctl cat` çıktısı):**
-  - `whatsapp-tetikleyici.service` (user): `WorkingDirectory=/mnt/DiskD/SOFTWARE/Github-repos/whatsapp-tetikleyici`, `ExecStart=/home/mfmx/bin/tetikleyici --config <aynı dizin>/tetikleyici.yaml`, `Environment=` YOK.
+  - `whatsapp-tetikleyici.service` (user): `WorkingDirectory=/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch`, `ExecStart=/home/mfmx/bin/tetikleyici --config <aynı dizin>/tetikleyici.yaml`, `Environment=` YOK.
+
+---
+
+## 7. FAZ 3 & FAZ 4 Mimari Bulguları (2026-11-09)
+
+- **Çok Kanallı Normalizasyon (`ChimeraEvent` & `ChannelAdapter`):**
+  - Tüm dış kanallar (WhatsApp, Telegram, Discord, Instagram) tek bir `channels.IncomingEvent` yapısına indirgenir.
+  - Kural motoru (`tetikleyici/match.go`) kural bazında `channel: "whatsapp" | "telegram" | "discord" | "instagram"` ve kimlik bazında (`telegram_id`, `discord_id`, `instagram_id`) filtreleme yapabilir.
+- **Cross-Channel Failover (Köprü Kesintisinde Telegram Hattı):**
+  - WhatsApp köprüsü çöktüğünde WhatsApp üzerinden durum bildirimi iletilemez (`on_bridge_down`).
+  - Bu sebeple sistem doğrudan HTTP üzerinden Telegram Bot API'sine bağlanarak Mefamex Telegram ID (`975678139`) hedefine acil durum uyarısını iletir.
+- **QuotaGuard %95 Devre Kesici İlkesi:**
+  - Kullanıcının kesin kuralı: "Ajanın veya modelin kotası %95 sınırına geldiğinde kazaen yeni istek gönderme, durdur".
+  - Bu kural `tetikleyici/quota_guard.go` ile koda mühürlendi; hem 5 saatlik hem haftalık limitler için %95 eşiğinde çağrılar otomatik bloke edilir ve yenilenme süresine kadar bekletilir.
+- **Zero-Data-Loss SQLite WAL Yedekleme:**
+  - Whatsmeow oturum veritabanı (`session.db`) aktif yazma anında bile bozulmadan kopyalanmalıdır.
+  - Basit `cp` komutu yerine Python `sqlite3.backup()` API'si ve ardından `PRAGMA integrity_check` doğrulaması çalıştırılır (`scripts/nerve-snapshot.sh` ve `nerve snapshot` CLI).
   - `whatsapp-bridge.service` (system): `WorkingDirectory` ve `ExecStart` `whatsapp-bridge-mcp` reposunda; `ProtectSystem=strict`, `ProtectHome=read-only`, yazılabilir tek yol `~/.local/share/whatsapp-bridge`.
 - **Proje kökü çözümü (tetikleyici):** `tetikleyici/main.go:504` `projectDir()` → önce ikilinin bir üst dizininden (`~`) yukarı, sonra `cwd`'den yukarı `tetikleyici.yaml` arar (`main.go:525`). Servis `~/bin` ikilisiyle çalıştığı için kökü **`WorkingDirectory` belirler**. State: `defaultState()` → `<kök>/.tetikleyici/` (`main.go:491`), `TETIKLEYICI_STATE_DIR` ile ezilebilir.
 - **Proje kökü çözümü (köprü):** `bridge/internal/appcfg/appcfg.go:107` `ProjectDir()` → `WA_PROJECT_DIR`, yoksa `cwd/config.yaml` varsa `cwd`, yoksa `~/Desktop/whatsapp-bridge-project` (silinmiş yol, `appcfg.go:35`). Kökteki `config.yaml` içerik için değil **işaret dosyası** olarak kullanılır. `StateDir()` (`appcfg.go:128`) `<kök>/.tetikleyici` ister; köprü servisi `ProtectSystem=strict` olduğundan `/mnt/DiskD` altına yazamaz.
