@@ -1,0 +1,15 @@
+# Derleme çıktıları
+bin/
+*.exe
+
+# Ortam ve bağımlılıklar
+.venv/
+vendor/
+
+# Geçici ve önbellek dosyaları
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Graphify çıktıları
+graphify-out/
