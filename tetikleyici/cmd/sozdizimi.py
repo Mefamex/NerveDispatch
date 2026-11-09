@@ -60,6 +60,7 @@ CMDHUB_PATTERN = re.compile(r"^/cmdhub(?:\s+(?P<arg>.+))?$", re.IGNORECASE)
 EXIT_PATTERN = re.compile(r"^/exit\s*$", re.IGNORECASE)
 HELP_PATTERN = re.compile(r"^/help\s*$", re.IGNORECASE)
 CAMERA_PATTERN = re.compile(r"^/camera\s*$", re.IGNORECASE)
+EKRAN_PATTERN = re.compile(r"^/ekran(?:\s+(?P<saniye>\d+))?\s*$", re.IGNORECASE)
 DURUM_PATTERN = re.compile(r"^/durum\s*$", re.IGNORECASE)
 PING_PATTERN = re.compile(r"^/ping\s*$", re.IGNORECASE)
 REVOKE_PATTERN = re.compile(r"^/(?:sil|revoke)\b", re.IGNORECASE)
@@ -81,6 +82,12 @@ def parse_cmd(metin: str) -> CmdParseResult:
     # /camera
     if CAMERA_PATTERN.match(metin):
         return CmdParseResult(komut_turu="camera")
+
+    # /ekran [saniye]
+    ekran_match = EKRAN_PATTERN.match(metin)
+    if ekran_match:
+        saniye = int(ekran_match.group("saniye") or 0)
+        return CmdParseResult(komut_turu="ekran", saniye=saniye)
 
     # /durum
     if DURUM_PATTERN.match(metin):

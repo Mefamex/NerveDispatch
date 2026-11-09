@@ -279,6 +279,12 @@ def ana(metin: str, gonderen_numara: str, gonderen_isim: str) -> str:
 
         return kamera_ana()
 
+    # /ekran [saniye] - masaüstü ekran görüntüsü
+    if sonuc.komut_turu == "ekran":
+        from ekran import ana as ekran_ana
+
+        return ekran_ana(alici=gonderen_numara, saniye=sonuc.saniye)
+
     # /durum - salt okunur, izin gerekmez (yetki zaten yukarıda)
     if sonuc.komut_turu == "durum":
         from durum import ana as durum_ana
