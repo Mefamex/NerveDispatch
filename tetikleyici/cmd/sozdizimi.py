@@ -63,6 +63,7 @@ CAMERA_PATTERN = re.compile(r"^/camera\s*$", re.IGNORECASE)
 EKRAN_PATTERN = re.compile(r"^/ekran(?:\s+(?P<saniye>\d+))?\s*$", re.IGNORECASE)
 DURUM_PATTERN = re.compile(r"^/durum\s*$", re.IGNORECASE)
 PING_PATTERN = re.compile(r"^/ping\s*$", re.IGNORECASE)
+TTS_PATTERN = re.compile(r"^/tts(?:\s+(?P<arg>.+))?$", re.IGNORECASE)
 COMPACT_PATTERN = re.compile(r"^/(?:compact|ozet)\s*$", re.IGNORECASE)
 ROOT_PATTERN = re.compile(r"^/root(?:\s+(?P<arg>.+))?$", re.IGNORECASE)
 CLIP_PATTERN = re.compile(r"^/clip(?:\s+(?P<arg>.+))?$", re.IGNORECASE)
@@ -102,6 +103,12 @@ def parse_cmd(metin: str) -> CmdParseResult:
     # /ping - bağlantı/tetikleme sağlığı (ajan turuna gerek yok)
     if PING_PATTERN.match(metin):
         return CmdParseResult(komut_turu="ping")
+
+    # /tts [on|off|metin] - sesli yanıt kontrolü ve sentez
+    tts_match = TTS_PATTERN.match(metin)
+    if tts_match:
+        arg = (tts_match.group("arg") or "").strip()
+        return CmdParseResult(komut_turu="tts", metin=arg)
 
     # /compact veya /ozet - bağlam sıkıştırma
     if COMPACT_PATTERN.match(metin):

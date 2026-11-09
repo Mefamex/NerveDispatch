@@ -181,6 +181,25 @@ def ana(metin: str, gonderen_numara: str, gonderen_isim: str) -> str:
     if sonuc.komut_turu == "ping":
         return "pong 🏓"
 
+    # /tts [on|off|metin] - sesli yanıt
+    if sonuc.komut_turu == "tts":
+        proje_koku = str(Path(__file__).resolve().parent.parent.parent)
+        if proje_koku not in sys.path:
+            sys.path.insert(0, proje_koku)
+        from tts_pipeline import tts_durum_ayarla, sentezle_ve_gonder, tts_aktif_mi
+
+        arg = sonuc.metin.strip().lower()
+        if arg == "on":
+            return tts_durum_ayarla(True)
+        elif arg == "off":
+            return tts_durum_ayarla(False)
+        elif sonuc.metin.strip():
+            ok, msj = sentezle_ve_gonder(sonuc.metin, gonderen_numara)
+            return msj
+        else:
+            durum = "AÇIK 🔊" if tts_aktif_mi() else "KAPALI 🔇"
+            return f"🎙️ Sesli yanıt durumu: {durum}\nKullanım: /tts on | off veya /tts <okunacak metin>"
+
     # /compact veya /ozet - bağlam sıkıştırma
     if sonuc.komut_turu == "compact":
         from compact import compact_calistir
