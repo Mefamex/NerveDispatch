@@ -404,4 +404,18 @@ func TestOmnichannelMatch(t *testing.T) {
 	if res := mefamexKurali.resolve(otherMsg); res.matched {
 		t.Errorf("farklı telegram_id tutmamalıydı: %+v", res)
 	}
+
+	// 3. Discord ID ve Kanal filtre testi
+	dcKurali := condition{
+		Channel:   "discord",
+		DiscordID: stringList{"123456789012345678"},
+	}
+
+	dcMsg := message{Channel: "discord", From: "123456789012345678", Text: "komut"}
+	if res := dcKurali.resolve(dcMsg); !res.matched || res.via != "discord_id" {
+		t.Errorf("discord_id eşleşmedi: %+v", res)
+	}
+	if !dcKurali.contentHolds(dcMsg) {
+		t.Errorf("discord kanalı tutmalıydı")
+	}
 }

@@ -50,13 +50,19 @@ func (c condition) resolve(m message) identity {
 		}
 	}
 
+	if len(c.DiscordID) > 0 {
+		if want, hit := firstHit(c.DiscordID, m.From, m.Sender); hit {
+			return identity{matched: true, via: "discord_id", detail: want}
+		}
+	}
+
 	if len(c.Names) > 0 {
 		if want, hit := firstHit(c.Names, m.PushName); hit {
 			return identity{matched: true, via: "name", detail: want}
 		}
 	}
 
-	if len(c.Numbers) == 0 && len(c.TelegramID) == 0 && len(c.Names) == 0 {
+	if len(c.Numbers) == 0 && len(c.TelegramID) == 0 && len(c.DiscordID) == 0 && len(c.Names) == 0 {
 		return identity{matched: true, via: "everyone"}
 	}
 

@@ -287,6 +287,9 @@ type condition struct {
 	// TelegramID, Telegram sohbet/kullanıcı kimliklerinde aranır (örn: "975678139").
 	TelegramID stringList `yaml:"telegram_id"`
 
+	// DiscordID, Discord kanal veya kullanıcı kimliklerinde aranır.
+	DiscordID stringList `yaml:"discord_id"`
+
 	// Text mesaj metninde aranır (büyük/küçük harf duyarsız).
 	Text string `yaml:"text"`
 
