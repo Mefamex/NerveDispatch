@@ -3,8 +3,11 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
+	"net/http"
 	"os"
 	"strings"
 	"sync"
@@ -70,7 +73,48 @@ type notifier struct {
 	kopruUp   bool
 }
 
-// yeniNotifier, bildirim yöneticisi kurar. damgaYolu, throttle damgalarının
+// sendTelegramAlert, WhatsApp köprüsü çöktüğünde veya ulaşılamadığında
+// Mefamex'in Telegram hesabına acil durum bildirimini doğrudan iletir.
+var telegramAPIBase = "https://api.telegram.org"
+
+func sendTelegramAlert(ctx context.Context, metin string) error {
+	token := os.Getenv("TELEGRAM_BOT_TOKEN")
+	if token == "" {
+		return fmt.Errorf("TELEGRAM_BOT_TOKEN tanımlı değil")
+	}
+	targetID := os.Getenv("TELEGRAM_ADMIN_ID")
+	if targetID == "" {
+		targetID = "975678139" // Mefamex Telegram ID
+	}
+
+	url := fmt.Sprintf("%s/bot%s/sendMessage", telegramAPIBase, token)
+	payload := map[string]string{
+		"chat_id": targetID,
+		"text":    metin,
+	}
+	b, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewReader(b))
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{Timeout: 5 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("telegram api hata döndürdü: HTTP %d", resp.StatusCode)
+	}
+	return nil
+}
 // saklandığı dosyadır (ör. .tetikleyici/bildirim.txt).
 func yeniNotifier(client *bridgeClient, opts options, cfg func() notifyConfig, damgaYolu string) *notifier {
 	if damgaYolu == "" {
@@ -170,7 +214,18 @@ func (n *notifier) bildir(ctx context.Context, tur, metin string) {
 			}
 			if err := n.client.sendText(ctx, to, metin); err != nil {
 				logf("bildirim gönderilemedi (%s → %s): %v", tur, to, err)
-				tamam = false
+				// WhatsApp köprüsü çöktüğünde acil Telegram failover'ı devreye girer
+				if tur == bildirimKopruDown {
+					if tgErr := sendTelegramAlert(ctx, "🚨 [NerveDispatch Köprü Çöktü / Failover] "+metin); tgErr == nil {
+						logf("failover bildirimi Telegram üzerinden başarıyla iletildi")
+						tamam = true
+					} else {
+						logf("Telegram failover iletimi de başarısız: %v", tgErr)
+						tamam = false
+					}
+				} else {
+					tamam = false
+				}
 			}
 		}
 		if tamam {

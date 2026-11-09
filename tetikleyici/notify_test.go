@@ -4,7 +4,10 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"strings"
@@ -358,5 +361,41 @@ rules:
 	}
 	if !strings.Contains(err.Error(), "on_startt") {
 		t.Errorf("hata hangi alanın bozuk olduğunu söylemeli: %v", err)
+	}
+}
+
+func TestTelegramFailoverOnBridgeDown(t *testing.T) {
+	var receivedChatID string
+	var receivedText string
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.Contains(r.URL.Path, "/botmock-token/sendMessage") {
+			var body map[string]string
+			_ = json.NewDecoder(r.Body).Decode(&body)
+			receivedChatID = body["chat_id"]
+			receivedText = body["text"]
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(`{"ok": true}`))
+			return
+		}
+		w.WriteHeader(http.StatusNotFound)
+	}))
+	defer ts.Close()
+
+	eskiBase := telegramAPIBase
+	telegramAPIBase = ts.URL
+	defer func() { telegramAPIBase = eskiBase }()
+
+	t.Setenv("TELEGRAM_BOT_TOKEN", "mock-token")
+	t.Setenv("TELEGRAM_ADMIN_ID", "975678139")
+
+	// sendTelegramAlert doğrudan testi
+	ctx := context.Background()
+	err := sendTelegramAlert(ctx, "Köprü koptu testi")
+	if err != nil {
+		t.Fatalf("sendTelegramAlert failed: %v", err)
+	}
+	if receivedChatID != "975678139" || receivedText != "Köprü koptu testi" {
+		t.Errorf("beklenen chat_id=975678139, got %s, text=%s", receivedChatID, receivedText)
 	}
 }
