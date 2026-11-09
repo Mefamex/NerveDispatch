@@ -64,3 +64,14 @@ func TestDispatcherSnapshot(t *testing.T) {
 		t.Errorf("Dispatcher(snapshot) = false, want true")
 	}
 }
+
+func TestKanalAdiMarkaYazilisi(t *testing.T) {
+	for girdi, beklenen := range map[string]string{
+		"whatsapp": "WhatsApp", "telegram": "Telegram", "discord": "Discord",
+		"instagram": "Instagram", "signal": "Signal", "": "",
+	} {
+		if got := kanalAdi(girdi); got != beklenen {
+			t.Errorf("kanalAdi(%q) = %q, want %q", girdi, got, beklenen)
+		}
+	}
+}

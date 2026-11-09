@@ -205,7 +205,7 @@ func handleChannel(args []string) error {
 		}
 		if err := json.NewDecoder(resp.Body).Decode(&res); err == nil && len(res.Channels) > 0 {
 			for _, ch := range res.Channels {
-				title := strings.Title(ch.Name)
+				title := kanalAdi(ch.Name)
 				durum := "\033[33mBEKLEMEDE\033[0m"
 				extra := ""
 				if ch.Connected {
@@ -228,6 +228,25 @@ func handleChannel(args []string) error {
 	fmt.Printf("  %-12s : \033[33mBEKLEMEDE\033[0m (Gateway WebSocket)\n", "Discord")
 	fmt.Printf("  %-12s : \033[33mBEKLEMEDE\033[0m (DM Graph API)\n", "Instagram")
 	return nil
+}
+
+// kanalAdi, köprünün döndürdüğü küçük harfli kanal adını marka yazılışına
+// çevirir ("whatsapp" → "WhatsApp"). Bilinmeyen adın yalnız ilk harfi büyür.
+func kanalAdi(ad string) string {
+	switch strings.ToLower(strings.TrimSpace(ad)) {
+	case "whatsapp":
+		return "WhatsApp"
+	case "telegram":
+		return "Telegram"
+	case "discord":
+		return "Discord"
+	case "instagram":
+		return "Instagram"
+	}
+	if ad == "" {
+		return ad
+	}
+	return strings.ToUpper(ad[:1]) + ad[1:]
 }
 
 func handleConfig(args []string) error {
