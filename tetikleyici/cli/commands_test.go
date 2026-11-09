@@ -54,3 +54,13 @@ func TestDispatcherSessionList(t *testing.T) {
 		t.Errorf("Dispatcher(session list) = false, want true")
 	}
 }
+
+func TestDispatcherSnapshot(t *testing.T) {
+	handled, err := Dispatcher([]string{"snapshot"})
+	if err != nil {
+		t.Fatalf("snapshot failed: %v", err)
+	}
+	if !handled {
+		t.Errorf("Dispatcher(snapshot) = false, want true")
+	}
+}

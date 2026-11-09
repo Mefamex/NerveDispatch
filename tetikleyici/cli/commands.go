@@ -46,6 +46,8 @@ func Dispatcher(rawArgs []string) (bool, error) {
 		return true, handleQR()
 	case "pair":
 		return true, handlePair(subArgs)
+	case "snapshot", "backup":
+		return true, handleSnapshot(subArgs)
 	case "help":
 		printHelp()
 		return true, nil
@@ -67,6 +69,7 @@ func printHelp() {
 	fmt.Println("  restart         NerveDispatch dağıtıcı servisini güvenli yeniden başlatır")
 	fmt.Println("  qr              WhatsApp eşleştirme QR kodunu terminalde görüntüler")
 	fmt.Println("  pair <telefon>  8 haneli WhatsApp telefon eşleştirme kodu üretir")
+	fmt.Println("  snapshot        Sıfır veri kaybı anlık yedeği alır (session.db, kurallar, durum)")
 }
 
 func handleStatus() error {
@@ -315,6 +318,20 @@ func findProjectRoot() string {
 		}
 	}
 	return "/mnt/DiskD/SOFTWARE/Projeler/NerveDispatch"
+}
+
+func handleSnapshot(args []string) error {
+	projDir := findProjectRoot()
+	scriptPath := filepath.Join(projDir, "scripts", "nerve-snapshot.sh")
+	if _, err := os.Stat(scriptPath); err != nil {
+		return fmt.Errorf("snapshot betiği bulunamadı: %s", scriptPath)
+	}
+
+	cmd := exec.Command("/bin/bash", scriptPath)
+	cmd.Dir = projDir
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	return cmd.Run()
 }
 
 func contains(slice []string, val string) bool {
