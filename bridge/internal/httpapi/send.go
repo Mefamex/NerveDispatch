@@ -325,3 +325,20 @@ func (s *Server) sendContact(w http.ResponseWriter, r *http.Request) {
 	}
 	writeJSON(w, map[string]any{"ok": true, "to": target})
 }
+
+// pairPhone handles POST /pair?phone=...
+func (s *Server) pairPhone(w http.ResponseWriter, r *http.Request) {
+	phone := r.URL.Query().Get("phone")
+	if phone == "" {
+		http.Error(w, "phone query param required", http.StatusBadRequest)
+		return
+	}
+	code, err := s.wa.PairPhone(r.Context(), phone)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+	_, _ = w.Write([]byte(code))
+}

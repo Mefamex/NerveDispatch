@@ -7,9 +7,11 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/mdp/qrterminal/v3"
+	"go.mau.fi/whatsmeow"
 )
 
 // loginTimeout bounds how long Connect waits for a usable session.
@@ -79,4 +81,16 @@ func printQRCode(code string) {
 	fmt.Println()
 	qrterminal.GenerateHalfBlock(code, qrterminal.L, os.Stdout)
 	fmt.Println()
+}
+
+// PairPhone generates an 8-character pairing code for headless phone linkage.
+func (s *Service) PairPhone(ctx context.Context, phone string) (string, error) {
+	if s.IsLoggedIn() {
+		return "", fmt.Errorf("already paired and logged in")
+	}
+	clean := strings.TrimPrefix(phone, "+")
+	clean = strings.ReplaceAll(clean, " ", "")
+	clean = strings.ReplaceAll(clean, "-", "")
+
+	return s.client.PairPhone(ctx, clean, true, whatsmeow.PairClientChrome, "Chrome (Linux)")
 }

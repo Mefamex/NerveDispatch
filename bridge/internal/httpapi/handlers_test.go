@@ -120,6 +120,14 @@ func (f *fakeWA) SendContact(_ context.Context, req wabridge.ContactRequest) (st
 	return req.To, nil
 }
 
+func (f *fakeWA) PairPhone(_ context.Context, phone string) (string, error) {
+	if f.sendErr != nil {
+		return "", f.sendErr
+	}
+	f.lastTo = phone
+	return "TEST-1234", nil
+}
+
 func (f *fakeWA) Contacts(context.Context) ([]wabridge.Contact, error) {
 	return []wabridge.Contact{{JID: "a@s.whatsapp.net", Name: "A"}}, nil
 }
@@ -667,5 +675,27 @@ func TestSendPollVote(t *testing.T) {
 		bytes.NewBufferString(`{"to":"905551234567","poll_id":"POLL123","options":["evet"]}`)))
 	if rec.Code != http.StatusOK {
 		t.Fatalf("expected 200, got %d: %s", rec.Code, rec.Body.String())
+	}
+}
+
+func TestPairPhone(t *testing.T) {
+	wa := &fakeWA{loggedIn: true, connected: true}
+	srv := newServer(wa, nil)
+
+	// Telefon parametresi eksikse 400
+	rec := httptest.NewRecorder()
+	srv.pairPhone(rec, httptest.NewRequest(http.MethodPost, "/pair", nil))
+	if rec.Code != http.StatusBadRequest {
+		t.Errorf("expected 400 when phone query param missing, got %d", rec.Code)
+	}
+
+	// Geçerli telefonla 200 ve 8 haneli kod
+	rec = httptest.NewRecorder()
+	srv.pairPhone(rec, httptest.NewRequest(http.MethodPost, "/pair?phone=905551234567", nil))
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d: %s", rec.Code, rec.Body.String())
+	}
+	if rec.Body.String() != "TEST-1234" {
+		t.Errorf("expected TEST-1234, got %s", rec.Body.String())
 	}
 }
